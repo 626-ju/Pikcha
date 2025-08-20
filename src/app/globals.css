@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -8,8 +8,102 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /*--- color ---*/
+  --color-black-17171C: #17171c;
+  --color-black-21212A: #21212a;
+  --color-black-2E2E3A: #2e2e3a;
+
+  --color-gray-6E6E82: #6e6e82;
+  --color-gray-9FA6B2: #9fa6b2;
+  --color-white-F1F1F5: #f1f1f5;
+
+  --color-main-gradation: linear-gradient(90deg, #5097fa 0%, #5363ff 100%);
+  --color-main-blue: #5097fa;
+  --color-main-indigo: #5363ff;
+
+  --color-yellow-FFC83C: #ffc83c;
+  --color-green-05D58B: #05d58b;
+  --color-pink-FF2F9F: #ff2f9f;
+  --color-red-FF0000: #ff0000;
+}
+
+/* --- font --- */
+
+@utility text-mogazoa-10px-300 {
+  @apply font-light text-[10px];
+}
+
+@utility text-mogazoa-12px-300 {
+  @apply font-light text-xs;
+}
+
+@utility text-mogazoa-12px-400 {
+  @apply font-normal text-xs;
+}
+
+@utility text-mogazoa-14px-300 {
+  @apply font-light text-sm;
+}
+
+@utility text-mogazoa-14px-400 {
+  @apply font-normal text-sm;
+}
+
+@utility text-mogazoa-14px-500 {
+  @apply font-medium text-sm;
+}
+
+@utility text-mogazoa-16px-300 {
+  @apply font-light text-base;
+}
+
+@utility text-mogazoa-16px-400 {
+  @apply font-normal text-base;
+}
+
+@utility text-mogazoa-16px-500 {
+  @apply font-medium text-base;
+}
+
+@utility text-mogazoa-16px-600 {
+  @apply font-semibold text-base;
+}
+
+@utility text-mogazoa-18px-400 {
+  @apply font-normal text-lg;
+}
+
+@utility text-mogazoa-18px-500 {
+  @apply font-medium text-lg;
+}
+
+@utility text-mogazoa-18px-600 {
+  @apply font-semibold text-lg;
+}
+
+@utility text-mogazoa-20px-300 {
+  @apply font-light  text-xl;
+}
+
+@utility text-mogazoa-20px-400 {
+  @apply font-normal  text-xl;
+}
+
+@utility text-mogazoa-20px-600 {
+  @apply font-semibold text-xl leading-7;
+}
+
+@utility text-mogazoa-24px-300 {
+  @apply font-light text-2xl;
+}
+
+@utility text-mogazoa-24px-400 {
+  @apply font-normal text-2xl;
+}
+
+@utility text-mogazoa-24px-600 {
+  @apply font-semibold text-2xl;
 }
 
 @media (prefers-color-scheme: dark) {
