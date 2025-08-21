@@ -19,7 +19,7 @@ jobs: # ❸ 실행할 작업(Job) 목록
       - name: Set up Node.js # ❼ Node.js 환경 설정  /
         uses: actions/setup-node@v4 #//-> ✨이거 v4는 노드버전이 아님 깃액션버전?
         with:
-          node-version: '20' # /✨우리 노드버전-> 20.1.3
+          node-version: '22' # /✨우리 노드버전-> 22.15.0
           cache: 'npm' # 또는 'yarn' (프로젝트에서 사용하는 패키지 매니저에 따라 선택)
 
       - name: Install dependencies # ❽ 프로젝트 의존성 설치
