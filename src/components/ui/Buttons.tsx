@@ -13,7 +13,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
 }) => {
   const baseStyle =
-    'rounded-lg flex items-center text-mogazoa-16px-600 justify-center h-[50px] md:h-[55px] xl:h-[65px] w-full max-w-[640px] hover:cursor-pointer';
+    'text-mogazoa-16px-600 flex h-[50px] w-full max-w-[640px] items-center justify-center rounded-lg md:h-[55px] xl:h-[65px] hover:cursor-pointer';
 
   let variantStyle;
 
@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({
       break;
     case 'tertiary':
       variantStyle =
-        'bg-black-1c1c22 text-gray-9fa6b2 border-[1px] border-gray-9fa6b2 disabled:border-black-353542 disabled:text-gray-6e6e82';
+        'bg-black-1c1c22 text-gray-9fa6b2 border-gray-9fa6b2 disabled:border-black-353542 border-[1px] disabled:text-gray-6e6e82';
       break;
   }
 
@@ -37,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({
     <>
       {variant === 'secondary' ? (
         <button className={`${allClassName} p-[1.2px]`}>
-          <div className='bg-black-1c1c22 rounded-lg w-full h-full flex items-center justify-center'>
+          <div className='bg-black-1c1c22 flex h-full w-full items-center justify-center rounded-lg'>
             <div className={`${disabled ? 'text-gray-6e6e82' : 'text-gradient'}`}>{children}</div>
           </div>
         </button>
