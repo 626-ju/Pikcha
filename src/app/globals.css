@@ -5,27 +5,31 @@
   --foreground: #171717;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
   /*--- color ---*/
-  --color-black-17171C: #17171c;
-  --color-black-21212A: #21212a;
-  --color-black-2E2E3A: #2e2e3a;
+  --color-black-17171c: #17171c;
+  --color-black-21212a: #21212a;
+  --color-black-2e2e3a: #2e2e3a;
 
-  --color-gray-6E6E82: #6e6e82;
-  --color-gray-9FA6B2: #9fa6b2;
-  --color-white-F1F1F5: #f1f1f5;
+  --color-gray-6e6e82: #6e6e82;
+  --color-gray-9fa6b2: #9fa6b2;
+  --color-white-f1f1f5: #f1f1f5;
 
-  --color-main-gradation: linear-gradient(90deg, #5097fa 0%, #5363ff 100%);
+  --background-image-main-gradation: linear-gradient(90deg, #5097fa 0%, #5363ff 100%);
   --color-main-blue: #5097fa;
   --color-main-indigo: #5363ff;
 
-  --color-yellow-FFC83C: #ffc83c;
-  --color-green-05D58B: #05d58b;
-  --color-pink-FF2F9F: #ff2f9f;
-  --color-red-FF0000: #ff0000;
+  --color-yellow-ffc83c: #ffc83c;
+  --color-green-05d58b: #05d58b;
+  --color-pink-ff2f9f: #ff2f9f;
+  --color-red-ff0000: #ff0000;
+}
+
+@utility text-gradient {
+  @apply bg-clip-text text-transparent bg-main-gradation;
 }
 
 /* --- font --- */
