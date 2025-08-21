@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { cn } from '@/lib/utils';
+
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 interface InputProps extends React.ComponentProps<'input'> {
   label?: string;
@@ -21,7 +22,7 @@ function Input({ className, type, id, label, errorMessage, ...props }: InputProp
         className={cn(
           'relative w-full rounded-[8px]',
           'focus-within:border-transparent focus-within:bg-gradient-to-r p-[1px]',
-          'focus-within:[background-image:var(--color-main-gradation)]',
+          'focus-within:bg-main-gradation',
         )}
       >
         <input
@@ -29,20 +30,20 @@ function Input({ className, type, id, label, errorMessage, ...props }: InputProp
           type={type}
           data-slot='input'
           className={cn(
-            'bg-black-252530 text-base border-[var(--color-black-353542)]',
-            hasError ? 'border-[var(--color-red-FF0000)]' : 'border-[var(--color-black-353542)]',
+            'bg-black-252530 text-base border-black-353542',
+            hasError ? 'border-red-FF0000' : 'border-black-353542',
             'rounded-[8px] border outline-none',
             'flex h-[55px] md:h-[70px] w-full px-5 py-6',
             'disabled:pointer-events-none disabled:cursor-not-allowed',
-            'aria-invalid:border-red-FF0000',
+            'aria-invalid:border-red-ff0000',
             'focus:border-none',
             className,
           )}
-          aria-invalid={hasError} // ✅ 에러메시지가 있을 때 aria-invalid 속성을 true로 설정
+          aria-invalid={hasError}
           {...props}
         />
       </div>
-      {errorMessage && <p className='text-sm text-[var(--color-red-FF0000)]'>{errorMessage}</p>}
+      {errorMessage && <p className='text-sm text-red-ff0000'>{errorMessage}</p>}
     </div>
   );
 }
