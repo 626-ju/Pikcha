@@ -1,0 +1,37 @@
+name: CI/CD Pipeline # ❶ 워크플로우 이름
+
+on: # ❷ 언제 워크플로우를 실행할지 정의
+  push:
+    branches:
+      - dev # dev 브랜치에 푸시될 때
+  pull_request:
+    branches:
+      - dev # dev 브랜치로 풀 리퀘스트가 생성될 때 ✨우리 dev브랜치
+
+jobs: # ❸ 실행할 작업(Job) 목록
+  build-and-test: # 이 작업의 이름 (원하는 대로 지정)
+    runs-on: ubuntu-latest # ❹ 이 작업을 실행할 운영체제 환경 (우분투 최신 버전)
+
+    steps: # ❺ 이 작업 내에서 순서대로 실행될 단계(Step) 목록
+      - name: Checkout code # ❻ 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js # ❼ Node.js 환경 설정  /
+        uses: actions/setup-node@v4 #//-> ✨이거 v4는 노드버전이 아님 깃액션버전?
+        with:
+          node-version: '20' # /✨우리 노드버전-> 20.1.3
+          cache: 'npm' # 또는 'yarn' (프로젝트에서 사용하는 패키지 매니저에 따라 선택)
+
+      - name: Install dependencies # ❽ 프로젝트 의존성 설치
+        run: npm install # 또는 yarn install
+
+      - name: Run ESLint # ❾ 코드 린트 검사 (선택 사항이지만 권장)
+        run: npm run lint # 또는 yarn lint
+
+      - name: Build Project # ⓫ 프로젝트 빌드 (타입 검사 및 컴파일)
+        # Next.js 프로젝트의 경우, npm run build는 내부적으로 TypeScript 타입 검사를 수행합니다.
+        # 이 단계에서 타입 오류가 발생하면 빌드가 실패하고 CI/CD 파이프라인도 실패합니다.
+        run: npm run build # 또는 yarn build ✨이게 우리 목적
+
+
+    # 추가적으로 배포 단계를 넣을 수도 있지만, 여기서는 빌드 검사까지만 다룹니다.
