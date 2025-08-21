@@ -1,7 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
-import { createPortal } from 'react-dom';
-
 import { FollowerModal } from '@/app/(profile)/user/(component)/FollowerModal';
 
 export interface ImperativeModalHandles {
@@ -26,11 +24,9 @@ export const ImperativeModal = forwardRef<ImperativeModalHandles, ModalProps>(({
     close: () => setIsOpen(false),
   }));
 
-  const Compoent = ModalMap[type];
+  const Component = ModalMap[type];
 
-  return isOpen
-    ? createPortal(<Compoent isOpen={isOpen} setIsOpen={setIsOpen} />, document.body)
-    : null;
+  return <Component isOpen={isOpen} setIsOpen={setIsOpen} />; //샤드 cn 자체에서 dialog포탈 사용
 });
 
 ImperativeModal.displayName = 'ImperativeModal';
