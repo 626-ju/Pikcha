@@ -8,7 +8,7 @@ interface FollowModalProps {
   setIsOpen: (isOpen: boolean) => void;
 }
 
-export function FollowerModal({ isOpen, setIsOpen }: FollowModalProps) {
+export const FollowerModal = ({ isOpen, setIsOpen }: FollowModalProps) => {
   const title = `${'성주'}님을 팔로우 하는 유저`; //추후 username 받아오기
 
   return (
@@ -29,4 +29,4 @@ export function FollowerModal({ isOpen, setIsOpen }: FollowModalProps) {
       </DialogFooter>
     </Modal>
   );
-}
+};
