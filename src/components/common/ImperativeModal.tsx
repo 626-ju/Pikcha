@@ -1,3 +1,5 @@
+'use client';
+
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
 import { FollowerModal } from '@/app/(profile)/user/(component)/FollowerModal';

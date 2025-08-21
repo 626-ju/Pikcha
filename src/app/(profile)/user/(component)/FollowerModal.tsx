@@ -1,3 +1,5 @@
+'use client';
+
 import { DialogDescription } from '@radix-ui/react-dialog';
 
 import Modal from '@/components/common/ModalUi';
