@@ -10,9 +10,11 @@
   --color-foreground: var(--foreground);
 
   /*--- color ---*/
-  --color-black-17171c: #17171c;
+  --color-black-17171C: #17171c;
+  --color-black-1c1c22: #1c1c22; /* 시안의 배경색? 입니다 */
   --color-black-21212a: #21212a;
   --color-black-2e2e3a: #2e2e3a;
+  --color-black-353542: #353542; /* disabled bg for primary button / cards border color*/
 
   --color-gray-6e6e82: #6e6e82;
   --color-gray-9fa6b2: #9fa6b2;
@@ -29,85 +31,85 @@
 }
 
 @utility text-gradient {
-  @apply bg-clip-text text-transparent bg-main-gradation;
+  @apply bg-main-gradation bg-clip-text text-transparent;
 }
 
 /* --- font --- */
 
 @utility text-mogazoa-10px-300 {
-  @apply font-light text-[10px];
+  @apply text-[10px] font-light;
 }
 
 @utility text-mogazoa-12px-300 {
-  @apply font-light text-xs;
+  @apply text-xs font-light;
 }
 
 @utility text-mogazoa-12px-400 {
-  @apply font-normal text-xs;
+  @apply text-xs font-normal;
 }
 
 @utility text-mogazoa-14px-300 {
-  @apply font-light text-sm;
+  @apply text-sm font-light;
 }
 
 @utility text-mogazoa-14px-400 {
-  @apply font-normal text-sm;
+  @apply text-sm font-normal;
 }
 
 @utility text-mogazoa-14px-500 {
-  @apply font-medium text-sm;
+  @apply text-sm font-medium;
 }
 
 @utility text-mogazoa-16px-300 {
-  @apply font-light text-base;
+  @apply text-base font-light;
 }
 
 @utility text-mogazoa-16px-400 {
-  @apply font-normal text-base;
+  @apply text-base font-normal;
 }
 
 @utility text-mogazoa-16px-500 {
-  @apply font-medium text-base;
+  @apply text-base font-medium;
 }
 
 @utility text-mogazoa-16px-600 {
-  @apply font-semibold text-base;
+  @apply text-base font-semibold;
 }
 
 @utility text-mogazoa-18px-400 {
-  @apply font-normal text-lg;
+  @apply text-lg font-normal;
 }
 
 @utility text-mogazoa-18px-500 {
-  @apply font-medium text-lg;
+  @apply text-lg font-medium;
 }
 
 @utility text-mogazoa-18px-600 {
-  @apply font-semibold text-lg;
+  @apply text-lg font-semibold;
 }
 
 @utility text-mogazoa-20px-300 {
-  @apply font-light  text-xl;
+  @apply text-xl font-light;
 }
 
 @utility text-mogazoa-20px-400 {
-  @apply font-normal  text-xl;
+  @apply text-xl font-normal;
 }
 
 @utility text-mogazoa-20px-600 {
-  @apply font-semibold text-xl leading-7;
+  @apply text-xl leading-7 font-semibold;
 }
 
 @utility text-mogazoa-24px-300 {
-  @apply font-light text-2xl;
+  @apply text-2xl font-light;
 }
 
 @utility text-mogazoa-24px-400 {
-  @apply font-normal text-2xl;
+  @apply text-2xl font-normal;
 }
 
 @utility text-mogazoa-24px-600 {
-  @apply font-semibold text-2xl;
+  @apply text-2xl font-semibold;
 }
 
 @media (prefers-color-scheme: dark) {
