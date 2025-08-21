@@ -19,11 +19,10 @@ const Button: React.FC<ButtonProps> = ({
 
   switch (variant) {
     case 'primary':
-      variantStyle =
-        'bg-main-gradation disabled:bg-black-353542 text-white-f1f1f5 disabled:text-gray-6e6e82';
+      variantStyle = `text-white-f1f1f5 ${disabled ? 'bg-black-353542 text-gray-6e6e82' : 'bg-main-gradation'}`;
       break;
     case 'secondary':
-      variantStyle = `bg-black-1c1c2 ${disabled ? 'text-gray-6e6e82 bg-black-353542' : 'bg-main-gradation text-gradient'}`;
+      variantStyle = `bg-black-1c1c2 ${disabled ? 'bg-black-353542' : 'bg-main-gradation'}`;
       break;
     case 'tertiary':
       variantStyle =
@@ -39,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
       {variant === 'secondary' ? (
         <button className={`${allClassName} p-[1.2px]`}>
           <div className='bg-black-1c1c22 rounded-lg w-full h-full flex items-center justify-center'>
-            {children}
+            <div className={`${disabled ? 'text-gray-6e6e82' : 'text-gradient'}`}>{children}</div>
           </div>
         </button>
       ) : (
