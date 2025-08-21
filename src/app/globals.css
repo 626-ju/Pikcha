@@ -40,6 +40,10 @@
   @apply text-[10px] font-light;
 }
 
+@utility text-mogazoa-10px-400 {
+  @apply text-[10px] font-normal;
+}
+
 @utility text-mogazoa-12px-300 {
   @apply text-xs font-light;
 }
