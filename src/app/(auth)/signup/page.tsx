@@ -4,35 +4,29 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import Input from '@/components/Input';
-import { LoginFormValues, loginSchema } from '@/lib/validations/auth';
+import Button from '@/components/ui/Buttons';
+import { SignupFormValues, signupSchema } from '@/lib/validations/auth';
 
 const SignupPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<SignupFormValues>({
+    resolver: zodResolver(signupSchema),
     mode: 'onTouched',
   });
 
-  const onSubmit = (data: LoginFormValues) => {
+  const onSubmit = (data: SignupFormValues) => {
     console.log('폼 제출 데이터:', data);
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='flex flex-col 
-      w-[335px] py-[30px] m-auto h-screen
-      md:w-[440px] md:py-[181px] md:gap-[60px] 
-      xl:w-[640px] xl:py-[93px]'
+      className='m-auto flex h-screen w-[335px] flex-col py-[30px] md:w-[440px] md:gap-[60px] md:py-[181px] xl:w-[640px] xl:py-[93px]'
     >
-      <div
-        className='flex flex-col 
-        gap-[30px]
-        md:gap-10'
-      >
+      <div className='flex flex-col gap-[30px] md:gap-10'>
         <Input
           type='email'
           label='이메일'
@@ -66,9 +60,7 @@ const SignupPage = () => {
         />
       </div>
 
-      <button type='submit' className='border mt-auto md:mt-0'>
-        가입하기
-      </button>
+      <Button>가입하기</Button>
     </form>
   );
 };

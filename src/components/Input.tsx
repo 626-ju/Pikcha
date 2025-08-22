@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 
 import Image from 'next/image';
@@ -19,16 +21,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputType = type === 'password' ? (showPassword ? 'text' : 'password') : type;
 
     return (
-      <div className='flex flex-col gap-[10px] w-full'>
+      <div className='flex w-full flex-col gap-[10px]'>
         {label && <Label htmlFor={inputId}>{label}</Label>}
-        <div
-          className={cn(
-            'relative w-full rounded-[8px]',
-            'focus-within:border-transparent focus-within:bg-gradient-to-r p-[1px]',
-            'focus-within:bg-main-gradation',
-            'transition-all duration-700',
-          )}
-        >
+        <div>
           <input
             id={inputId}
             ref={ref} // RHF와 연결됨
@@ -38,10 +33,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'bg-black-252530 text-mogazoa-14px-400 border-black-353542',
               hasError ? 'border-red-FF0000' : 'border-black-353542',
               'rounded-[8px] border outline-none',
-              'flex h-[55px] xl:h-[70px] w-full px-5 py-6',
+              'flex h-[55px] w-full px-5 py-6 xl:h-[70px]',
               'disabled:pointer-events-none disabled:cursor-not-allowed',
               'aria-invalid:border-red-ff0000',
-              'focus:border-none',
+              'focus:border-main-blue',
               'transition-all duration-700',
               className,
             )}
@@ -52,7 +47,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <button
               type='button'
               onClick={() => setShowPassword((prev) => !prev)}
-              className='absolute right-4 top-1/2 -translate-y-1/2'
+              className='absolute top-1/2 right-4 -translate-y-1/2'
             >
               <Image
                 src={
