@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/Input';
 import { LoginFormValues, loginSchema } from '@/lib/validations/auth';
 
-const LoginPage = () => {
+const SigninPage = () => {
   const {
     register,
     handleSubmit,
@@ -25,16 +25,9 @@ const LoginPage = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='flex flex-col justify-center gap-[60px]
-      w-[335px] pt-[108px] m-auto h-full
-      md:w-[440px] md:py-[181px]
-      xl:w-[640px] xl:py-[90px]'
+      className='m-auto flex h-full w-[335px] flex-col justify-center gap-[60px] pt-[108px] md:w-[440px] md:py-[181px] xl:w-[640px] xl:py-[90px]'
     >
-      <div
-        className='flex flex-col 
-        gap-[30px]
-        md:gap-10'
-      >
+      <div className='flex flex-col gap-[30px] md:gap-10'>
         <Input
           type='email'
           label='이메일'
@@ -56,23 +49,23 @@ const LoginPage = () => {
       </button>
       <div className='flex flex-col gap-5'>
         <Link href='/'>
-          <p className='text-center text-gray-6e6e82'>SNS로 바로 시작히기</p>
+          <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
         </Link>
 
-        <div className='flex justify-center items-center gap-5'>
+        <div className='flex items-center justify-center gap-5'>
           <Image
             src='/images/status=google.svg'
             alt='구글 간편로그인'
             width={56}
             height={56}
-            className='border border-black-353542 rounded-full p-[14px]'
+            className='border-black-353542 rounded-full border p-[14px]'
           />
           <Image
             src='/images/status=kakao.svg'
             alt='카카오 간편로그인'
             width={56}
             height={56}
-            className='border border-black-353542 rounded-full p-[14px]'
+            className='border-black-353542 rounded-full border p-[14px]'
           />
         </div>
       </div>
@@ -80,4 +73,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SigninPage;
