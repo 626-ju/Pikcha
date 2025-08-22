@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import Input from '@/components/Input';
+import Button from '@/components/ui/Buttons';
 import { SignupFormValues, signupSchema } from '@/lib/validations/auth';
 
 const SignupPage = () => {
@@ -59,9 +60,7 @@ const SignupPage = () => {
         />
       </div>
 
-      <button type='submit' className='mt-auto border md:mt-0'>
-        가입하기
-      </button>
+      <Button>가입하기</Button>
     </form>
   );
 };

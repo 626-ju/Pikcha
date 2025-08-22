@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 import Input from '@/components/Input';
+import Button from '@/components/ui/Buttons';
 import { LoginFormValues, singinSchema } from '@/lib/validations/auth';
 
 const SigninPage = () => {
@@ -44,9 +45,7 @@ const SigninPage = () => {
           {...register('password')}
         />
       </div>
-      <button type='submit' className='border'>
-        로그인
-      </button>
+      <Button>로그인</Button>
       <div className='flex flex-col gap-5'>
         <Link href='/'>
           <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
