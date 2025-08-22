@@ -55,7 +55,7 @@ export const CategoryDropdown = () => {
           {CATEGORY.map((ca) => (
             <button
               key={ca.id}
-              value={ca.name}
+              value={ca.id}
               onClick={() => handleSelectValue(ca.name)}
               className='hover:bg-black-353542 text-mogazoa-14px-400 text-gray-6e6e82 hover:text-white-f1f1f5 xl:text-mogazoa-16px-400 flex w-full justify-start rounded-[6px] px-5 py-[6px]'
             >
