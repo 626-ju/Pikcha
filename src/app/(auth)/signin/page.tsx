@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 import Input from '@/components/Input';
-import { LoginFormValues, loginSchema } from '@/lib/validations/auth';
+import { LoginFormValues, singinSchema } from '@/lib/validations/auth';
 
 const SigninPage = () => {
   const {
@@ -14,7 +14,7 @@ const SigninPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(singinSchema),
     mode: 'onTouched',
   });
 
