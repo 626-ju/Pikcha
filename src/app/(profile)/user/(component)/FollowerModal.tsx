@@ -5,16 +5,11 @@ import { DialogDescription } from '@radix-ui/react-dialog';
 import Modal from '@/components/common/ModalUi';
 import { DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
-interface FollowModalProps {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-}
-
-export const FollowerModal = ({ isOpen, setIsOpen }: FollowModalProps) => {
+export const FollowerModal = () => {
   const title = `${'성주'}님을 팔로우 하는 유저`; //추후 username 받아오기
 
   return (
-    <Modal open={isOpen} onOpenChange={setIsOpen} showCloseButton={true} variant={'follower'}>
+    <Modal showCloseButton={true} variant={'follower'}>
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription aria-labelledby={title} />
