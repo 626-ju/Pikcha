@@ -8,7 +8,8 @@
   --color-foreground: var(--foreground);
 
   /*--- color ---*/
-  --color-black-17171c: #17171c;
+  --color-black-17171C: #17171c;
+  --color-black-1c1c22: #1c1c22; /* 시안의 배경색? 입니다 */
   --color-black-21212a: #21212a;
   --color-black-2e2e3a: #2e2e3a;
   --color-black-353542: #353542;
@@ -36,6 +37,10 @@
 
 @utility text-mogazoa-10px-300 {
   @apply text-[10px] font-light;
+}
+
+@utility text-mogazoa-10px-400 {
+  @apply text-[10px] font-normal;
 }
 
 @utility text-mogazoa-12px-300 {
