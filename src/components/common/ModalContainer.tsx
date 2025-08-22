@@ -7,7 +7,7 @@ const ModalContainer = () => {
 
   if (stack.length === 0) return null;
 
-  const Component = stack[stack.length - 1].component;
+  const Component = stack[stack.length - 1];
 
   return <Component />;
 };

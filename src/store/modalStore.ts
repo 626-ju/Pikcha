@@ -2,13 +2,14 @@ import { ComponentType } from 'react';
 
 import { create } from 'zustand';
 
-export type Modal = {
-  component: ComponentType;
-};
+type Component = ComponentType;
+//Component의 타입은 컴포넌트 함수 자체(jsx 말구)
+//jsx가 더 익숙하고 편하시겠지만 shadcn dialog Portal 함께 사용하기 위해
+//이런 식으로 받았습니다.
 
 type ModalState = {
-  stack: Modal[];
-  push: (modal: Modal) => void;
+  stack: Component[];
+  push: (modal: Component) => void;
   pop: () => void;
   clear: () => void;
 };
