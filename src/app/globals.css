@@ -37,6 +37,15 @@
   @apply bg-clip-text text-transparent bg-main-gradation;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE와 Edge를 위한 숨기기 속성 */
+  scrollbar-width: none;
+}
+
 /* --- font --- */
 
 @utility text-mogazoa-10px-300 {
