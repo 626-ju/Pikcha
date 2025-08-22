@@ -29,6 +29,11 @@
   --color-red-ff0000: #ff0000;
 }
 
+/* @theme 블록 아래에 추가 */
+@utility bg-main-gradation {
+  background-image: var(--background-image-main-gradation);
+}
+
 @utility text-gradient {
   @apply bg-main-gradation bg-clip-text text-transparent;
 }
