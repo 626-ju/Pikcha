@@ -23,14 +23,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className='flex w-full flex-col gap-[10px]'>
         {label && <Label htmlFor={inputId}>{label}</Label>}
-        <div
-          className={cn(
-            'relative w-full rounded-[8px]',
-            'p-[1px] focus-within:border-transparent focus-within:bg-gradient-to-r',
-            'focus-within:bg-main-gradation',
-            'transition-all duration-700',
-          )}
-        >
+        <div>
           <input
             id={inputId}
             ref={ref} // RHF와 연결됨
@@ -43,7 +36,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'flex h-[55px] w-full px-5 py-6 xl:h-[70px]',
               'disabled:pointer-events-none disabled:cursor-not-allowed',
               'aria-invalid:border-red-ff0000',
-              'focus:border-none',
+              'focus:border-main-blue',
               'transition-all duration-700',
               className,
             )}
