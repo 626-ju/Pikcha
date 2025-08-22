@@ -51,13 +51,13 @@ export const CategoryDropdown = () => {
         </div>
       </div>
       {isOpen && (
-        <div className='bg-black-252530 border-black-353542 absolute top-[60px] left-0 flex w-[295px] flex-col gap-[10px] rounded-lg border-1 p-[10px] md:w-90'>
+        <div className='bg-black-252530 border-black-353542 absolute top-[60px] left-0 z-10 flex w-[295px] flex-col gap-[10px] rounded-lg border-1 p-[10px] md:top-[65px] md:w-90 xl:top-[75px]'>
           {CATEGORY.map((ca) => (
             <button
               key={ca.id}
               value={ca.name}
               onClick={() => handleSelectValue(ca.name)}
-              className='hover:bg-black-353542 flex w-full justify-start rounded-[6px] px-5 py-[6px]'
+              className='hover:bg-black-353542 text-mogazoa-14px-400 text-gray-6e6e82 hover:text-white-f1f1f5 xl:text-mogazoa-16px-400 flex w-full justify-start rounded-[6px] px-5 py-[6px]'
             >
               {ca.name}
             </button>
@@ -68,13 +68,80 @@ export const CategoryDropdown = () => {
   );
 };
 
-export const SortDropdown = () => {
-  const { isOpen, toggleDropdown, dropdwonRef } = useDropdown();
+interface Sort {
+  value: string;
+  name: string;
+}
+
+const SORT_OPTION_PRODUCTS: Sort[] = [
+  { value: 'recent', name: '조회순' },
+  { value: 'ratingDesc', name: '별점 높은순' },
+  { value: 'ratingAsc', name: '별점 낮은순' },
+];
+
+const SORT_OPTION_REVIEWS: Sort[] = [
+  { value: 'recent', name: '조회순' },
+  { value: 'ratingDesc', name: '별점 높은순' },
+  { value: 'ratingAsc', name: '별점 낮은순' },
+  { value: 'likeCount', name: '좋아요순' },
+];
+
+export const SortDropdown = ({
+  variant,
+  className,
+}: {
+  variant: 'product' | 'review';
+  className?: string;
+}) => {
+  const [value, setValue] = useState<string | null>('최신순');
+  const { isOpen, closeDropdown, toggleDropdown, dropdwonRef } = useDropdown();
+
+  const initialValue = value ? value : '카테고리 선택';
+
+  const handleSelectValue = (name: string) => {
+    setValue(name);
+    closeDropdown();
+  };
+
+  const getSortOption = () => {
+    switch (variant) {
+      case 'product':
+        return SORT_OPTION_PRODUCTS;
+        break;
+      case 'review':
+        return SORT_OPTION_REVIEWS;
+        break;
+    }
+  };
 
   return (
-    <div ref={dropdwonRef}>
-      <div onClick={toggleDropdown}>카테고리 선택</div>
-      {isOpen && CATEGORY.map((ca) => <div key={ca.id}>{ca.name}</div>)}
+    <div ref={dropdwonRef} className='relative'>
+      <div
+        onClick={toggleDropdown}
+        className={cn(
+          'text-mogazoa-14px-400 xl:text-mogazoa-16px-400 flex shrink-0 items-center gap-[5px] p-0 transition-transform md:w-[140px] md:justify-between xl:w-[160px]',
+          isOpen ? 'text-white-f1f1f5' : 'text-black-6e6e82',
+          className,
+        )}
+      >
+        {initialValue}
+        {isOpen ? <DropupIcon /> : <DropdownIcon />}
+      </div>
+
+      {isOpen && (
+        <div className='bg-black-252530 border-black-353542 absolute top-10 right-0 flex w-[150px] flex-col gap-[10px] rounded-lg border-1 p-[10px] md:w-[200px]'>
+          {getSortOption().map((op) => (
+            <button
+              key={op.value}
+              value={op.value}
+              onClick={() => handleSelectValue(op.name)}
+              className='hover:bg-black-353542 text-mogazoa-14px-400 text-gray-6e6e82 hover:text-white-f1f1f5 xl:text-mogazoa-16px-400 flex w-full justify-start rounded-[6px] px-5 py-[6px]'
+            >
+              {op.name}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
