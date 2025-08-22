@@ -247,3 +247,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* 자동 완성 배경을 투명하게 설정 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 9999s ease-in-out 0s;
+  -webkit-transition: background-color 9999s ease-in-out 0s;
+  -webkit-text-fill-color: #f1f1f5 !important; /* 글자색을 흰색으로 강제 */
+}
