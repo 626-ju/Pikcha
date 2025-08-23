@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import 'tailwind-scrollbar-hide/v4';
+
 /*---break---*/
 @custom-variant dark (&:is(.dark *));
 
@@ -36,6 +38,15 @@
 
 @utility text-gradient {
   @apply bg-main-gradation bg-clip-text text-transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE와 Edge를 위한 숨기기 속성 */
+  scrollbar-width: none;
 }
 
 /* --- font --- */
