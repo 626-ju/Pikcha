@@ -36,6 +36,7 @@ const FolloweeList = () => {
   useEffect(() => {
     if (isFetching) return;
     fetchFollowees();
+    // eslint-disable-next-line
   }, []);
 
   useIntersectionObserver(loadMoreRef, cursor, fetchFollowees);
