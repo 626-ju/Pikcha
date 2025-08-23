@@ -15,7 +15,7 @@ const UserProfile = () => {
       {/* 추후 이미지로 변경 
         <Image src={user.image} size={120}>
       */}
-      <div className='h-30 w-30 rounded-full bg-amber-500' />
+      <div className='h-30 w-30 rounded-full bg-amber-500 xl:h-45 xl:w-45' />
       <div className='flex flex-col items-center justify-between gap-2.5 xl:gap-5'>
         <h2 className='text-mogazoa-20px-600 md:text-mogazoa-24px-600 text-[var(--color-white-f1f1f5)]'>
           {nickname}
