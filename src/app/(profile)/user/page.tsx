@@ -1,4 +1,4 @@
-import FollowerModalTrigger from './(component)/FollowerModalTrigger';
+import FollowerModalTrigger from '../(component)/FollowerModalTrigger';
 
 function Page() {
   return <FollowerModalTrigger />;

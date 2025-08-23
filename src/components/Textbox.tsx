@@ -26,7 +26,7 @@ const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
         />
 
         {/* 글자수 카운트 */}
-        <span className='absolute bottom-2 right-3 text-xs text-gray-6e6e82'>
+        <span className='text-gray-6e6e82 absolute right-3 bottom-2 text-xs'>
           {count}/{maxLength}자
         </span>
       </div>
