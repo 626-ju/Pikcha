@@ -1,7 +1,11 @@
-import FollowerModalTrigger from '../(component)/FollowerModalTrigger';
+import UserProfile from '../(component)/UserProfile';
 
-function Page() {
-  return <FollowerModalTrigger />;
-}
+const Page = () => {
+  return (
+    <>
+      <UserProfile />
+    </>
+  );
+};
 
 export default Page;
