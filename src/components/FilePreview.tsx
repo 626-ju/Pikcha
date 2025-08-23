@@ -13,8 +13,10 @@ const FilePreview = ({ url, index, onRemove }: FilePreviewProps) => {
     <div
       className={cn(
         'relative overflow-hidden',
-        'h-[140px] w-[140px] rounded-[8px]',
         'border-black-353542 border',
+        'h-[140px] w-[140px] rounded-[8px]',
+        'md:h-[135px] md:w-[135px]',
+        'xl:h-[160px] xl:w-[160px]',
       )}
     >
       <Image src={url} alt={`선택된 이미지 ${index + 1}`} fill style={{ objectFit: 'cover' }} />

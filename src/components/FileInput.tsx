@@ -52,9 +52,9 @@ const FileInput = ({ maxFiles = 1 }: FileInputProps) => {
           className={cn(
             'flex cursor-pointer items-center justify-center',
             'border-black-353542 bg-black-252530 border',
-            'aspect-square w-[140px] rounded-[8px]',
-            'md:w-[135px]',
-            'xl:w-[160px]',
+            'h-[140px] w-[140px] rounded-[8px]',
+            'md:h-[135px] md:w-[135px]',
+            'xl:h-[160px] xl:w-[160px]',
           )}
         >
           <Image src='/icon/Icon-addfile.svg' alt='파일 추가 아이콘' width={24} height={24} />
