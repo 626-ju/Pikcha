@@ -23,7 +23,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className='flex w-full flex-col gap-[10px]'>
         {label && <Label htmlFor={inputId}>{label}</Label>}
-        <div>
+        <div
+          className={cn(
+            'relative w-full rounded-[8px]',
+            'p-[1px] focus-within:border-transparent focus-within:bg-gradient-to-r',
+            'focus-within:bg-main-gradation',
+            'transition-all duration-700',
+          )}
+        >
           <input
             id={inputId}
             ref={ref} // RHF와 연결됨
@@ -47,7 +54,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <button
               type='button'
               onClick={() => setShowPassword((prev) => !prev)}
-              className='absolute top-1/2 right-4 -translate-y-1/2'
+              className='absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer'
             >
               <Image
                 src={

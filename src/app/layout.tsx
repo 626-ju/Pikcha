@@ -4,6 +4,8 @@ import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth'; // NextAuth의 서버 함수 임포트
 import AuthHydration from '@/components/AuthHydration';
 
+import ModalContainer from '@/components/common/ModalContainer';
+
 import pretendard from '../lib/utils/fonts/pretendard';
 
 import type { Metadata } from 'next';
@@ -31,6 +33,7 @@ export default async function RootLayout({
       </body>
 
       <SpeedInsights />
+      <ModalContainer />
     </html>
   );
 }

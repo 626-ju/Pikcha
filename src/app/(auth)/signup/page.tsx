@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import Input from '@/components/Input';
 import Button from '@/components/ui/Buttons';
+import { cn } from '@/lib/utils';
 import { SignupFormValues, signupSchema } from '@/lib/validations/auth';
 
 const SignupPage = () => {
@@ -24,9 +25,15 @@ const SignupPage = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='m-auto flex h-screen w-[335px] flex-col py-[30px] md:w-[440px] md:gap-[60px] md:py-[181px] xl:w-[640px] xl:py-[93px]'
+      className={cn(
+        'm-auto flex flex-col justify-between md:justify-start',
+        'h-screen',
+        'w-[335px] md:w-[440px] xl:w-[640px]',
+        'py-[30px] md:py-[181px] xl:py-[93px]',
+        'md:gap-[60px]',
+      )}
     >
-      <div className='flex flex-col gap-[30px] md:gap-10'>
+      <div className={cn('flex flex-col', 'gap-[30px] md:gap-10')}>
         <Input
           type='email'
           label='이메일'
@@ -60,7 +67,7 @@ const SignupPage = () => {
         />
       </div>
 
-      <Button>가입하기</Button>
+      <Button className='shrink-0'>가입하기</Button>
     </form>
   );
 };
