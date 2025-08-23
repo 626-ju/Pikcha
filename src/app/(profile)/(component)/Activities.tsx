@@ -25,7 +25,6 @@ const Activities = () => {
             {averageRating}
           </div>
         </div>
-
         <div className={activityCardStyle}>
           <h3 className={cardTitleStyle}>남긴 리뷰</h3>
 
