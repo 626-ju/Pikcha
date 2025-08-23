@@ -23,16 +23,9 @@ const SignupPage = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='flex flex-col 
-      w-[335px] py-[30px] m-auto h-screen
-      md:w-[440px] md:py-[181px] md:gap-[60px] 
-      xl:w-[640px] xl:py-[93px]'
+      className='m-auto flex h-screen w-[335px] flex-col py-[30px] md:w-[440px] md:gap-[60px] md:py-[181px] xl:w-[640px] xl:py-[93px]'
     >
-      <div
-        className='flex flex-col 
-        gap-[30px]
-        md:gap-10'
-      >
+      <div className='flex flex-col gap-[30px] md:gap-10'>
         <Input
           type='email'
           label='이메일'
@@ -66,7 +59,7 @@ const SignupPage = () => {
         />
       </div>
 
-      <button type='submit' className='border mt-auto md:mt-0'>
+      <button type='submit' className='mt-auto border md:mt-0'>
         가입하기
       </button>
     </form>
