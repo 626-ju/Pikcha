@@ -3,7 +3,9 @@
 import { DialogDescription } from '@radix-ui/react-dialog';
 
 import Modal from '@/components/common/ModalUi';
-import { DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
+import FolloweeList from './FolloweeList';
 
 export const FollowerModal = () => {
   const title = `${'성주'}님을 팔로우 하는 유저`; //추후 username 받아오기
@@ -17,14 +19,13 @@ export const FollowerModal = () => {
       </DialogHeader>
 
       <div>
-        {/* <FollowUserList username={usename} /> */}
-        아아 모달 테스트입니당
+        <FolloweeList />
       </div>
       {/*버튼이 없을 경우 여기서 끝*/}
       {/*버튼이 있을 경우 임포트해서 호출 + 프롭으로 받은 onSubmit 달아주기*/}
-      <DialogFooter>
+      {/* <DialogFooter>
         <button>등록하기</button>
-      </DialogFooter>
+      </DialogFooter> */}
     </Modal>
   );
 };
