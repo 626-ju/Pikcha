@@ -12,7 +12,7 @@ const Activities = () => {
 
   return (
     <>
-      <h2 className='text-mogazoa-18px-600 mb-7.5'>활동 내역</h2>
+      <h2 className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-0'>활동 내역</h2>
       <div className='flex gap-2.5 xl:gap-5'>
         <div className={activityCardStyle}>
           <h3 className={cardTitleStyle}>
