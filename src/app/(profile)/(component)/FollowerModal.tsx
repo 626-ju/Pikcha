@@ -7,16 +7,12 @@ import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 import FolloweeList from './FolloweeList';
 
-interface FollowModalProps {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-}
-
-export const FollowerModal = ({ isOpen, setIsOpen }: FollowModalProps) => {
+export const FollowerModal = () => {
   const title = `${'성주'}님을 팔로우 하는 유저`; //추후 username 받아오기
 
   return (
-    <Modal open={isOpen} onOpenChange={setIsOpen} showCloseButton={true} variant={'follower'}>
+    //팔로워나 비교하기 모달일 때만 버라이언트 주시면 됩니다
+    <Modal variant={'follower'}>
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription aria-labelledby={title} />

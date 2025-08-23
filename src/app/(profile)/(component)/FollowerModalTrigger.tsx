@@ -1,18 +1,18 @@
 'use client';
 
-import { useRef } from 'react';
+import { useModalStore } from '@/store/modalStore';
 
-import { ImperativeModal, ImperativeModalHandles } from '@/components/common/ImperativeModal';
+import { FollowerModal } from './FollowerModal';
 
 function FollowerModalTrigger() {
-  const modalRef = useRef<ImperativeModalHandles>(null);
+  const push = useModalStore((state) => state.push);
 
   return (
     <div>
-      <button className='bg-[var(--color-yellow-ffc83c)]' onClick={() => modalRef.current?.open()}>
+      {/*여기서 꼭 jsx말고 함수 형태로 넘겨주셔야 합니다 */}
+      <button className='bg-[var(--color-yellow-ffc83c)]' onClick={() => push(FollowerModal)}>
         모달 열기
       </button>
-      <ImperativeModal ref={modalRef} type={'follower'} />
     </div>
   );
 }
