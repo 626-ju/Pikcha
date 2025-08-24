@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 
-import { signIn as nextAuthSignIn } from '@/auth'; // next-auth의 signIn 함수 임포트
+import { signIn as nextAuthSignIn } from '@/auth';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
