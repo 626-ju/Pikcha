@@ -16,7 +16,7 @@ const ProductList = () => {
   return (
     <>
       <DropdownTrigger />
-      <ul className='flex flex-wrap gap-[15px] xl:gap-5'>
+      <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
         {movieList.map((movie) => (
           <li className='rounded-[8px] bg-[var(--color-black-353542)] p-2.5 xl:p-5' key={movie.id}>
             {/* 컨텐츠 영화로 했을 때는 세로로 좀 더 길어야 할 것 같은데 고민이네요 */}
