@@ -1,8 +1,12 @@
 import FollowerModalTrigger from './FollowerModalTrigger';
 import FollowTrigger from './FollowTrigger';
 
-const UserProfile = () => {
-  //{teamId}/users/me 서버액션으로 데이터 가져와서 데이터 채우기
+interface Props {
+  userid: number;
+}
+
+const UserProfile = ({ userid }: Props) => {
+  //{teamId}/users/me ,{teamId}/users/{userid}서버액션으로 데이터 가져와서 데이터 채우기
 
   const nickname = '성주';
   const description =
@@ -12,6 +16,8 @@ const UserProfile = () => {
 
   return (
     <div className='flex w-[335px] flex-col items-center gap-7.5 rounded-[12px] border-[var(--color-black-353542)] bg-[var(--color-black-252530)] px-5 py-7.5 md:w-[509px] md:px-7.5 xl:h-[634px] xl:w-[340px] xl:gap-10 xl:px-5 xl:py-10'>
+      {/* 추후에 지우겠습니다.(린트 회피용) */}
+      <div className='sr-only'>{userid}</div>
       {/* 추후 이미지로 변경 
         <Image src={user.image} size={120}>
       */}

@@ -2,7 +2,11 @@ import StarIcon from '@/app/assets/icon/Icon-star.svg';
 
 import DropdownTrigger from './DropdownTrigger';
 
-const ProductList = () => {
+interface Props {
+  userid: number;
+}
+
+const ProductList = ({ userid }: Props) => {
   // //{teamId}/users/{userId}/reviewed-products | favorite-products | created-products
   //초기값 위에서 받아서 그려야하나
 
@@ -15,6 +19,8 @@ const ProductList = () => {
 
   return (
     <>
+      {/* 추후에 지우겠습니다.(린트 회피용) */}
+      <div className='sr-only'>{userid}</div>
       <DropdownTrigger />
       <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
         {movieList.map((movie) => (

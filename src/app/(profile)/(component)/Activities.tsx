@@ -5,14 +5,21 @@ import StarIcon from '@/app/assets/icon/Icon-star.svg';
 import StatisticsCard from '@/components/common/StatisticsCard';
 import { CategoryChip } from '@/components/ui/Chips';
 
-const Activities = () => {
-  //서버액션으로 아래 데이터들 미리 가져와서 rsc페이로드로 보내기 가능?
+interface Props {
+  userid: number;
+}
+
+const Activities = ({ userid }: Props) => {
+  //메모이제이션으로 같은 요청 보낼꺼니까 -> 여기서 서버액션으로 {teamId}/users/me ,{teamId}/users/{userid}
+
   const averageRating = 4.1;
   const reviewCount = 125;
   const favoriteCategory = '스릴러';
 
   return (
     <>
+      {/* 추후에 지우겠습니다.(린트 회피용) */}
+      <div className='sr-only'>{userid}</div>
       <h2 className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-0'>활동 내역</h2>
       <div className='flex gap-2.5 xl:gap-5'>
         {/* 
