@@ -1,8 +1,8 @@
 import React from 'react';
 
+import StatisticsCard from '@/app/(profile)/(component)/StatisticsCard';
 import ReviewIcon from '@/app/assets/icon/Icon-review.svg';
 import StarIcon from '@/app/assets/icon/Icon-star.svg';
-import StatisticsCard from '@/components/common/StatisticsCard';
 import { CategoryChip } from '@/components/ui/Chips';
 
 interface Props {
