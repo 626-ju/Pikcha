@@ -6,7 +6,7 @@ import StarIcon from '@/app/assets/icon/Icon-star.svg';
 import { CategoryChip } from '@/components/ui/Chips';
 
 interface Props {
-  userid?: number;
+  userid?: string;
 }
 
 const Activities = ({ userid }: Props) => {

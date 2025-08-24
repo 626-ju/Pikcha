@@ -3,7 +3,7 @@ import StarIcon from '@/app/assets/icon/Icon-star.svg';
 import DropdownTrigger from './DropdownTrigger';
 
 interface Props {
-  userid?: number;
+  userid?: string;
 }
 
 const ProductList = ({ userid }: Props) => {

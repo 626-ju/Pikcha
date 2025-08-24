@@ -1,8 +1,8 @@
-import FollowerModalTrigger from './FollowerModalTrigger';
+import FollowerModalTrigger from './FollowModalTrigger';
 import FollowTrigger from './FollowTrigger';
 
 interface Props {
-  userid?: number;
+  userid?: string;
 }
 
 const UserProfile = ({ userid }: Props) => {

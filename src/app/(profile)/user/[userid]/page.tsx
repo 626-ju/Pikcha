@@ -3,11 +3,11 @@ import ProductList from '../../(component)/ProductList';
 import UserProfile from '../../(component)/UserProfile';
 
 interface Props {
-  params: { userid: number };
+  params: Promise<{ userid: string }>;
 }
 
-const Page = ({ params }: Props) => {
-  const { userid } = params;
+const Page = async ({ params }: Props) => {
+  const { userid } = await params;
   //  const user = await getUser(userid);
 
   return (
