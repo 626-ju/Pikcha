@@ -18,9 +18,11 @@ interface BackendUser {
 interface CustomUser {
   id: string;
   email?: string | null;
-  name?: string | null;
+  description?: string | null;
+  nickname?: string | null;
   image?: string | null;
-  teamId?: string;
+  updatedAt: string;
+  createdAt: string;
 }
 
 // NextAuth 객체 생성
@@ -63,9 +65,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return {
           id: user.id.toString(),
           email: user.email,
-          name: user.nickname,
+          description: user.description,
           image: user.image,
-          teamId: user.teamId,
+          nickname: user.nickname,
+          updatedAt: user.updatedAt,
+          createdAt: user.createdAt,
         } as CustomUser;
       },
     }),
@@ -79,9 +83,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // 로그인 시 토큰에 유저 정보 저장
         token.id = user.id;
         token.email = user.email;
-        token.name = user.name;
+        token.description = user.description;
+        token.nickname = user.nickname;
         token.image = user.image;
-        token.teamId = user.teamId;
       }
       return token;
     },
@@ -92,9 +96,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // 토큰 정보를 세션에 매핑
         session.user.id = token.id;
         session.user.email = token.email as string;
-        session.user.name = token.name;
+        session.user.description = token.description as string;
         session.user.image = token.image as string;
-        session.user.teamId = token.teamId;
+        session.user.nickname = token.nickname;
       }
       return session;
     },

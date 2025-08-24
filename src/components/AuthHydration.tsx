@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react';
 
-import { useAuthStore } from '@/app/stores/authStore';
-
 import type { Session } from 'next-auth';
+
+import { useAuthStore } from '@/app/stores/authStore';
 
 // 이 컴포넌트는 클라이언트 컴포넌트로 동작해야 합니다.
 // 서버 컴포넌트에서 받은 초기 세션 데이터를 주입하는 역할.
