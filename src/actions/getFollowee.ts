@@ -11,6 +11,7 @@ const getFollowee = async (cursor: number = 0) => {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
+      cache: 'force-cache',
     },
   );
 

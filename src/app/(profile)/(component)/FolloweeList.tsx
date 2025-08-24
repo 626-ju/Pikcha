@@ -68,20 +68,3 @@ const FolloweeList = () => {
 };
 
 export default FolloweeList;
-
-// const followees = {
-//   list: [
-//     { id: 1, followee: { id: 1, nickname: '성주' } },
-//     { id: 2, followee: { id: 1, nickname: '소연' } },
-//     { id: 3, followee: { id: 1, nickname: '만재' } },
-//     { id: 4, followee: { id: 1, nickname: '민지' } },
-//     { id: 5, followee: { id: 1, nickname: '성주' } },
-//     { id: 6, followee: { id: 1, nickname: '소연' } },
-//     { id: 7, followee: { id: 1, nickname: '만재' } },
-//     { id: 8, followee: { id: 1, nickname: '민지' } },
-//     { id: 9, followee: { id: 1, nickname: '성주' } },
-//     { id: 10, followee: { id: 1, nickname: '소연' } },
-//     { id: 11, followee: { id: 1, nickname: '만재' } },
-//     { id: 12, followee: { id: 1, nickname: '민지' } },
-//   ],
-// };
