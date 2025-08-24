@@ -1,8 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-
-import { signIn as nextAuthSignIn } from '@/auth';
+import { signIn as nextAuthSignIn } from 'next-auth/react';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
