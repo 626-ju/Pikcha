@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import { Search } from 'lucide-react';
 import { CircleX } from 'lucide-react';
@@ -29,6 +29,20 @@ const SearchForm = () => {
     setQuery(sp.get('q') ?? '');
   }, [pathname, sp]);
 
+  // 쿼리 복사해서 홈('/')으로 이동
+  // 이동과 동시에 드롭다운 닫음
+  const goHomeWithQ = useCallback(
+    (q: string) => {
+      const next = new URLSearchParams(sp.toString());
+      if (q) next.set('q', q);
+      else next.delete('q');
+      next.delete('cursor');
+      router.push(`/?${next.toString()}`);
+      setOpen(false);
+    },
+    [sp, router],
+  );
+
   // 디바운스 및 추천 불러오기
   // 디바운스로 불필요하게 잦은 api 호출 방지
   // alive는 사용자가 검색 결과가 돌아오기 전에 누적해서 검색할 경우 이전 값으로 덮는 경우 방지
@@ -37,6 +51,10 @@ const SearchForm = () => {
     const id = setTimeout(async () => {
       if (!query) {
         setSugs([]);
+        // 쿼리가 비어있고 현재 URL에 쿼리가 있다면 홈으로 이동하여 초기화
+        if (sp.get('q')) {
+          goHomeWithQ('');
+        }
         return;
       }
       const list = await suggestProducts(query);
@@ -46,18 +64,7 @@ const SearchForm = () => {
       alive = false;
       clearTimeout(id);
     };
-  }, [query]);
-
-  // 쿼리 복사해서 홈('/')으로 이동
-  // 이동과 동시에 드롭다운 닫음
-  const goHomeWithQ = (q: string) => {
-    const next = new URLSearchParams(sp.toString());
-    if (q) next.set('q', q);
-    else next.delete('q');
-    next.delete('cursor');
-    router.push(`/?${next.toString()}`);
-    setOpen(false);
-  };
+  }, [query, sp, goHomeWithQ]);
 
   return (
     <div className='relative'>
