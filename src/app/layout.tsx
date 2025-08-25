@@ -1,5 +1,6 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
+import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 
 import pretendard from '../lib/utils/fonts/pretendard';
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body className={pretendard.variable}>{children}</body>
+      <body className={`${pretendard.variable}`}>
+        <GlobalNav />
+        <main className='md:px-[10px] xl:px-[180px]'>{children}</main>
+      </body>
 
       <SpeedInsights />
       <ModalContainer />
