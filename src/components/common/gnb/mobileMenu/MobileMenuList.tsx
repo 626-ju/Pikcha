@@ -54,6 +54,15 @@ const MobileMenuList = ({
           <h2 className='text-white-f1f1f5 text-mogazoa-20px-600 mb-6'>메뉴</h2>
           <ul className='pt-3'>
             <li>
+              <li>
+                <Link
+                  href='/compare'
+                  onClick={onClose}
+                  className='hover:bg-black-353542 text-white-f1f1f5 text-mogazoa-18px-400 block rounded-lg px-4 py-3 transition-colors'
+                >
+                  비교하기
+                </Link>
+              </li>
               <Link
                 href='/mypage'
                 onClick={onClose}
