@@ -12,7 +12,11 @@ type SuggestionProduct = { id: number; name: string; categoryId: number };
 
 import SearchSuggestions from './SearchSuggestions';
 
-const SearchForm = () => {
+interface SearchFormProps {
+  onSearchExecute?: () => void;
+}
+
+const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
@@ -39,8 +43,12 @@ const SearchForm = () => {
       next.delete('cursor');
       router.push(`/?${next.toString()}`);
       setOpen(false);
+      // 검색 실행 시 콜백 호출
+      if (q && onSearchExecute) {
+        onSearchExecute();
+      }
     },
-    [sp, router],
+    [sp, router, onSearchExecute],
   );
 
   // 디바운스 및 추천 불러오기
