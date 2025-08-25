@@ -7,26 +7,32 @@ import { useForm } from 'react-hook-form';
 
 import Input from '@/components/Input';
 import Button from '@/components/ui/Buttons';
+import { cn } from '@/lib/utils';
 import { LoginFormValues, singinSchema } from '@/lib/validations/auth';
 
 const SigninPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(singinSchema),
     mode: 'onTouched',
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.log('폼 제출 데이터:', data);
+  const onSubmit = async (data: LoginFormValues) => {
+    console.log(data);
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='m-auto flex h-full w-[335px] flex-col justify-center gap-[60px] pt-[108px] md:w-[440px] md:py-[181px] xl:w-[640px] xl:py-[90px]'
+      className={cn(
+        'm-auto flex h-full flex-col justify-center gap-[60px]', // 레이아웃
+        'w-[335px] pt-[108px]', // 크기
+        'md:w-[440px] md:py-[181px]', // md 반응형
+        'xl:w-[640px] xl:py-[90px]', // xl 반응형
+      )}
     >
       <div className='flex flex-col gap-[30px] md:gap-10'>
         <Input
@@ -45,7 +51,11 @@ const SigninPage = () => {
           {...register('password')}
         />
       </div>
-      <Button>로그인</Button>
+
+      <Button type='submit' disabled={isSubmitting}>
+        {isSubmitting ? '로그인 중...' : '로그인'}
+      </Button>
+
       <div className='flex flex-col gap-5'>
         <Link href='/'>
           <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>

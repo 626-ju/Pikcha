@@ -49,6 +49,7 @@ function Textarea({ className, size = 'sm', ...props }: TextareaProps) {
 
           // Layout & Sizing
           'flex field-sizing-content p-5',
+
           currentSize.inner,
         )}
       >
