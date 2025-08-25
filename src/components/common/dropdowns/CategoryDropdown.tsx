@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 export const CategoryDropdown = ({ onChange }: { onChange?: (id: number) => void }) => {
   // onChange = 프롭을 number로 받는 함수
   const [value, setValue] = useState<string | null>(null);
-  const { isOpen, toggleDropdown, dropdwonRef } = useDropdown();
+  const { isOpen, toggleDropdown, dropdownRef: dropdwonRef } = useDropdown();
 
   const initialValue = value ? value : '카테고리 선택';
 
