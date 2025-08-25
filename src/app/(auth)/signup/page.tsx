@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/Input';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
-
 import { SignupFormValues, signupSchema } from '@/lib/validations/auth';
 
 const SignupPage = () => {

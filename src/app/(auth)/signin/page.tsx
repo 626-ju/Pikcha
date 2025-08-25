@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,8 +9,6 @@ import Input from '@/components/Input';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
 import { LoginFormValues, singinSchema } from '@/lib/validations/auth';
-
-import { signIn } from '@/actions/auth';
 
 const SigninPage = () => {
   const {
@@ -24,24 +20,8 @@ const SigninPage = () => {
     mode: 'onTouched',
   });
 
-  const [serverError, setServerError] = useState<string | null>(null); // <-- 서버 에러 상태
-
   const onSubmit = async (data: LoginFormValues) => {
-    // 폼 유효성 검사 통과 후 서버 액션 호출
-    const formData = new FormData();
-    formData.append('email', data.email);
-    formData.append('password', data.password);
-
-    // 서버 액션 호출 및 에러 처리
-    const result = await signIn(formData);
-
-    if (result && result.error) {
-      // 서버에서 에러가 반환되면 상태에 저장
-      setServerError(result.error);
-    } else {
-      // 성공 시 에러 상태 초기화 (성공 후 redirect 될 것이므로 사실 필요 없을 수도 있음)
-      setServerError(null);
-    }
+    console.log(data);
   };
 
   return (
@@ -70,9 +50,6 @@ const SigninPage = () => {
           errorMessage={errors.password?.message}
           {...register('password')}
         />
-
-        {/* 서버 에러 메시지 표시 */}
-        {serverError && <p className='mt-2 text-sm text-red-500'>{serverError}</p>}
       </div>
 
       <Button type='submit' disabled={isSubmitting}>
