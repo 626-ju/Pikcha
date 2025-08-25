@@ -8,7 +8,7 @@ import { Category, CATEGORY } from '@/constants/ProductsConst';
 import useDropdown from '@/hooks/useDropdown';
 import { cn } from '@/lib/utils';
 
-export const CategoryDropdown = (onChange?: (id: number) => void) => {
+export const CategoryDropdown = ({ onChange }: { onChange?: (id: number) => void }) => {
   const [value, setValue] = useState<string | null>(null);
   const { isOpen, toggleDropdown, dropdwonRef } = useDropdown();
 

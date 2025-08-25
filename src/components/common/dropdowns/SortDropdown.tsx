@@ -4,29 +4,26 @@ import { useState } from 'react';
 
 import DropdownIcon from '@/../public/icon/Icon-dropdown.svg';
 import DropupIcon from '@/../public/icon/Icon-dropup.svg';
-import { Sort, SORT_OPTION_PRODUCTS, SORT_OPTION_REVIEWS } from '@/constants/ProductsConst';
+import {
+  Sort,
+  SORT_OPTION_PRODUCTS,
+  SORT_OPTION_REVIEWS,
+  SORT_OPTION_USER_PAGE,
+} from '@/constants/ProductsConst';
 import useDropdown from '@/hooks/useDropdown';
 import { cn } from '@/lib/utils';
 
 const SortDropdown = ({
   variant,
+  selectbox = 'right',
   className,
   onChange,
 }: {
-  variant: 'product' | 'review';
-  className?: string;
+  variant: 'product' | 'review' | 'user'; //product는 제품 sort / review는 리뷰 sort / user 는 유저페이지용
+  selectbox?: 'left' | 'right';
+  className?: string; //트리거만 커스텀...
   onChange?: (value: string) => void;
 }) => {
-  const [value, setValue] = useState<string | null>('최신순');
-  const { isOpen, toggleDropdown, dropdwonRef } = useDropdown();
-
-  const initialValue = value ? value : '카테고리 선택';
-
-  const handleSelectValue = (op: Sort) => {
-    setValue(op.name);
-    onChange?.(op.value);
-  };
-
   const getSortOption = () => {
     switch (variant) {
       case 'product':
@@ -35,7 +32,17 @@ const SortDropdown = ({
       case 'review':
         return SORT_OPTION_REVIEWS;
         break;
+      case 'user':
+        return SORT_OPTION_USER_PAGE;
     }
+  };
+
+  const [value, setValue] = useState<string | undefined>(() => getSortOption()?.[0].name); // 초기값으로 옵션의 0번 인덱스 name
+  const { isOpen, toggleDropdown, dropdwonRef } = useDropdown();
+
+  const handleSelectValue = (op: Sort) => {
+    setValue(op.name);
+    onChange?.(op.value);
   };
 
   return (
@@ -48,11 +55,16 @@ const SortDropdown = ({
           className,
         )}
       >
-        {initialValue}
+        {value}
         {isOpen ? <DropupIcon /> : <DropdownIcon />}
         {isOpen && (
-          <div className='bg-black-252530 border-black-353542 absolute top-10 right-0 flex w-[150px] flex-col gap-[10px] rounded-lg border-1 p-[10px] md:w-[200px]'>
-            {getSortOption().map((op) => (
+          <div
+            className={cn(
+              'bg-black-252530 border-black-353542 absolute top-10 flex w-[150px] flex-col gap-[10px] rounded-lg border-1 p-[10px] md:w-[200px]',
+              selectbox === 'right' ? 'right-0' : 'left-0',
+            )}
+          >
+            {getSortOption()?.map((op) => (
               <button
                 key={op.value}
                 value={op.value}
