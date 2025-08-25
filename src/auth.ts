@@ -47,18 +47,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!credentials) return null;
 
         // 백엔드 API에 로그인 요청
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signIn`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password,
-          }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${process.env.NEXT_PUBLIC_TEAM_ID}/auth/signIn`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          },
+        );
 
-        const data = await res.json();
+        // 1️⃣ 응답 텍스트 확인
+        const text = await res.text();
+        console.log('서버 응답 텍스트:', text);
 
-        if (!res.ok) throw new Error(data.message || '로그인 실패');
+        // 2️⃣ JSON 파싱 (빈 문자열이면 여기서 에러 가능)
+        let data;
+        try {
+          data = text ? JSON.parse(text) : null;
+        } catch (err) {
+          console.error('JSON 파싱 실패:', err);
+          throw new Error('서버 응답이 올바른 JSON이 아닙니다.');
+        }
+
+        // 3️⃣ user 객체 확인
+        if (!data?.user) {
+          throw new Error(data?.message || '유저 정보를 찾을 수 없습니다.');
+        }
 
         const user = data.user as BackendUser;
 
