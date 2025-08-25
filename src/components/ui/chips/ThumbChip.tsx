@@ -1,34 +1,28 @@
 'use client';
 
-import { useState } from 'react';
-
 import ThumbsDownIcon from '@/../public/icon/Icon-thumbsdown.svg';
 import ThumbsUpIcon from '@/../public/icon/Icon-thumbsup.svg';
+import useOptimisticToggle from '@/hooks/useOptimisticToggle';
 
-const ThumbChip = ({ onClick, initialCount }: { onClick?: () => void; initialCount: number }) => {
-  const [toggle, setToggle] = useState<boolean>(false);
-  const [count, setCount] = useState<number>(initialCount);
-
-  const handleToggleThumbs = async () => {
-    const newToggle = !toggle;
-    const newCount = newToggle ? count + 1 : count - 1;
-
-    setToggle(newToggle);
-    setCount(newCount);
-
-    try {
-      await onClick?.();
-    } catch (error) {
-      console.log(error);
-      setToggle(toggle);
-      setCount(count);
-    }
-  };
+const ThumbChip = ({
+  initialCount,
+  initialState,
+  asyncAction,
+}: {
+  initialCount: number; //likeCount
+  initialState: boolean; // isLiked 주세여
+  asyncAction: () => Promise<void>; // /reviews/{reviewId}/like
+}) => {
+  const { isToggled, optimisticCount, handleToggle } = useOptimisticToggle({
+    initialCount,
+    initialState,
+    asyncAction,
+  });
 
   return (
-    <button type='button' onClick={handleToggleThumbs}>
-      {toggle ? <ThumbsUpIcon /> : <ThumbsDownIcon />}
-      <p>{count}</p>
+    <button type='button' onClick={handleToggle}>
+      {isToggled ? <ThumbsUpIcon /> : <ThumbsDownIcon />}
+      <p>{optimisticCount}</p>
     </button>
   );
 };
