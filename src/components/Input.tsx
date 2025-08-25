@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 
 import Image from 'next/image';
@@ -41,7 +43,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'flex h-[55px] w-full px-5 py-6 xl:h-[70px]',
               'disabled:pointer-events-none disabled:cursor-not-allowed',
               'aria-invalid:border-red-ff0000',
-              'focus:border-none',
+              'focus:border-main-blue',
               'transition-all duration-700',
               className,
             )}

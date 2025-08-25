@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import 'tailwind-scrollbar-hide/v4';
+
 /*---break---*/
 @custom-variant dark (&:is(.dark *));
 
@@ -30,13 +32,17 @@
   --color-red-ff0000: #ff0000;
 }
 
-/* @theme 블록 아래에 추가 */
-@utility bg-main-gradation {
-  background-image: var(--background-image-main-gradation);
-}
-
 @utility text-gradient {
   @apply bg-main-gradation bg-clip-text text-transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE와 Edge를 위한 숨기기 속성 */
+  scrollbar-width: none;
 }
 
 /* --- font --- */
@@ -243,4 +249,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* 자동 완성 배경을 투명하게 설정 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 9999s ease-in-out 0s;
+  -webkit-transition: background-color 9999s ease-in-out 0s;
+  -webkit-text-fill-color: #f1f1f5 !important; /* 글자색을 흰색으로 강제 */
 }
