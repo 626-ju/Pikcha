@@ -2,7 +2,7 @@
 const accessToken = process.env.NEXT_PUBLIC_TEMP_ACCESSTOKEN;
 
 export const getMyInfo = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/7777/users/me`, {
+  const res = await fetch(`${process.env.NEXT_SERVER_API_URL}/7777/users/me`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -19,7 +19,7 @@ export const getMyInfo = async () => {
 };
 
 export const getUserInfo = async (userid: number) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/7777/users/${userid}`, {
+  const res = await fetch(`${process.env.NEXT_SERVER_API_URL}/7777/users/${userid}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
