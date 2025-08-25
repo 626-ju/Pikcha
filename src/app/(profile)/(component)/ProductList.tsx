@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { getUserProducts } from '@/actions/profile/getUserProducts';
 import Empty from '@/assets/icon/Icon-empty.svg';
@@ -23,10 +23,10 @@ const ProductList = ({ userid, initailData }: Props) => {
   //드랍다운에 넘겨줄 수 있게 되면 삭제.
   console.log(onValueChange);
 
-  const fetchProductsByOption = async () => {
+  const fetchProductsByOption = useCallback(async () => {
     const data = await getUserProducts(userid, option);
     setMovieList(data.list);
-  };
+  }, [userid, option]);
 
   useEffect(() => {
     fetchProductsByOption();
