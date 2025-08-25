@@ -30,7 +30,7 @@ const ProductList = ({ userid, initailData }: Props) => {
 
   useEffect(() => {
     fetchProductsByOption();
-  }, [option]);
+  }, [fetchProductsByOption]);
 
   return (
     <>
