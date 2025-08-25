@@ -7,8 +7,12 @@ import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 import FollowList from './FollowList';
 
-export const FolloweeModal = () => {
-  const title = `${'성주'}님을 팔로우 하는 유저`; //추후 username 받아오기
+interface Props {
+  username: string;
+}
+
+export const FolloweeModal = ({ username }: Props) => {
+  const title = `${username}님이 팔로우 하는 유저`; //추후 username 받아오기
 
   return (
     //팔로워나 비교하기 모달일 때만 버라이언트 주시면 됩니다
@@ -30,8 +34,8 @@ export const FolloweeModal = () => {
   );
 };
 
-export const FollowerModal = () => {
-  const title = `${'성주'}님을 팔로우 하는 유저`; //추후 username 받아오기
+export const FollowerModal = ({ username }: Props) => {
+  const title = `${username}님을 팔로우 하는 유저`; //추후 username 받아오기
 
   return (
     //팔로워나 비교하기 모달일 때만 버라이언트 주시면 됩니다
