@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface AvatarProfileProps {
   profileImg?: string | null;
-  userName?: string;
+  userName?: string | null;
 }
 
 const AvatarProfile = ({ profileImg = null, userName }: AvatarProfileProps) => {
