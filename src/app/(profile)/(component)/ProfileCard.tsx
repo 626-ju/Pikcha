@@ -10,6 +10,9 @@ interface Props {
 const ProfileCard = async ({ userid }: Props) => {
   const data = await getUserInfo(userid);
 
+  const followers = data.followersCount;
+  const followees = data.followeesCount;
+
   return (
     <div className='border-black-353542 bg-black-252530 relative flex w-[335px] flex-col items-center gap-7.5 rounded-[12px] px-5 py-7.5 md:w-[509px] md:px-7.5 xl:h-fit xl:w-[340px] xl:gap-10 xl:px-5 xl:py-10'>
       {/* 오버레이 */}
@@ -29,7 +32,7 @@ const ProfileCard = async ({ userid }: Props) => {
           {data.description}
         </p>
       </div>
-      <FollowerModalTrigger />
+      <FollowerModalTrigger followers={followers} followees={followees} />
       <FollowTrigger isFollowing={data.isFollowing} />
     </div>
   );

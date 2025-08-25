@@ -16,7 +16,6 @@ const ProductList = ({ userid, initailData }: Props) => {
   const [movieList, setMovieList] = useState(initailData);
   const [option, setOption] = useState('created-products');
 
-  console.log(movieList);
   const onValueChange = (value: string) => {
     setOption(value);
   };

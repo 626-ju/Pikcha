@@ -19,8 +19,9 @@ const ProductCard = ({ movie }: Props) => {
         <Image
           src={'/images/profile-overay.jpg'}
           alt={`${movie.name} 사진`}
-          objectFit='cover'
+          style={{ backgroundImage: "url('/images/profile-overay.jpg')" }}
           fill
+          sizes='260px'
         />
       </div>
       <div className='flex flex-col'>
