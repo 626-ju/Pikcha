@@ -15,7 +15,7 @@ const ProfileCard = ({ userid }: Props) => {
   const isFollowing = false;
 
   return (
-    <div className='relative flex w-[335px] flex-col items-center gap-7.5 rounded-[12px] border-[var(--color-black-353542)] bg-[var(--color-black-252530)] px-5 py-7.5 md:w-[509px] md:px-7.5 xl:h-fit xl:w-[340px] xl:gap-10 xl:px-5 xl:py-10'>
+    <div className='border-black-353542 bg-black-252530 relative flex w-[335px] flex-col items-center gap-7.5 rounded-[12px] px-5 py-7.5 md:w-[509px] md:px-7.5 xl:h-fit xl:w-[340px] xl:gap-10 xl:px-5 xl:py-10'>
       {/* 추후에 지우겠습니다.(린트 회피용) */}
       <div className='sr-only'>{userid}</div>
       {/* 오버레이 */}
@@ -28,10 +28,10 @@ const ProfileCard = ({ userid }: Props) => {
       */}
       <div className='h-30 w-30 rounded-full bg-amber-500 xl:h-45 xl:w-45' />
       <div className='flex flex-col items-center justify-between gap-2.5 xl:gap-5'>
-        <h2 className='text-mogazoa-20px-600 md:text-mogazoa-24px-600 text-[var(--color-white-f1f1f5)]'>
+        <h2 className='text-mogazoa-20px-600 md:text-mogazoa-24px-600 text-white-f1f1f5'>
           {nickname}
         </h2>
-        <p className='text-mogazoa-14px-400 xl:text-mogazoa-16px-400 break-words text-[var(--color-gray-6e6e82)]'>
+        <p className='text-mogazoa-14px-400 xl:text-mogazoa-16px-400 text-gray-6e6e82 break-words'>
           {description}
         </p>
       </div>

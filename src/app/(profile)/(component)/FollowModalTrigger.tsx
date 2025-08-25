@@ -23,7 +23,7 @@ const FollowerModalTrigger = () => {
     <div className='flex items-center'>
       <button
         onClick={handleFollowerClick}
-        className='border-r-[1px] border-r-[var(--color-gray-6e6e82)] pr-[50px] text-center md:pr-20 xl:pr-[50px]'
+        className='border-r-gray-6e6e82 border-r-[1px] pr-[50px] text-center md:pr-20 xl:pr-[50px]'
       >
         <div className={followerCountText}>{follwers}</div>
         <span className={followerTextStyle}>팔로워</span>
