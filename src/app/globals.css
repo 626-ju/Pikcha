@@ -251,6 +251,10 @@
   }
 }
 
+button {
+  cursor: pointer;
+}
+
 /* 자동 완성 배경을 투명하게 설정 */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
