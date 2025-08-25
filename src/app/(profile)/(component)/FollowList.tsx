@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 
-import getFollowee from '@/actions/profile/getFollowee';
+import getFollowInfo from '@/actions/profile/getFollowInfo';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useModalStore } from '@/store/modalStore';
 import { FolloweeInfos, FollowerInfos } from '@/types/profile/follow';
@@ -26,7 +26,7 @@ const FollowList = ({ type }: Props) => {
     try {
       setIsFetching(true);
 
-      const data = await getFollowee(type, cursor);
+      const data = await getFollowInfo(type, cursor);
 
       setUserList((prev) => ({
         list: [...(prev?.list ?? []), ...data.list],
