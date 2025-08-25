@@ -30,3 +30,9 @@ export const SORT_OPTION_REVIEWS: Sort[] = [
   { value: 'ratingAsc', name: '별점 낮은순' },
   { value: 'likeCount', name: '좋아요순' },
 ];
+
+export const SORT_OPTION_USER_PAGE: Sort[] = [
+  { value: 'reviewed-products', name: '리뷰 남긴 상품' },
+  { value: 'created-products', name: '등록한 상품' },
+  { value: 'favorite-products', name: '찜한 상품' },
+];
