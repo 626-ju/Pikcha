@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/Input';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
-import { LoginFormValues, singinSchema } from '@/lib/validations/auth';
+import { LoginFormValues, signinSchema } from '@/lib/validations/auth';
 
 const SigninPage = () => {
   const {
@@ -16,8 +16,8 @@ const SigninPage = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
-    resolver: zodResolver(singinSchema),
-    mode: 'onTouched',
+    resolver: zodResolver(signinSchema),
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data: LoginFormValues) => {
