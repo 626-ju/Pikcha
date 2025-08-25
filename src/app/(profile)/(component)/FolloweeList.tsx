@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 
-import getFollowee from '@/actions/getFollowee';
+import getFollowee from '@/actions/profile/getFollowee';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { Followees } from '@/types/profile/follow';
 
