@@ -9,12 +9,14 @@ import { Product } from '@/types/product/productType';
 
 interface Props {
   userid: number;
+  initailData: Product[];
 }
 
-const ProductList = ({ userid }: Props) => {
-  const [movieList, setMovieList] = useState<Product[]>([]);
-  const [option, setOption] = useState<string>('created-products');
+const ProductList = ({ userid, initailData }: Props) => {
+  const [movieList, setMovieList] = useState(initailData);
+  const [option, setOption] = useState('created-products');
 
+  console.log(movieList);
   const onValueChange = (value: string) => {
     setOption(value);
   };
@@ -35,8 +37,8 @@ const ProductList = ({ userid }: Props) => {
     <>
       <div className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-20'>드랍다운 자리</div>
       <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
-        {movieList.length !== 0 ? (
-          movieList.map((movie) => (
+        {movieList?.length !== 0 ? (
+          movieList?.map((movie) => (
             <li key={movie.id}>
               <ProductCard movie={movie} />
             </li>

@@ -1,3 +1,5 @@
+import { getUserProducts } from '@/actions/profile/getUserProducts';
+
 import Activities from '../../(component)/Activities';
 import ProductList from '../../(component)/ProductList';
 import ProfileCard from '../../(component)/ProfileCard';
@@ -8,13 +10,17 @@ interface Props {
 
 const Page = async ({ params }: Props) => {
   const { userid } = await params;
+  const parsedId = Number(userid);
+
+  const productData = await getUserProducts(parsedId, 'created-products');
+  const initialMoiveList = productData.list;
 
   return (
     <div className='mx-auto mt-15 flex w-[335px] min-w-[335px] flex-col md:w-[510px] xl:w-full xl:max-w-[1340px] xl:flex-row xl:justify-between'>
-      <ProfileCard userid={userid} />
+      <ProfileCard userid={parsedId} />
       <div className='flex flex-col'>
-        <Activities userid={userid} />
-        <ProductList userid={userid} />
+        <Activities userid={parsedId} />
+        <ProductList userid={parsedId} initailData={initialMoiveList} />
       </div>
     </div>
   );
