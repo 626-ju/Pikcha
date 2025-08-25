@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import getFollowee from '@/actions/profile/getFollowee';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useModalStore } from '@/store/modalStore';
 import { Followees } from '@/types/profile/follow';
 
 const FolloweeList = () => {
@@ -13,6 +14,7 @@ const FolloweeList = () => {
   const [cursor, setCursor] = useState<number | null>(0);
   const [isFetching, setIsFetching] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const pop = useModalStore((state) => state.pop);
 
   const fetchFollowees = async () => {
     if (cursor === null || isFetching) return;
@@ -48,7 +50,7 @@ const FolloweeList = () => {
       {followees?.list?.length === 0 && <div>팔로워가 없어요 😥</div>}
       {followees?.list?.map(({ id, followee }, i) => {
         return (
-          <Link key={id} href={`/user/${followee.id}`}>
+          <Link key={id} href={`/user/${followee.id}`} onClick={pop}>
             <li className='flex items-center gap-5'>
               {/*추후 이미지로 변경*/}
               <div className='bg-green-05d58b h-12 w-12 rounded-full md:h-13 md:w-13' />
