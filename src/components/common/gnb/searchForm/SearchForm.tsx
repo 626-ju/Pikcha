@@ -67,7 +67,9 @@ const SearchForm = () => {
   }, [query, sp, goHomeWithQ]);
 
   return (
-    <div className='relative'>
+    <div className='relative px-2'>
+      {/* 모바일용 서치박스 래퍼 */}
+      <div className='bg-black-17171C absolute -top-2 left-0 h-[75px] w-full rounded-md md:hidden' />
       <input
         value={query}
         onChange={(e) => {
