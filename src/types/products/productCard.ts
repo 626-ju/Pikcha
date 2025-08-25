@@ -1,12 +1,3 @@
-export interface productCard {
-  id: number;
-  name: string;
-  // image: string;
-  rating: number;
-  reviewCount: number;
-  favoriteCount: number;
-}
-
 export interface Product {
   updatedAt?: string;
   createdAt?: string;
