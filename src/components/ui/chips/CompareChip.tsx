@@ -1,3 +1,5 @@
+'use client';
+
 import DeleteIcon from '@/../public/icon/Icon-delete.svg';
 import { cn } from '@/lib/utils';
 
@@ -8,7 +10,7 @@ const CompareChip = ({
 }: {
   variant: 'first' | 'second';
   productName: string;
-  onClick: () => void;
+  onClick?: () => void;
 }) => {
   return (
     <div
