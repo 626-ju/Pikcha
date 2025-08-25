@@ -20,7 +20,6 @@ const FollowerModalTrigger = ({ followers, followees }: Props) => {
     push(FolloweeModal);
   };
 
-  console.log(followers);
   return (
     <div className='flex items-center'>
       <button

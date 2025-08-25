@@ -1,4 +1,4 @@
-export interface Followee {
+export interface FollowerInfo {
   updatedAt: string;
   createdAt: string;
   teamId: string;
@@ -8,9 +8,26 @@ export interface Followee {
   id: number;
 }
 
-export interface Followees {
+export interface FollowerInfos {
   list: {
     id: number;
-    followee: Followee;
+    follower: FollowerInfo;
+  }[];
+}
+
+export interface FolloweeInfo {
+  updatedAt: string;
+  createdAt: string;
+  teamId: string;
+  image: string;
+  description: string;
+  nickname: string;
+  id: number;
+}
+
+export interface FolloweeInfos {
+  list: {
+    id: number;
+    followee: FolloweeInfo;
   }[];
 }
