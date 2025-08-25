@@ -3,7 +3,7 @@
 const getFollowInfo = async (type: 'followers' | 'followees', cursor: number = 0) => {
   const res = await fetch(
     // 리밋을 서버 쪽에서 12개로 강제 했나봐요
-    `${process.env.SEVER_API_URL}/7777/users/835/${type}?cursor=${cursor}`,
+    `${process.env.SERVER_API_URL}/7777/users/835/${type}?cursor=${cursor}`,
     {
       method: 'GET',
       headers: {

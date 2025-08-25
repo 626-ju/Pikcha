@@ -13,7 +13,7 @@ jobs: # ❸ 실행할 작업(Job) 목록
     runs-on: ubuntu-latest # ❹ 이 작업을 실행할 운영체제 환경 (우분투 최신 버전)
 
     env:
-      SEVER_API_URL: ${{ secrets.SEVER_API_URL }}
+      SERVER_API_URL: ${{ secrets.SERVER_API_URL }}
 
     steps: # ❺ 이 작업 내에서 순서대로 실행될 단계(Step) 목록
       - name: Checkout code # ❻ 코드 체크아웃
