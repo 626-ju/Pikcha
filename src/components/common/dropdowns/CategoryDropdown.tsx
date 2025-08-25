@@ -9,6 +9,7 @@ import useDropdown from '@/hooks/useDropdown';
 import { cn } from '@/lib/utils';
 
 export const CategoryDropdown = ({ onChange }: { onChange?: (id: number) => void }) => {
+  // onChange = 프롭을 number로 받는 함수
   const [value, setValue] = useState<string | null>(null);
   const { isOpen, toggleDropdown, dropdwonRef } = useDropdown();
 
