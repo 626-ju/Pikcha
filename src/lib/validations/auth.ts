@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // 로그인 스키마
-const singinSchema = z.object({
+const signinSchema = z.object({
   email: z.string().email({ message: '올바른 이메일 주소를 입력해주세요.' }),
   password: z.string().min(8, { message: '비밀번호는 8자리 이상이어야 합니다.' }),
 });
@@ -22,8 +22,8 @@ const signupSchema = z
     path: ['confirmPassword'],
   });
 
-type LoginFormValues = z.infer<typeof singinSchema>;
+type LoginFormValues = z.infer<typeof signinSchema>;
 type SignupFormValues = z.infer<typeof signupSchema>;
 
-export { singinSchema, signupSchema };
+export { signinSchema as signinSchema, signupSchema };
 export type { LoginFormValues, SignupFormValues };
