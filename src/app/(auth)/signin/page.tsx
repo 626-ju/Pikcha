@@ -6,35 +6,35 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 import Input from '@/components/Input';
-import { LoginFormValues, loginSchema } from '@/lib/validations/auth';
+import Button from '@/components/ui/Buttons';
+import { cn } from '@/lib/utils';
+import { LoginFormValues, singinSchema } from '@/lib/validations/auth';
 
-const LoginPage = () => {
+const SigninPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(singinSchema),
     mode: 'onTouched',
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.log('폼 제출 데이터:', data);
+  const onSubmit = async (data: LoginFormValues) => {
+    console.log(data);
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='flex flex-col justify-center gap-[60px]
-      w-[335px] pt-[108px] m-auto h-full
-      md:w-[440px] md:py-[181px]
-      xl:w-[640px] xl:py-[90px]'
+      className={cn(
+        'm-auto flex h-full flex-col justify-center gap-[60px]', // 레이아웃
+        'w-[335px] pt-[108px]', // 크기
+        'md:w-[440px] md:py-[181px]', // md 반응형
+        'xl:w-[640px] xl:py-[90px]', // xl 반응형
+      )}
     >
-      <div
-        className='flex flex-col 
-        gap-[30px]
-        md:gap-10'
-      >
+      <div className='flex flex-col gap-[30px] md:gap-10'>
         <Input
           type='email'
           label='이메일'
@@ -51,28 +51,30 @@ const LoginPage = () => {
           {...register('password')}
         />
       </div>
-      <button type='submit' className='border'>
-        로그인
-      </button>
+
+      <Button type='submit' disabled={isSubmitting}>
+        {isSubmitting ? '로그인 중...' : '로그인'}
+      </Button>
+
       <div className='flex flex-col gap-5'>
         <Link href='/'>
-          <p className='text-center text-gray-6e6e82'>SNS로 바로 시작히기</p>
+          <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
         </Link>
 
-        <div className='flex justify-center items-center gap-5'>
+        <div className='flex items-center justify-center gap-5'>
           <Image
             src='/images/status=google.svg'
             alt='구글 간편로그인'
             width={56}
             height={56}
-            className='border border-black-353542 rounded-full p-[14px]'
+            className='border-black-353542 rounded-full border p-[14px]'
           />
           <Image
             src='/images/status=kakao.svg'
             alt='카카오 간편로그인'
             width={56}
             height={56}
-            className='border border-black-353542 rounded-full p-[14px]'
+            className='border-black-353542 rounded-full border p-[14px]'
           />
         </div>
       </div>
@@ -80,4 +82,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SigninPage;
