@@ -46,6 +46,7 @@ const ProductList = ({ userid }: Props) => {
         ) : (
           <div className='m-auto mt-15 h-30 w-30'>
             <Empty />
+            <p>목록이 없어요.</p>
           </div>
         )}
       </ul>
