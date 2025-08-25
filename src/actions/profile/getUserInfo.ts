@@ -1,5 +1,5 @@
 'use server';
-const accessToken = process.env.NEXT_PUBLIC_TEMP_ACCESSTOKEN;
+const accessToken = process.env.SEVER_TEMP_ACCESSTOKEN;
 
 export const getMyInfo = async () => {
   const res = await fetch(`${process.env.NEXT_SERVER_API_URL}/7777/users/me`, {
