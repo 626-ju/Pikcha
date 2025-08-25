@@ -4,24 +4,27 @@ import { useState } from 'react';
 
 import DropdownIcon from '@/../public/icon/Icon-dropdown.svg';
 import DropupIcon from '@/../public/icon/Icon-dropup.svg';
-import { SORT_OPTION_PRODUCTS, SORT_OPTION_REVIEWS } from '@/constants/ProductsConst';
+import { Sort, SORT_OPTION_PRODUCTS, SORT_OPTION_REVIEWS } from '@/constants/ProductsConst';
 import useDropdown from '@/hooks/useDropdown';
 import { cn } from '@/lib/utils';
 
 const SortDropdown = ({
   variant,
   className,
+  onChange,
 }: {
   variant: 'product' | 'review';
   className?: string;
+  onChange?: (value: string) => void;
 }) => {
   const [value, setValue] = useState<string | null>('최신순');
   const { isOpen, toggleDropdown, dropdwonRef } = useDropdown();
 
   const initialValue = value ? value : '카테고리 선택';
 
-  const handleSelectValue = (name: string) => {
-    setValue(name);
+  const handleSelectValue = (op: Sort) => {
+    setValue(op.name);
+    onChange?.(op.value);
   };
 
   const getSortOption = () => {
@@ -53,7 +56,7 @@ const SortDropdown = ({
               <button
                 key={op.value}
                 value={op.value}
-                onClick={() => handleSelectValue(op.name)}
+                onClick={() => handleSelectValue(op)}
                 className='hover:bg-black-353542 text-mogazoa-14px-400 text-gray-6e6e82 hover:text-white-f1f1f5 xl:text-mogazoa-16px-400 flex w-full justify-start rounded-[6px] px-5 py-[6px]'
               >
                 {op.name}

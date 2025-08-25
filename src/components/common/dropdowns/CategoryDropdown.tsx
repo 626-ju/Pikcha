@@ -4,18 +4,19 @@ import { useState } from 'react';
 
 import DropdownIcon from '@/../public/icon/Icon-dropdown.svg';
 import DropupIcon from '@/../public/icon/Icon-dropup.svg';
-import { CATEGORY } from '@/constants/ProductsConst';
+import { Category, CATEGORY } from '@/constants/ProductsConst';
 import useDropdown from '@/hooks/useDropdown';
 import { cn } from '@/lib/utils';
 
-export const CategoryDropdown = () => {
+export const CategoryDropdown = (onChange?: (id: number) => void) => {
   const [value, setValue] = useState<string | null>(null);
   const { isOpen, toggleDropdown, dropdwonRef } = useDropdown();
 
   const initialValue = value ? value : '카테고리 선택';
 
-  const handleSelectValue = (name: string) => {
-    setValue(name);
+  const handleSelectValue = (ca: Category) => {
+    setValue(ca.name);
+    onChange?.(ca.id);
   };
 
   return (
@@ -40,7 +41,7 @@ export const CategoryDropdown = () => {
               <button
                 key={ca.id}
                 value={ca.id}
-                onClick={() => handleSelectValue(ca.name)}
+                onClick={() => handleSelectValue(ca)}
                 className='hover:bg-black-353542 text-mogazoa-14px-400 text-gray-6e6e82 hover:text-white-f1f1f5 xl:text-mogazoa-16px-400 flex w-full justify-start rounded-[6px] px-5 py-[6px]'
               >
                 {ca.name}

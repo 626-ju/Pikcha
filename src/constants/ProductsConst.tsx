@@ -1,4 +1,4 @@
-interface Category {
+export interface Category {
   id: number;
   name: string;
 }
@@ -13,7 +13,7 @@ export const CATEGORY: Category[] = [
   { id: 7, name: '카테고리7' },
 ];
 
-interface Sort {
+export interface Sort {
   value: string;
   name: string;
 }
