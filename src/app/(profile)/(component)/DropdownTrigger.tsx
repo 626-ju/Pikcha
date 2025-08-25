@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
 
 const DropdownTrigger = () => {
-  return <div className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-20'>드랍다운이 올 자리</div>;
+  return <div className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-20'>드랍다운 자리</div>;
 };
 
 export default DropdownTrigger;

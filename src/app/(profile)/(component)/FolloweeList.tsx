@@ -51,7 +51,7 @@ const FolloweeList = () => {
           <Link key={id} href={`/user/${followee.id}`}>
             <li className='flex items-center gap-5'>
               {/*추후 이미지로 변경*/}
-              <div className='h-12 w-12 rounded-full bg-[var(--color-green-05d58b)] md:h-13 md:w-13' />
+              <div className='bg-green-05d58b h-12 w-12 rounded-full md:h-13 md:w-13' />
               {followee.nickname}
             </li>
             {cursor !== null && i === followees.list.length - 1 && (
