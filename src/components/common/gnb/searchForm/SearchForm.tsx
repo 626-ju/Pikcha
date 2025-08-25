@@ -7,7 +7,8 @@ import { CircleX } from 'lucide-react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 import { suggestProducts } from '@/actions/productList';
-import { Product } from '@/types/products/productList';
+
+type SuggestionProduct = { id: number; name: string; categoryId: number };
 
 import SearchSuggestions from './SearchSuggestions';
 
@@ -19,7 +20,7 @@ const SearchForm = () => {
   // url에 q가 이미 있다면 초기 렌더부터 인풋에 반영
   const initial = sp.get('q') ?? '';
   const [query, setQuery] = useState(initial);
-  const [sugs, setSugs] = useState<Product[]>([]);
+  const [sugs, setSugs] = useState<SuggestionProduct[]>([]);
   const [open, setOpen] = useState(false);
 
   // 쿼리값이 서치박스가 아닌 url로 변환될 경우 쿼리에 업데이트
