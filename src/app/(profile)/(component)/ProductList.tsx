@@ -7,8 +7,6 @@ import Empty from '@/assets/icon/Icon-empty.svg';
 import ProductCard from '@/components/common/ProductCard';
 import { Product } from '@/types/product/productType';
 
-import DropdownTrigger from './DropdownTrigger';
-
 interface Props {
   userid: number;
 }
@@ -35,7 +33,7 @@ const ProductList = ({ userid }: Props) => {
 
   return (
     <>
-      <DropdownTrigger />
+      <div className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-20'>드랍다운 자리</div>
       <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
         {movieList.length !== 0 ? (
           movieList.map((movie) => (
