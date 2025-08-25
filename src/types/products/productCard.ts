@@ -8,27 +8,14 @@ export interface productCard {
 }
 
 export interface Product {
-  title: string;
-  averageRating: number;
-  id: number;
-  name?: string;
-  description?: string;
-  image?: string;
-  rating?: number;
-  reviewCount: number;
+  updatedAt: string;
+  createdAt: string;
+  writerId: number;
+  categoryId: number;
   favoriteCount: number;
-  categoryId?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  writerId?: number;
-  isFavorite?: boolean;
-  category?: {
-    id: number;
-    name: string;
-  };
-  categoryMetric?: {
-    rating: number;
-    favoriteCount: number;
-    reviewCount: number;
-  };
+  reviewCount: number;
+  rating: number;
+  image: string;
+  name: string;
+  id: number;
 }
