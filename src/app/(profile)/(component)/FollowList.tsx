@@ -58,8 +58,13 @@ const FollowList = ({ type }: Props) => {
 
         return (
           <>
-            <li className='flex items-center gap-5'>
-              <Link key={info.id} href={`/user/${user.id}`} onClick={pop}>
+            <li>
+              <Link
+                key={info.id}
+                href={`/user/${user.id}`}
+                onClick={pop}
+                className='flex items-center gap-5'
+              >
                 {/*추후 이미지로 변경*/}
                 <div className='bg-green-05d58b h-12 w-12 rounded-full md:h-13 md:w-13' />
                 {user.nickname}
