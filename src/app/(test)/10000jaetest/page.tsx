@@ -17,7 +17,7 @@ const arr = Array.from({ length: 5 }, (_, i) => i + 1);
  * 좋아요 API 요청을 성공적으로 시뮬레이션하는 비동기 함수
  * 1초 후 성공적으로 응답합니다.
  */
-export const mockThumbsUpSuccess = (): Promise<void> => {
+const mockThumbsUpSuccess = (): Promise<void> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('API 호출 성공: 좋아요 업데이트 완료');
@@ -30,7 +30,7 @@ export const mockThumbsUpSuccess = (): Promise<void> => {
  * 좋아요 API 요청이 실패하는 것을 시뮬레이션하는 비동기 함수
  * 1초 후 에러를 반환합니다.
  */
-export const mockThumbsUpFailure = (): Promise<never> => {
+const mockThumbsUpFailure = (): Promise<never> => {
   return new Promise((_, reject) => {
     setTimeout(() => {
       console.error('API 호출 실패: 네트워크 에러 또는 서버 오류');
