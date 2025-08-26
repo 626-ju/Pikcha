@@ -22,8 +22,9 @@ jobs: # ❸ 실행할 작업(Job) 목록
 
       - name: Setting .env
         run: |
-          echo "SERVER_API_URL: ${{secrets.SERVER_API_URL}}" >> .env
-          echo "SERVER_TEMP_ACCESSTOKEN: ${{secrets.SERVER_TEMP_ACCESSTOKEN}}" >> .env
+          echo "SERVER_API_URL= ${{secrets.SERVER_API_URL}}" >> .env
+          echo "SERVER_TEMP_ACCESSTOKEN= ${{secrets.SERVER_TEMP_ACCESSTOKEN}}" >> .env
+
       - name: Set up Node.js # ❼ Node.js 환경 설정  /
         uses: actions/setup-node@v4 #//-> ✨이거 v4는 노드버전이 아님 깃액션버전?
         with:
