@@ -1,25 +1,12 @@
 'use client';
 
-/*
-->프롭으로 error객체 받으면 {error:Error,reset:()=>void} -> 에러메세지 보여줄 수도 있음
-reset 서버 컴포(데이터패칭을) 다시 실행하진 않음 에러상태 초기화 및 렌더만 다시 
---> 리셋을 아예 새로고침 해버리거나(비추) 
-router.refresh()(rsc 페이로드만 새로 받아오고)를 하고 reset()을 호출하는 게 좋음
-✔그런데 문제는  router.refresh()는 비동기인데  await사용불가->reset()이 먼저 실행 
-->> startTransition사용 (콜백으로 받는 함수 내부의 동작을 모두 일괄처리)
-
--->로딩처럼 하위경로에도 다 반영이 된다. 
-혹시나 하위 경로에  개별적인 에러 컴포넌트가 필요하다??
-->그냥 하위폴더(경로)에 error.tsx또 만들면 됨
-*/
-
 interface Props {
   error: Error;
   reset?: () => void;
   className?: string;
 }
 
-import React from 'react';
+import React, { startTransition } from 'react';
 
 import { useRouter } from 'next/navigation';
 
@@ -35,14 +22,18 @@ const ErrorFallback = ({ error, reset, className }: Props) => {
     <div className='w-full'>
       <div className={cn('m-auto mt-100 max-w-[640px]', className)}>
         <div className='text-mogazoa-24px-600 mb-10 text-center'>{userErrMsg}</div>
-        <Button onClick={router.back} className='mb-6'>
+        <Button onClick={() => router.back()} className='mb-6'>
           이전 페이지로 돌아가기
         </Button>
         <Button
           variant='tertiary'
           onClick={() => {
-            router.refresh();
-            reset && reset();
+            //router.refresh가 비동기로 동작하니까 리셋이 먼저 실행되는 거 방지용
+            //우선 순위 낮게 가져간 후 refresh와 reset 일괄적으로 처리
+            startTransition(() => {
+              router.refresh(); //rsc페이로드 다시 가져오기
+              reset?.(); //리셋이 있을 경우만 클라이언트 단에서는 error상태를 직접 관리하고 있을테니
+            });
           }}
         >
           다시 시도

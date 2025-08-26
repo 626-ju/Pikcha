@@ -21,6 +21,7 @@ const FollowList = ({ type }: Props) => {
   const [cursor, setCursor] = useState<number | null>(0);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const pop = useModalStore((state) => state.pop);
 
@@ -53,6 +54,7 @@ const FollowList = ({ type }: Props) => {
 
   useIntersectionObserver(loadMoreRef, cursor, () => fetchFollowInfo(type));
 
+  //클라이언트 단에서 폴백 처리
   if (error)
     return (
       <ErrorFallback
