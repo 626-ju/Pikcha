@@ -1,4 +1,5 @@
 'use server';
+
 const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 
 export const getMyInfo = async () => {
@@ -11,7 +12,7 @@ export const getMyInfo = async () => {
     next: { revalidate: 300, tags: ['myInfo'] },
   });
 
-  if (!res.ok) console.log(res.status);
+  if (!res.ok) throw new Error(`${res.status}`);
 
   const data = await res.json();
 
@@ -28,7 +29,7 @@ export const getUserInfo = async (userid: number) => {
     cache: 'no-store',
   });
 
-  if (!res.ok) console.log(res.status);
+  if (!res.ok) throw new Error(`${res.status}`);
 
   const data = await res.json();
 

@@ -9,7 +9,7 @@ export const getUserProducts = async (userid: number, option: string = 'created-
     next: { revalidate: 300, tags: [`${option}`] },
   });
 
-  if (!res.ok) console.log(res.status);
+  if (!res.ok) throw new Error(`${res.status}`);
 
   const data = await res.json();
 

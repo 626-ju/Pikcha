@@ -5,9 +5,12 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 import getFollowInfo from '@/actions/profile/getFollowInfo';
+import ErrorFallback from '@/app/error';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useModalStore } from '@/store/modalStore';
 import { FolloweeInfos, FollowerInfos } from '@/types/profile/follow';
+
+import LoadingFallback from '../loading';
 
 interface Props {
   type: 'followers' | 'followees';
@@ -17,6 +20,7 @@ const FollowList = ({ type }: Props) => {
   const [userList, setUserList] = useState<FollowerInfos | FolloweeInfos>();
   const [cursor, setCursor] = useState<number | null>(0);
   const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const pop = useModalStore((state) => state.pop);
 
@@ -34,6 +38,8 @@ const FollowList = ({ type }: Props) => {
 
       //cursor 업데이트
       setCursor(data.nextCursor ?? null);
+    } catch (err: unknown) {
+      if (err instanceof Error) setError(err);
     } finally {
       setIsFetching(false);
     }
@@ -47,7 +53,18 @@ const FollowList = ({ type }: Props) => {
 
   useIntersectionObserver(loadMoreRef, cursor, () => fetchFollowInfo(type));
 
-  if (!userList) return <h1>로딩 중...</h1>; //서스펜스나 스트리밍 쓰고 싶었는데 클라컴포에서 방법 없을까요?
+  if (error)
+    return (
+      <ErrorFallback
+        className='mt-0'
+        error={error}
+        reset={() => {
+          setError(null);
+          fetchFollowInfo(type);
+        }}
+      />
+    );
+  if (isFetching) return <LoadingFallback />;
 
   return (
     <ul className='scrollbar-hide flex h-[550px] flex-col gap-5 overflow-y-scroll md:h-[600px] xl:h-[660px]'>
