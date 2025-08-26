@@ -1,6 +1,6 @@
 'use server';
 
-import { MY_INFO } from '@/constants/cacheKeys';
+import { MY_INFO } from '@/constants/cacheTags';
 
 const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 

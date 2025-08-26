@@ -18,7 +18,7 @@ const FollowList = ({ type }: Props) => {
   const [cursor, setCursor] = useState<number | null>(0);
   const [isFetching, setIsFetching] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
-  const pop = useModalStore((state) => state.pop);
+  const close = useModalStore((state) => state.close);
 
   const fetchFollowInfo = async (type: 'followers' | 'followees') => {
     if (cursor === null || isFetching) return;
@@ -62,7 +62,7 @@ const FollowList = ({ type }: Props) => {
               <Link
                 key={info.id}
                 href={`/user/${user.id}`}
-                onClick={pop}
+                onClick={close}
                 className='flex items-center gap-5'
               >
                 {/*추후 이미지로 변경*/}
