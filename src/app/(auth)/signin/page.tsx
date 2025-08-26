@@ -1,10 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
+import GoogleIcon from '@/assets/icon/status=google.svg';
+import KakaoIcon from '@/assets/icon/status=kakao.svg';
 import Input from '@/components/common/Input';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
@@ -62,20 +63,12 @@ const SigninPage = () => {
         </Link>
 
         <div className='flex items-center justify-center gap-5'>
-          <Image
-            src='/images/status=google.svg'
-            alt='구글 간편로그인'
-            width={56}
-            height={56}
-            className='border-black-353542 rounded-full border p-[14px]'
-          />
-          <Image
-            src='/images/status=kakao.svg'
-            alt='카카오 간편로그인'
-            width={56}
-            height={56}
-            className='border-black-353542 rounded-full border p-[14px]'
-          />
+          <div className='border-black-353542 rounded-full border p-[14px]'>
+            <GoogleIcon width={28} height={28} />
+          </div>
+          <div className='border-black-353542 rounded-full border p-[14px]'>
+            <KakaoIcon width={28} height={28} />
+          </div>
         </div>
       </div>
     </form>
