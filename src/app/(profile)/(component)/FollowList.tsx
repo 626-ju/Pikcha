@@ -54,7 +54,6 @@ const FollowList = ({ type }: Props) => {
 
   useIntersectionObserver(loadMoreRef, cursor, () => fetchFollowInfo(type));
 
-  //클라이언트 단에서 폴백 처리
   if (error)
     return (
       <ErrorFallback
@@ -66,7 +65,6 @@ const FollowList = ({ type }: Props) => {
         }}
       />
     );
-  if (isFetching) return <LoadingFallback />;
 
   return (
     <ul className='scrollbar-hide flex h-[550px] flex-col gap-5 overflow-y-scroll md:h-[600px] xl:h-[660px]'>
@@ -86,6 +84,7 @@ const FollowList = ({ type }: Props) => {
             </li>
             {cursor !== null && i === userList.list.length - 1 && (
               <>
+                {isFetching ? <LoadingFallback /> : null}
                 <div className='sr-only'>{cursor}</div>
                 <div ref={loadMoreRef} className='h-[5px] w-1' />
               </>

@@ -2,7 +2,7 @@
 
 interface Props {
   error: Error;
-  reset?: () => void;
+  reset: () => void;
   className?: string;
 }
 
@@ -32,7 +32,7 @@ const ErrorFallback = ({ error, reset, className }: Props) => {
             //우선 순위 낮게 가져간 후 refresh와 reset 일괄적으로 처리
             startTransition(() => {
               router.refresh(); //rsc페이로드 다시 가져오기
-              reset?.(); //리셋이 있을 경우만 클라이언트 단에서는 error상태를 직접 관리하고 있을테니
+              reset(); //에러바운더리가 디폴트로 내려주는 함수
             });
           }}
         >
