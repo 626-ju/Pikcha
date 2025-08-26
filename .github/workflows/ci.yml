@@ -12,18 +12,9 @@ jobs: # ❸ 실행할 작업(Job) 목록
   build-and-test: # 이 작업의 이름 (원하는 대로 지정)
     runs-on: ubuntu-latest # ❹ 이 작업을 실행할 운영체제 환경 (우분투 최신 버전)
 
-    env:
-      SERVER_API_URL: ${{secrets.SERVER_API_URL}}
-      SERVER_TEMP_ACCESSTOKEN: ${{secrets.SERVER_TEMP_ACCESSTOKEN}}
-
     steps: # ❺ 이 작업 내에서 순서대로 실행될 단계(Step) 목록
       - name: Checkout code # ❻ 코드 체크아웃
         uses: actions/checkout@v4
-
-      - name: Setting .env
-        run: |
-          echo "SERVER_API_URL= ${{secrets.SERVER_API_URL}}" >> .env
-          echo "SERVER_TEMP_ACCESSTOKEN= ${{secrets.SERVER_TEMP_ACCESSTOKEN}}" >> .env
 
       - name: Set up Node.js # ❼ Node.js 환경 설정  /
         uses: actions/setup-node@v4 #//-> ✨이거 v4는 노드버전이 아님 깃액션버전?
@@ -42,5 +33,8 @@ jobs: # ❸ 실행할 작업(Job) 목록
         # 이 단계에서 타입 오류가 발생하면 빌드가 실패하고 CI/CD 파이프라인도 실패합니다.
         run: npm run build # 또는 yarn build ✨이게 우리 목적
 
+        env:
+          SERVER_API_URL: ${{ secrets.SERVER_API_URL }}
+          SERVER_TEMP_ACCESSTOKEN: ${{ secrets.SERVER_TEMP_ACCESSTOKEN }}
 
     # 추가적으로 배포 단계를 넣을 수도 있지만, 여기서는 빌드 검사까지만 다룹니다.
