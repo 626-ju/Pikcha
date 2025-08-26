@@ -4,7 +4,7 @@ interface UseDropdownReturn {
   isOpen: boolean;
   closeDropdown: () => void;
   toggleDropdown: () => void;
-  dropdwonRef: React.RefObject<HTMLDivElement | null>;
+  dropdownRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const useDropdown = (): UseDropdownReturn => {
@@ -32,7 +32,7 @@ const useDropdown = (): UseDropdownReturn => {
     };
   }, []);
 
-  return { isOpen, closeDropdown, toggleDropdown, dropdwonRef };
+  return { isOpen, closeDropdown, toggleDropdown, dropdownRef: dropdwonRef };
 };
 
 export default useDropdown;
