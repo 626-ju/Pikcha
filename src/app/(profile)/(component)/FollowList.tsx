@@ -1,49 +1,24 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import Link from 'next/link';
 
-import getFollowInfo from '@/actions/profile/getFollowInfo';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useModalStore } from '@/store/modalStore';
-import { FolloweeInfos, FollowerInfos } from '@/types/profile/follow';
+import { FolloweeInfos, FollowerInfos, FollowType } from '@/types/profile/follow';
 
 interface Props {
-  type: 'followers' | 'followees';
+  type: FollowType;
+  fetchFollowInfo: (type: FollowType) => void;
+  cursor: number | null;
+  userList: FollowerInfos | FolloweeInfos | undefined;
+  error: string | null;
 }
 
-const FollowList = ({ type }: Props) => {
-  const [userList, setUserList] = useState<FollowerInfos | FolloweeInfos>();
-  const [cursor, setCursor] = useState<number | null>(0);
-  const [isFetching, setIsFetching] = useState(false);
+const FollowList = ({ type, fetchFollowInfo, cursor, userList }: Props) => {
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const close = useModalStore((state) => state.close);
-
-  const fetchFollowInfo = async (type: 'followers' | 'followees') => {
-    if (cursor === null || isFetching) return;
-
-    try {
-      setIsFetching(true);
-
-      const data = await getFollowInfo(type, cursor);
-
-      setUserList((prev) => ({
-        list: [...(prev?.list ?? []), ...data.list],
-      }));
-
-      //cursor 업데이트
-      setCursor(data.nextCursor ?? null);
-    } finally {
-      setIsFetching(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isFetching) return;
-    fetchFollowInfo(type);
-    // eslint-disable-next-line
-  }, []);
 
   useIntersectionObserver(loadMoreRef, cursor, () => fetchFollowInfo(type));
 

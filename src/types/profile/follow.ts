@@ -1,3 +1,5 @@
+export type FollowType = 'followers' | 'followees';
+
 export interface FollowerInfo {
   updatedAt: string;
   createdAt: string;
