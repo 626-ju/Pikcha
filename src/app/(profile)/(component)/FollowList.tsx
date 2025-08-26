@@ -57,11 +57,13 @@ const FollowList = ({ type }: Props) => {
         const user = 'follower' in info ? info.follower : info.followee;
 
         return (
-          <Link key={info.id} href={`/user/${user.id}`} onClick={pop}>
+          <>
             <li className='flex items-center gap-5'>
-              {/*추후 이미지로 변경*/}
-              <div className='bg-green-05d58b h-12 w-12 rounded-full md:h-13 md:w-13' />
-              {user.nickname}
+              <Link key={info.id} href={`/user/${user.id}`} onClick={pop}>
+                {/*추후 이미지로 변경*/}
+                <div className='bg-green-05d58b h-12 w-12 rounded-full md:h-13 md:w-13' />
+                {user.nickname}
+              </Link>
             </li>
             {cursor !== null && i === userList.list.length - 1 && (
               <>
@@ -69,7 +71,7 @@ const FollowList = ({ type }: Props) => {
                 <div ref={loadMoreRef} className='h-[5px] w-1' />
               </>
             )}
-          </Link>
+          </>
         );
       })}
     </ul>
