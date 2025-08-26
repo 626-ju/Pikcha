@@ -14,7 +14,7 @@ jobs: # ❸ 실행할 작업(Job) 목록
 
     env:
       SERVER_API_URL: ${{ secrets.SERVER_API_URL }}
-      SERVER_TEMP_ACCESSTOKEN: ${{ secrets.SERVER_TEMP_ACCESSTOKEN }
+      SERVER_TEMP_ACCESSTOKEN: ${{ secrets.SERVER_TEMP_ACCESSTOKEN }}
 
     steps: # ❺ 이 작업 내에서 순서대로 실행될 단계(Step) 목록
       - name: Checkout code # ❻ 코드 체크아웃
