@@ -1,4 +1,4 @@
-import Textbox from '@/components/Textbox';
+import Textbox from '@/components/common/Textbox';
 
 const testTextbox = () => {
   return (

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
-import Input from '@/components/Input';
+import Input from '@/components/common/Input';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
 import { LoginFormValues, signinSchema } from '@/lib/validations/auth';
