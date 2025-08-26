@@ -32,7 +32,6 @@ const ProductList = ({ userid, initailData }: Props) => {
     fetchProductsByOption();
   }, [fetchProductsByOption]);
 
-  // 더미커밋용 주석
   return (
     <>
       <div className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-20'>드랍다운 자리</div>
