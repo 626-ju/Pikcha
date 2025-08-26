@@ -2,10 +2,11 @@ import { ComponentType } from 'react';
 
 import { create } from 'zustand';
 
-type Component = ComponentType;
-//Component의 타입은 컴포넌트 함수 자체(jsx 말구)
-//jsx가 더 익숙하고 편하시겠지만 shadcn dialog Portal 함께 사용하기 위해
-//이런 식으로 받았습니다.
+//eslint-disable-next-line
+interface Component<P = any> {
+  component: ComponentType<P>;
+  props?: P;
+}
 
 type ModalState = {
   stack: Component[];

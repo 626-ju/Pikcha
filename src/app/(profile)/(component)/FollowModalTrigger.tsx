@@ -2,21 +2,23 @@
 
 import { useModalStore } from '@/store/modalStore';
 
-import { FollowerModal } from './FollowerModal';
+import { FolloweeModal, FollowerModal } from './FolloweeModal';
 
-const FollowerModalTrigger = () => {
+interface Props {
+  username: string;
+  followers: number;
+  followees: number;
+}
+
+const FollowerModalTrigger = ({ followers, followees, username }: Props) => {
   const push = useModalStore((state) => state.push);
-  ///{teamId}/users/me 서버액션으로 유저 팔로우, 팔로잉 수 가져와서 채우기(리퀘스트 메모이제이션 되어야 함)
-
-  const follwees = 112;
-  const follwers = 115;
 
   const handleFollowerClick = () => {
-    push(FollowerModal);
+    push({ component: FollowerModal, props: { username } });
   };
 
   const handleFolloweeClick = () => {
-    // push(FolloweeModal);
+    push({ component: FolloweeModal, props: { username } });
   };
 
   return (
@@ -25,12 +27,12 @@ const FollowerModalTrigger = () => {
         onClick={handleFollowerClick}
         className='border-r-gray-6e6e82 border-r-[1px] pr-[50px] text-center md:pr-20 xl:pr-[50px]'
       >
-        <div className={followerCountText}>{follwers}</div>
+        <div className={followerCountText}>{followers}</div>
         <span className={followerTextStyle}>팔로워</span>
       </button>
 
       <button onClick={handleFolloweeClick} className='pl-[50px] text-center md:pl-20 xl:pl-[50px]'>
-        <div className={followerCountText}>{follwees}</div>
+        <div className={followerCountText}>{followees}</div>
         <span className={followerTextStyle}>팔로잉</span>
       </button>
     </div>
