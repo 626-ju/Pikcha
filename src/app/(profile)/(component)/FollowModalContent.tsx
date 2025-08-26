@@ -7,7 +7,7 @@ import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import useFetchUserList from '@/hooks/useFetchUserList';
 import { FollowType } from '@/types/profile/follow';
 
-import FollowList from './FollowList';
+import FollowInfoList from './FollowInfoList';
 
 interface Props {
   username: string;
@@ -27,7 +27,7 @@ const FollowModalContent = ({ username, type }: Props) => {
       </DialogHeader>
 
       <div>
-        <FollowList
+        <FollowInfoList
           type={type}
           userList={userList}
           error={error}
