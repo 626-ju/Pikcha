@@ -7,7 +7,7 @@ on: # ❷ 언제 워크플로우를 실행할지 정의
 
   pull_request_target:
     branches:
-      - dev
+      - dev # dev 브랜치로 풀 리퀘스트가 생성될 때 ✨우리 dev브랜치
 
 jobs: # ❸ 실행할 작업(Job) 목록
   build-and-test: # 이 작업의 이름 (원하는 대로 지정)
