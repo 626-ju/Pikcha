@@ -20,9 +20,9 @@ const useFetchUserList = (type: FollowType) => {
       const data = await getFollowInfo(type, cursor);
 
       //간단한 배열로 관리하기 위해 flatMap+tagged union 사용(식별자 추가)
-      const newUsers = data.list.flatMap((item: FollowList) =>
-        item.type === 'followers' ? item.follower : item.followee,
-      );
+      const newUsers = data.list.flatMap((item: FollowList) => {
+        return isFollower(item) ? item.follower : item.followee;
+      });
 
       setUserList((prev) => [...(prev ?? []), ...newUsers]);
 
@@ -45,3 +45,7 @@ const useFetchUserList = (type: FollowType) => {
 };
 
 export default useFetchUserList;
+
+const isFollower = (item: FollowList) => {
+  return 'follower' in item;
+};

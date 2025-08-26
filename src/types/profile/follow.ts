@@ -7,5 +7,5 @@ export interface FollowUserInfo {
 }
 
 export type FollowList =
-  | { id: number; type: 'followers'; follower: FollowUserInfo[] }
-  | { id: number; type: 'followees'; followee: FollowUserInfo[] };
+  | { id: number; follower: FollowUserInfo[] }
+  | { id: number; followee: FollowUserInfo[] };

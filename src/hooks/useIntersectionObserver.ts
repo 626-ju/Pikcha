@@ -12,7 +12,7 @@ export function useIntersectionObserver(
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    if (!targetRef.current) return;
+    if (!targetRef.current || cursor === null) return;
 
     if (!observerRef.current) {
       observerRef.current = new IntersectionObserver(
