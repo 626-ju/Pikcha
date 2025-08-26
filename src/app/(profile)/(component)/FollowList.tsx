@@ -55,7 +55,7 @@ const FollowList = ({ type }: Props) => {
 
       {userList?.list?.map((info, i) => {
         const user = 'follower' in info ? info.follower : info.followee;
-
+        //더미커밋
         return (
           <>
             <li>
