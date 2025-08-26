@@ -1,4 +1,7 @@
 'use server';
+
+import { MY_INFO } from '@/constants/cacheKeys';
+
 const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 
 export const getMyInfo = async () => {
@@ -8,7 +11,7 @@ export const getMyInfo = async () => {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
-    next: { revalidate: 300, tags: ['myInfo'] },
+    next: { revalidate: 300, tags: [MY_INFO] },
   });
 
   if (!res.ok) console.log(res.status);
