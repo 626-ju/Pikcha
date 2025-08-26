@@ -1,14 +1,14 @@
 'use server';
-const accessToken = process.env.SEVER_TEMP_ACCESSTOKEN;
+const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 
 export const getMyInfo = async () => {
-  const res = await fetch(`https://mogazoa-api.vercel.app/7777/users/me`, {
+  const res = await fetch(`${process.env.SERVER_API_URL}/7777/users/me`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
-    cache: 'force-cache',
+    next: { revalidate: 300, tags: ['myInfo'] },
   });
 
   if (!res.ok) console.log(res.status);
@@ -19,13 +19,13 @@ export const getMyInfo = async () => {
 };
 
 export const getUserInfo = async (userid: number) => {
-  const res = await fetch(`https://mogazoa-api.vercel.app/7777/users/${userid}`, {
+  const res = await fetch(`${process.env.SERVER_API_URL}/7777/users/${userid}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
-    cache: 'force-cache',
+    cache: 'no-store',
   });
 
   if (!res.ok) console.log(res.status);
