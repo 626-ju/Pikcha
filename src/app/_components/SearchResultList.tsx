@@ -1,11 +1,12 @@
 'use client';
 
-import { searchProducts } from '@/actions/productList';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-import { Product } from '@/types/products/productList';
 
 import ProductCard from './ProductCard';
 import ProductList from './ProductList';
+
+import { searchProducts } from '@/actions/productList';
+import { Product } from '@/types/products/productList';
 
 interface SearchResultListProps {
   initialProducts: Product[];
