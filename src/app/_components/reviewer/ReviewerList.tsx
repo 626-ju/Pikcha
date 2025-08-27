@@ -18,7 +18,6 @@ const ReviewerList = ({ users }: ReviewerListProps) => {
             id={users.id}
             nickname={users.nickname}
             image={users.image}
-            // followersCount={999}
             followersCount={users.followersCount}
             reviewCount={users.reviewCount}
           />
