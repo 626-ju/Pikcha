@@ -21,7 +21,8 @@ const FollowInfoList = ({ type }: Props) => {
 
   const onIntersect = useCallback(() => {
     if (!isFetching && cursor !== null) fetchFollowInfo();
-  }, [cursor]);
+    // eslint-disable-next-line
+  }, [cursor, isFetching]);
 
   useIntersectionObserver(loadMoreRef, cursor, onIntersect);
 
