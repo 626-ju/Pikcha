@@ -8,9 +8,14 @@ type ReviewerListProps = {
 
 const ReviewerList = ({ users }: ReviewerListProps) => {
   return (
-    <div className='flex w-[250px] flex-col gap-[30px] px-[30px] pt-[45px]'>
-      <h2 className='text-mogazoa-16px-400 text-white-f1f1f5'>리뷰어 랭킹</h2>
-      <ol className='flex flex-col gap-[30px]' aria-label='리뷰어 랭킹 목록'>
+    <div className='flex h-auto w-full flex-col gap-5 px-[30px] pt-[45px] xl:h-full xl:w-[250px] xl:gap-[30px]'>
+      <h2 className='text-mogazoa-14px-400 xl:text-mogazoa-16px-400 text-white-f1f1f5'>
+        리뷰어 랭킹
+      </h2>
+      <ol
+        className='scrollbar-hide flex gap-5 overflow-x-auto xl:flex-col xl:gap-[30px] xl:overflow-x-visible'
+        aria-label='리뷰어 랭킹 목록'
+      >
         {users.map((users, i) => (
           <ReviewerCard
             key={users.id}
