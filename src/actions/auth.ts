@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 
 import { signIn as nextAuthSignIn } from '../auth';
+import { CredentialsSignin, AuthError } from '../types/auth/authErrors'; // AuthError 계열 import
 
 // 일반 회원가입 (CredentialsProvider 사용 시)
 export async function signUp(formData: FormData) {
@@ -34,6 +35,10 @@ export async function signUp(formData: FormData) {
     });
 
     if (result?.error) {
+      // CredentialsSignin 에러로 구분 가능
+      if (result.error === 'CredentialsSignin') {
+        return { success: false, error: '이메일 또는 비밀번호가 잘못되었습니다.' };
+      }
       return { success: false, error: result.error };
     }
 
@@ -43,6 +48,14 @@ export async function signUp(formData: FormData) {
     // signIn 실패 시 에러 처리
     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
       throw error;
+    }
+
+    if (error instanceof AuthError) {
+      if (error instanceof CredentialsSignin) {
+        return { error: '이메일 또는 비밀번호가 잘못되었습니다.' };
+      }
+      console.error('NextAuth AuthError:', error);
+      return { error: '로그인에 실패했습니다.' };
     }
 
     console.error('NextAuth signIn failed:', error);
@@ -65,18 +78,26 @@ export async function signIn(formData: FormData) {
     });
 
     if (result?.error) {
-      return { success: false, error: '잘못된 이메일 또는 비밀번호입니다.' };
+      if (result.error === 'CredentialsSignin') {
+        return { success: false, error: '잘못된 이메일 또는 비밀번호입니다.' };
+      }
+      return { success: false, error: result.error };
     }
-    console.log('로그인 성공');
+
     redirect('/');
   } catch (error) {
     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
       throw error;
     }
-    // signIn 실패 시 NextAuth는 throw 에러를 발생시킴
-    if (error instanceof Error && error.message.includes('CredentialsSignin')) {
-      return { error: '잘못된 이메일 또는 비밀번호입니다.' };
+
+    if (error instanceof AuthError) {
+      if (error instanceof CredentialsSignin) {
+        return { error: '잘못된 이메일 또는 비밀번호입니다.' };
+      }
+      console.error('NextAuth AuthError:', error);
+      return { error: '로그인에 실패했습니다.' };
     }
+
     console.error('NextAuth signIn failed:', error);
     return { error: '로그인에 실패했습니다.' };
   }
