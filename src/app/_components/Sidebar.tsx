@@ -23,15 +23,20 @@ const Sidebar = ({ selected, q }: { selected: number | null; q: string }) => {
       <div className='flex flex-col'>
         <p className='text-mogazoa-16px-400'>카테고리</p>
         {/* 변경된 카테고리 이름으로 변경하고 map*/}
-        {Object.entries(CATEGORY_NAME_MAP).map(([id, label]) => (
-          <button
-            key={id}
-            className={`h-[50px] w-[200px] rounded-md px-[20px] py-[15px] text-left ${selected === Number(id) ? 'text-white-f1f1f5 bg-black-353542' : 'text-gray-6e6e82'}`}
-            onClick={() => go(selected === Number(id) ? null : Number(id))}
-          >
-            {label}
-          </button>
-        ))}
+        {Object.entries(CATEGORY_NAME_MAP).map(([id, label]) => {
+          const numId = Number(id);
+          const isSelected = selected === numId;
+
+          return (
+            <button
+              key={id}
+              className={`h-[50px] w-[200px] rounded-md px-[20px] py-[15px] text-left ${isSelected ? 'text-white-f1f1f5 bg-black-353542' : 'text-gray-6e6e82'}`}
+              onClick={() => go(isSelected ? null : numId)}
+            >
+              {label}
+            </button>
+          );
+        })}
       </div>
     </aside>
   );
