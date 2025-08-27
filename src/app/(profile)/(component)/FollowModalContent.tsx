@@ -16,7 +16,7 @@ interface Props {
 const FollowModalContent = ({ username, type }: Props) => {
   const title = `${username}님을 ${type === 'followers' ? '팔로우' : '팔로잉'} 하는 유저`; //추후 username 받아오기
 
-  const { userList, error, fetchFollowInfo, cursor } = useFetchUserList(type);
+  const { userList, error, isFetching, fetchFollowInfo, cursor } = useFetchUserList(type);
 
   return (
     //팔로워나 비교하기 모달일 때만 버라이언트 주시면 됩니다
@@ -28,7 +28,7 @@ const FollowModalContent = ({ username, type }: Props) => {
 
       <div>
         <FollowInfoList
-          type={type}
+          isFetching={isFetching}
           userList={userList}
           error={error}
           fetchFollowInfo={fetchFollowInfo}
