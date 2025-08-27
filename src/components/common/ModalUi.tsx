@@ -23,10 +23,10 @@ const contentStyle = {
 };
 
 const Modal = ({ showCloseButton = true, variant = 'basic', className, children }: Props) => {
-  const pop = useModalStore((state) => state.pop);
+  const close = useModalStore((state) => state.close);
 
   return (
-    <Dialog open={true} onOpenChange={pop}>
+    <Dialog open={true} onOpenChange={close}>
       <DialogContent
         showCloseButton={showCloseButton}
         className={cn(className, contentStyle[variant])}

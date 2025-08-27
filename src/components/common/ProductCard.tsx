@@ -15,7 +15,7 @@ const ProductCard = ({ movie }: Props) => {
       className='border-black-353542 bg-black-252530 block rounded-[8px] p-2.5 xl:p-5'
     >
       {/* 컨텐츠 영화로 했을 때는 세로로 좀 더 길어야 할 것 같은데 고민이네요 */}
-      <div className='w-[140px relative mb-2.5 h-[98px] md:mb-5 md:h-[160px] md:w-[227px] xl:mb-[25px] xl:h-[200px] xl:w-[260px]'>
+      <div className='relative mb-2.5 h-[98px] w-[140px] md:mb-5 md:h-[160px] md:w-[227px] xl:mb-[25px] xl:h-[200px] xl:w-[260px]'>
         <Image
           src={'/images/profile-overay.jpg'}
           alt={`${movie.name} 사진`}
