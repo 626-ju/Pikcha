@@ -47,17 +47,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!credentials) return null;
 
         // 백엔드 API에 로그인 요청
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${process.env.NEXT_PUBLIC_TEAM_ID}/auth/signIn`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: credentials.email,
-              password: credentials.password,
-            }),
-          },
-        );
+        const res = await fetch(`${process.env.API_BASE_URL}/${process.env.TEAM_ID}/auth/signIn`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: credentials.email,
+            password: credentials.password,
+          }),
+        });
 
         // 1️⃣ 응답 텍스트 확인
         const text = await res.text();
