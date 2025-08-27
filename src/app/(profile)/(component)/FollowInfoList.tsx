@@ -4,41 +4,26 @@ import { useCallback, useRef } from 'react';
 
 import Link from 'next/link';
 
+import useFetchUserList from '@/hooks/useFetchUserList';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useModalStore } from '@/store/modalStore';
-import { FollowUserInfo } from '@/types/profile/follow';
+import { FollowType, FollowUserInfo } from '@/types/profile/follow';
 
 interface Props {
-  fetchFollowInfo: () => void;
-  cursor: number | null;
-  userList: FollowUserInfo[] | undefined;
-  error: Error | null;
-  isFetching: boolean;
+  type: FollowType;
 }
 
-const FollowInfoList = ({ fetchFollowInfo, cursor, isFetching, userList, error }: Props) => {
-  if (error) throw error;
-
+const FollowInfoList = ({ type }: Props) => {
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const close = useModalStore((state) => state.close);
+
+  const { userList, isFetching, fetchFollowInfo, cursor } = useFetchUserList(type);
 
   const onIntersect = useCallback(() => {
     if (!isFetching && cursor !== null) fetchFollowInfo();
   }, [cursor]);
 
   useIntersectionObserver(loadMoreRef, cursor, onIntersect);
-
-  // if (error)
-  //   return (
-  //     <ErrorFallback
-  //       className='mt-0'
-  //       error={error}
-  //       type='modal'
-  //       reset={() => {
-  //         fetchFollowInfo();
-  //       }}
-  //     />
-  //   );
 
   if (!userList) return <h1>로딩 중...</h1>; //서스펜스나 스트리밍 쓰고 싶었는데 클라컴포에서 방법 없을까요?
 

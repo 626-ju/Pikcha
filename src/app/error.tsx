@@ -1,33 +1,37 @@
 'use client';
 
-interface Props {
-  error: Error | null;
-  reset: () => void;
+//이게 좀 헷갈리는 게
+//1.서버액션에서 에러 발생 ->  throw된 에러를 넥스트 자체 ErrorBoundary가 error.tsx파일로 error랑 reset을 넣어주고요
+//2.제가 사용한 useErrorBoundary훅으로 잡은 에러는 react-error-boundary의 에러바운더리에서 잡힙니다.
+//2번의 경우 에러가 발생할 수 있는 컴포넌트를 <ErrorBoundary FallbackComponent={}> 형태로 감싸게 되는데
+//이때 FallbackComponent로 오는 ErrorFallback이 쓰이기 때문에 타입이 다르게 들어올 거라고 생각했어요 ->(이 컴포넌트를 종류가 다른 두 에러바운더리에서 사용한다는 말)
+//-> 그래서 아래와 같이 확장하고 reset이 있으면 reset을 쓰고 resetErrorBoundary가 있으면 이걸 쓰는 식으로 짰습니다.
+
+interface Props extends Partial<FallbackProps> {
+  error: Error;
+  reset?: () => void;
   className?: string;
-  type?: string;
 }
 
 import React, { startTransition } from 'react';
 
 import { useRouter } from 'next/navigation';
+import { FallbackProps } from 'react-error-boundary';
 
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
 
-const ErrorFallback = ({ error, reset, className, type }: Props) => {
-  //디자인은 임시입니다.
+const ErrorFallback = ({ error, reset, resetErrorBoundary }: Props) => {
   const router = useRouter();
-
-  if (error === null) return;
 
   const userErrMsg = errMap[error.message] || '에러가 발생했습니다';
 
   return (
     <div className='w-full'>
-      <div className={cn('m-auto mt-100 max-w-[640px]', className)}>
+      <div className={cn('m-auto max-w-[640px]', reset && 'mt-100')}>
         <div className='text-mogazoa-24px-600 mb-10 text-center'>{userErrMsg}</div>
 
-        {type !== 'modal' ? (
+        {reset ? (
           <Button onClick={() => router.back()} className='mb-6'>
             이전 페이지로 돌아가기
           </Button>
@@ -40,7 +44,8 @@ const ErrorFallback = ({ error, reset, className, type }: Props) => {
             //우선 순위 낮게 가져간 후 refresh와 reset 일괄적으로 처리
             startTransition(() => {
               router.refresh(); //rsc페이로드 다시 가져오기
-              reset(); //에러바운더리가 디폴트로 내려주는 함수
+              if (reset) reset(); //넥스트의 에러바운더리가 디폴트로 내려주는 함수
+              if (resetErrorBoundary) resetErrorBoundary(); // react-error-boundary 디폴트로 내려주는 함수
             });
           }}
         >

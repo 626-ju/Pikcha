@@ -2,13 +2,16 @@
 
 import { useEffect, useState } from 'react';
 
+import { useErrorBoundary } from 'react-error-boundary';
+
 import getFollowInfo from '@/actions/profile/getFollowInfo';
 import { FollowType, FollowList, FollowUserInfo } from '@/types/profile/follow';
 
 const useFetchUserList = (type: FollowType) => {
+  const { showBoundary } = useErrorBoundary();
+
   const [userList, setUserList] = useState<FollowUserInfo[]>();
   const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
   const [cursor, setCursor] = useState<number | null>(0);
 
   const fetchFollowInfo = async () => {
@@ -29,7 +32,7 @@ const useFetchUserList = (type: FollowType) => {
       //cursor 업데이트
       setCursor(() => data.nextCursor);
     } catch (err) {
-      if (err instanceof Error) setError(err);
+      if (err instanceof Error) showBoundary(err);
     } finally {
       setIsFetching(false);
     }
@@ -41,7 +44,7 @@ const useFetchUserList = (type: FollowType) => {
     // eslint-disable-next-line
   }, []);
 
-  return { userList, isFetching, error, fetchFollowInfo, cursor };
+  return { userList, isFetching, fetchFollowInfo, cursor };
 };
 
 export default useFetchUserList;
