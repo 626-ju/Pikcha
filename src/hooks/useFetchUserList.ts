@@ -8,7 +8,7 @@ import { FollowType, FollowList, FollowUserInfo } from '@/types/profile/follow';
 const useFetchUserList = (type: FollowType) => {
   const [userList, setUserList] = useState<FollowUserInfo[]>();
   const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [cursor, setCursor] = useState<number | null>(0);
 
   const fetchFollowInfo = async () => {
@@ -29,7 +29,7 @@ const useFetchUserList = (type: FollowType) => {
       //cursor 업데이트
       setCursor(() => data.nextCursor);
     } catch (err) {
-      if (err instanceof Error) setError(err.message);
+      if (err instanceof Error) setError(err);
     } finally {
       setIsFetching(false);
     }

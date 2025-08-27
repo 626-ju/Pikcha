@@ -12,11 +12,13 @@ interface Props {
   fetchFollowInfo: () => void;
   cursor: number | null;
   userList: FollowUserInfo[] | undefined;
-  error: string | null;
+  error: Error | null;
   isFetching: boolean;
 }
 
-const FollowInfoList = ({ fetchFollowInfo, cursor, isFetching, userList }: Props) => {
+const FollowInfoList = ({ fetchFollowInfo, cursor, isFetching, userList, error }: Props) => {
+  if (error) throw error;
+
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const close = useModalStore((state) => state.close);
 
@@ -25,6 +27,18 @@ const FollowInfoList = ({ fetchFollowInfo, cursor, isFetching, userList }: Props
   }, [cursor]);
 
   useIntersectionObserver(loadMoreRef, cursor, onIntersect);
+
+  // if (error)
+  //   return (
+  //     <ErrorFallback
+  //       className='mt-0'
+  //       error={error}
+  //       type='modal'
+  //       reset={() => {
+  //         fetchFollowInfo();
+  //       }}
+  //     />
+  //   );
 
   if (!userList) return <h1>로딩 중...</h1>; //서스펜스나 스트리밍 쓰고 싶었는데 클라컴포에서 방법 없을까요?
 

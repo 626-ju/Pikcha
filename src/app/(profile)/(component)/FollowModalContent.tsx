@@ -1,7 +1,9 @@
 'use client';
 
 import { DialogDescription } from '@radix-ui/react-dialog';
+import { ErrorBoundary } from 'react-error-boundary';
 
+import ErrorFallback from '@/app/error';
 import Modal from '@/components/common/ModalUi';
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import useFetchUserList from '@/hooks/useFetchUserList';
@@ -27,13 +29,26 @@ const FollowModalContent = ({ username, type }: Props) => {
       </DialogHeader>
 
       <div>
-        <FollowInfoList
-          isFetching={isFetching}
-          userList={userList}
-          error={error}
-          fetchFollowInfo={fetchFollowInfo}
-          cursor={cursor}
-        />
+        <ErrorBoundary
+          FallbackComponent={() => (
+            <ErrorFallback
+              className='mt-0'
+              type='modal'
+              error={error}
+              reset={() => {
+                fetchFollowInfo();
+              }}
+            />
+          )}
+        >
+          <FollowInfoList
+            isFetching={isFetching}
+            userList={userList}
+            error={error}
+            fetchFollowInfo={fetchFollowInfo}
+            cursor={cursor}
+          />
+        </ErrorBoundary>
       </div>
     </Modal>
   );

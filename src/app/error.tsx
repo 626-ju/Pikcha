@@ -1,9 +1,10 @@
 'use client';
 
 interface Props {
-  error: Error;
+  error: Error | null;
   reset: () => void;
   className?: string;
+  type?: string;
 }
 
 import React, { startTransition } from 'react';
@@ -13,18 +14,25 @@ import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
 
-const ErrorFallback = ({ error, reset, className }: Props) => {
+const ErrorFallback = ({ error, reset, className, type }: Props) => {
   //디자인은 임시입니다.
   const router = useRouter();
+
+  if (error === null) return;
+
   const userErrMsg = errMap[error.message] || '에러가 발생했습니다';
 
   return (
     <div className='w-full'>
       <div className={cn('m-auto mt-100 max-w-[640px]', className)}>
         <div className='text-mogazoa-24px-600 mb-10 text-center'>{userErrMsg}</div>
-        <Button onClick={() => router.back()} className='mb-6'>
-          이전 페이지로 돌아가기
-        </Button>
+
+        {type !== 'modal' ? (
+          <Button onClick={() => router.back()} className='mb-6'>
+            이전 페이지로 돌아가기
+          </Button>
+        ) : null}
+
         <Button
           variant='tertiary'
           onClick={() => {
