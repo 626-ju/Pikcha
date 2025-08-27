@@ -1,10 +1,6 @@
 import { cn } from '@/lib/utils';
+import { categoryChipProps } from '@/types/chips';
 
-interface categoryChipProps {
-  id: number;
-  name: string;
-  className?: string;
-}
 export const CategoryChip = ({ id, name, className }: categoryChipProps) => {
   const baseStyle = 'flex text-mogazoa-12px-400 shrink-0 rounded-md px-2 py-1 ';
 

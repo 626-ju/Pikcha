@@ -1,7 +1,8 @@
 import CategoryIcon from '@/../public/icon/Icon-category.svg';
 import { cn } from '@/lib/utils';
+import { CategoryFilterChipProps } from '@/types/chips';
 
-const CategoryFilterChip = ({ name, className }: { name: string; className?: string }) => {
+const CategoryFilterChip = ({ name, className }: CategoryFilterChipProps) => {
   return (
     <span
       className={cn(

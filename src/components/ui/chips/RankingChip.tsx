@@ -1,4 +1,6 @@
-export const RankingChip = ({ idx, className }: { idx: number; className?: string }) => {
+import { RankingChipProps } from '@/types/chips';
+
+const RankingChip = ({ idx, className }: RankingChipProps) => {
   const baseStyle =
     'flex shrink-0 px-[8px] py-[2px] rounded-full text-mogazoa-10px-400 xl:text-mogazoa-12px-400';
 

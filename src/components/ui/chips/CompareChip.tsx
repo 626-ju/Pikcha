@@ -2,16 +2,9 @@
 
 import DeleteIcon from '@/../public/icon/Icon-delete.svg';
 import { cn } from '@/lib/utils';
+import { CompareChipProps } from '@/types/chips';
 
-const CompareChip = ({
-  variant,
-  productName,
-  onClick,
-}: {
-  variant: 'first' | 'second';
-  productName: string;
-  onClick?: () => void;
-}) => {
+const CompareChip = ({ variant, productName, onClick }: CompareChipProps) => {
   return (
     <div
       className={cn(

@@ -4,16 +4,9 @@ import ThumbsDownIcon from '@/../public/icon/Icon-thumbsdown.svg';
 import ThumbsUpIcon from '@/../public/icon/Icon-thumbsup.svg';
 import useOptimisticToggle from '@/hooks/useOptimisticToggle';
 import { cn } from '@/lib/utils';
+import { ThumbChipProps } from '@/types/chips';
 
-const ThumbChip = ({
-  initialCount,
-  initialState,
-  asyncAction,
-}: {
-  initialCount: number; //likeCount
-  initialState: boolean; // isLiked 주세여
-  asyncAction: () => Promise<void>; // /reviews/{reviewId}/like
-}) => {
+const ThumbChip = ({ initialCount, initialState, asyncAction }: ThumbChipProps) => {
   const { isToggled, optimisticCount, handleToggle } = useOptimisticToggle({
     initialCount,
     initialState,
