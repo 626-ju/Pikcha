@@ -13,6 +13,7 @@ export interface categoryChipProps {
 export interface CategoryFilterChipProps {
   name: string;
   className?: string;
+  onClick?: () => void;
 }
 
 export interface RankingChipProps {
