@@ -11,13 +11,19 @@ export function useIntersectionObserver(
 ) {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
+  const cursorRef = useRef(cursor);
+
+  useEffect(() => {
+    cursorRef.current = cursor;
+  }, [cursor]);
+
   useEffect(() => {
     if (!targetRef.current) return;
 
-    if (!observerRef.current) {
+    if (observerRef.current === null) {
       observerRef.current = new IntersectionObserver(
         (entries) => {
-          if (entries[0].isIntersecting && cursor !== null) onIntersect();
+          if (entries[0].isIntersecting && cursorRef.current !== null) onIntersect();
         },
         { threshold: 0.1 },
       );
@@ -26,7 +32,8 @@ export function useIntersectionObserver(
     observerRef.current.observe(targetRef.current);
 
     return () => {
-      if (cursor === null && observerRef.current) observerRef.current.disconnect();
+      if (observerRef.current) observerRef.current.disconnect();
+      observerRef.current = null;
     };
-  }, [targetRef, onIntersect, cursor]);
+  }, [onIntersect]);
 }
