@@ -1,12 +1,8 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SessionProvider } from 'next-auth/react';
 
-
-import GlobalNav from '@/components/common/gnb/GlobalNav';
-
 import { auth } from '@/auth'; // NextAuth의 서버 함수 임포트
 import AuthHydration from '@/components/AuthHydration';
-
 import ModalContainer from '@/components/common/ModalContainer';
 
 import pretendard from '../lib/utils/fonts/pretendard';
