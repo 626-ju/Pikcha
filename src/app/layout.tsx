@@ -1,12 +1,9 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SessionProvider } from 'next-auth/react';
 
-
-import GlobalNav from '@/components/common/gnb/GlobalNav';
-
 import { auth } from '@/auth'; // NextAuth의 서버 함수 임포트
 import AuthHydration from '@/components/AuthHydration';
-
+import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 
 import pretendard from '../lib/utils/fonts/pretendard';
@@ -32,7 +29,7 @@ export default async function RootLayout({
         <SessionProvider>
           <GlobalNav />
           {/* 서버 컴포넌트에서 세션 정보를 가져와 클라이언트 컴포넌트에 전달 */}
-          <AuthHydration session={session} />       
+          <AuthHydration session={session} />
           <main className='md:px-[10px] xl:px-[180px]'>{children}</main>
         </SessionProvider>
       </body>
