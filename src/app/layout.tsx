@@ -25,14 +25,14 @@ export default async function RootLayout({
   return (
     <html lang='ko'>
       <body className={pretendard.variable}>
-        <SessionProvider>
+        <SessionProvider session={session}>
           {/* 서버 컴포넌트에서 세션 정보를 가져와 클라이언트 컴포넌트에 전달 */}
-          <AuthHydration session={session} /> {children}
+          <AuthHydration session={session} />
+          {children}
+          <SpeedInsights />
+          <ModalContainer />
         </SessionProvider>
       </body>
-
-      <SpeedInsights />
-      <ModalContainer />
     </html>
   );
 }
