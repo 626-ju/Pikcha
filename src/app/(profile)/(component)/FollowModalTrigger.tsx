@@ -2,7 +2,7 @@
 
 import { useModalStore } from '@/store/modalStore';
 
-import { FolloweeModal, FollowerModal } from './FolloweeModal';
+import FollowModalContent from './FollowModalContent';
 
 interface Props {
   username: string;
@@ -11,14 +11,14 @@ interface Props {
 }
 
 const FollowerModalTrigger = ({ followers, followees, username }: Props) => {
-  const push = useModalStore((state) => state.push);
+  const open = useModalStore((state) => state.open);
 
   const handleFollowerClick = () => {
-    push({ component: FollowerModal, props: { username } });
+    open({ component: FollowModalContent, props: { username, type: 'followers' } });
   };
 
   const handleFolloweeClick = () => {
-    push({ component: FolloweeModal, props: { username } });
+    open({ component: FollowModalContent, props: { username, type: 'followees' } });
   };
 
   return (
