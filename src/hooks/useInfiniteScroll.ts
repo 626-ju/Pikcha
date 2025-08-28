@@ -34,6 +34,18 @@ export function useInfiniteScroll<T>({
     });
   }, [cursor, isPending, fetcher]);
 
+  const reset = useCallback(() => {
+    startTransition(async () => {
+      try {
+        const result = await fetcher(null);
+        setItems(result.list);
+        setCursor(result.nextCursor);
+      } catch (error) {
+        console.error('Failed to reset items:', error);
+      }
+    });
+  }, [fetcher]);
+
   useIntersectionObserver(triggerRef, cursor, loadMore);
 
   return {
@@ -42,5 +54,6 @@ export function useInfiniteScroll<T>({
     isPending,
     triggerRef,
     hasMore: cursor !== null,
+    reset,
   };
 }
