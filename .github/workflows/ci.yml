@@ -27,7 +27,7 @@ jobs: # ❸ 실행할 작업(Job) 목록
           cache: 'npm' # 또는 'yarn' (프로젝트에서 사용하는 패키지 매니저에 따라 선택)
 
       - name: Install dependencies # ❽ 프로젝트 의존성 설치
-        run: npm install # 또는 yarn install
+        run: npm ci # 또는 yarn install
 
       - name: Run ESLint # ❾ 코드 린트 검사 (선택 사항이지만 권장)
         run: npm run lint # 또는 yarn lint
