@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    domains: ['mogazoa-api.vercel.app', 'example.com'],
   },
 };
 
