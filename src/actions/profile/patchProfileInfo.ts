@@ -8,11 +8,15 @@ import { ProfileFormValues } from '@/types/profile/profileUpdateSchema';
 
 const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 
-export const patchProfileInfo = async ({ nickname, description }: ProfileFormValues) => {
+export const patchProfileInfo = async ({
+  nickname,
+  description,
+  image,
+}: Partial<ProfileFormValues>) => {
   const payload = {
     nickname,
     description,
-    // image: formData.profileUrl ?? '',
+    image,
   };
 
   const res = await fetcher(`${process.env.SERVER_API_URL}/7777/users/me`, {

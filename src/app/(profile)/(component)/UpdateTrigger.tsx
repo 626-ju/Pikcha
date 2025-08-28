@@ -9,10 +9,10 @@ import { ProfileFormValues } from '@/types/profile/profileUpdateSchema';
 
 import ProfileUpdateModal from './(modal)/ProfileUpdateModal';
 
-const UpdateTrigger = ({ nickname, description }: ProfileFormValues) => {
+const UpdateTrigger = ({ nickname, description, image }: ProfileFormValues) => {
   const setUserInfo = useUserInfoStore((state) => state.setUserInfo);
 
-  setUserInfo({ nickname, description });
+  setUserInfo({ nickname, description, image });
 
   const open = useModalStore((state) => state.open);
 

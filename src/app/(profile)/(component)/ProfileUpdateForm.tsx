@@ -7,6 +7,7 @@ import { useErrorBoundary } from 'react-error-boundary';
 import { useForm } from 'react-hook-form';
 
 import { patchProfileInfo } from '@/actions/profile/patchProfileInfo';
+import FileInput from '@/components/common/FileInput';
 import Input from '@/components/common/Input';
 import Textbox from '@/components/common/Textbox';
 import Button from '@/components/ui/Buttons';
@@ -21,10 +22,12 @@ const ProfileUpdateForm = () => {
 
   const nickname = useUserInfoStore((state) => state.nickname);
   const description = useUserInfoStore((state) => state.description);
+  const image = useUserInfoStore((state) => state.image);
+
+  console.log(image);
 
   const {
     register,
-    // control,
     handleSubmit,
     formState: { errors },
   } = useForm<ProfileFormValues>({
@@ -35,7 +38,11 @@ const ProfileUpdateForm = () => {
   const onSubmit = (data: ProfileFormValues) => {
     startTrainsition(async () => {
       try {
-        await patchProfileInfo(data);
+        await patchProfileInfo({
+          nickname: data.nickname,
+          description: data.description,
+          image: image,
+        });
       } catch (err) {
         showBoundary(err);
       } finally {
@@ -47,12 +54,12 @@ const ProfileUpdateForm = () => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
-        {/* <Controller name='profile' control={control} render={({ field }) => <FileInput />} /> */}
+        <FileInput />
 
         <Input
           placeholder='닉네임을 입력해주세요'
           {...register('nickname')}
-          value={nickname}
+          defaultValue={nickname}
           errorMessage={errors.nickname?.message}
         />
 
@@ -61,7 +68,7 @@ const ProfileUpdateForm = () => {
           placeholder='자신을 소개하세요'
           {...register('description')}
           className='w-full'
-          value={description}
+          defaultValue={description}
           maxLength={300}
         />
 
