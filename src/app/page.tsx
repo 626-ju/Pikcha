@@ -1,6 +1,7 @@
 import { getReviewerRanking } from '@/actions/review/reviewer';
 
 import { searchProducts } from '../actions/productList';
+import MobileCategoryFilter from './_components/MobileCategoryFilter';
 import NoResult from './_components/NoResult';
 import RatingRank from './_components/RatingRank';
 import ResultTitle from './_components/ResultTitle';
@@ -12,12 +13,13 @@ import Sidebar from './_components/Sidebar';
 const Home = async ({
   searchParams,
 }: {
-  searchParams: { q?: string; categoryId?: string; cursor?: string };
+  searchParams: Promise<{ q?: string; categoryId?: string; cursor?: string }>;
 }) => {
   const users = await getReviewerRanking();
-  const q = searchParams.q ?? '';
-  const category = searchParams.categoryId ? Number(searchParams.categoryId) : null;
-  const cursor = searchParams.cursor ? Number(searchParams.cursor) : null;
+  const params = await searchParams;
+  const q = params.q ?? '';
+  const category = params.categoryId ? Number(params.categoryId) : null;
+  const cursor = params.cursor ? Number(params.cursor) : null;
 
   const data = await searchProducts({ q, category, cursor });
   const items = data.list;
@@ -30,6 +32,7 @@ const Home = async ({
           <ReviewerRank users={users} className='mb-6 pt-[40px] xl:hidden' />
           {q === '' && category === null ? (
             <div className='flex flex-col gap-[80px]'>
+              <MobileCategoryFilter className='mb-6 md:hidden' />
               <ReviewRank />
               <RatingRank />
             </div>
@@ -38,6 +41,7 @@ const Home = async ({
           ) : (
             <div>
               <ResultTitle category={category} q={q} />
+              <MobileCategoryFilter className='mb-6 md:hidden' />
               <SearchResultList
                 initialProducts={items}
                 initialCursor={data.nextCursor}
