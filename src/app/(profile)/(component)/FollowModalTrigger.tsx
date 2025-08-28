@@ -2,7 +2,7 @@
 
 import { useModalStore } from '@/store/modalStore';
 
-import FollowModalContent from './(modal)/FollowModalContent';
+import FollowModalContent from './(modal)/FollowModal';
 
 interface Props {
   username: string;

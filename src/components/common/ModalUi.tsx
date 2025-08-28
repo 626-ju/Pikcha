@@ -11,7 +11,7 @@ type ModalType = 'compare' | 'follower' | 'basic';
 
 interface Props {
   showCloseButton?: boolean;
-  variant: ModalType;
+  variant?: ModalType;
   className?: string;
   children: ReactNode;
 }
