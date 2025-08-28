@@ -29,8 +29,7 @@ export default async function RootLayout({
         <SessionProvider>
           <GlobalNav />
           {/* 서버 컴포넌트에서 세션 정보를 가져와 클라이언트 컴포넌트에 전달 */}
-          <AuthHydration session={session} />
-          <main className='md:px-[10px] xl:px-[180px]'>{children}</main>
+          <AuthHydration session={session} /> {children}
         </SessionProvider>
         <SpeedInsights />
         <ModalContainer />
