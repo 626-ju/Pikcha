@@ -8,7 +8,7 @@ export const METRIC_CONFIG = {
     unit: '점',
     isGreater: '더 높아요!',
     isSmaller: '더 낮아요!',
-    icon: <StarIcon className='h-5 w-5 xl:h-6 xl:w-6' />,
+    icon: <StarIcon className='text-yellow-ffc83c h-5 w-5 xl:h-6 xl:w-6' />,
   },
   favorite: {
     title: '찜',
