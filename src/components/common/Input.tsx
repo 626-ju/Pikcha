@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 
-import Image from 'next/image';
-
+import VisibilityIcon from '@/assets/icon/status=visibility_300.svg';
+import VisibilityOffIcon from '@/assets/icon/status=visibility_off_300.svg';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
@@ -49,16 +49,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               onClick={() => setShowPassword((prev) => !prev)}
               className='absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer'
             >
-              <Image
-                src={
-                  showPassword
-                    ? '/images/status=visibility_300.svg'
-                    : '/images/status=visibility_off_300.svg'
-                }
-                alt={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
-                width={24}
-                height={24}
-              />
+              {showPassword ? (
+                <VisibilityIcon className='h-6 w-6' aria-label='비밀번호 숨기기' />
+              ) : (
+                <VisibilityOffIcon className='h-6 w-6' aria-label='비밀번호 보기' />
+              )}
             </button>
           )}
         </div>
