@@ -2,9 +2,9 @@
 
 import { revalidateTag } from 'next/cache';
 
-import { ProfileFormValues } from '@/app/(profile)/(component)/ProfileUpdateForm';
 import { MY_INFO } from '@/constants/cacheTags';
 import fetcher from '@/lib/utils/fetcher';
+import { ProfileFormValues } from '@/types/profile/profileUpdateSchema';
 
 const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 

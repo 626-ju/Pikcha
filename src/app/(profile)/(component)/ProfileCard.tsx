@@ -36,7 +36,11 @@ const ProfileCard = async ({ userid, myPage }: Props) => {
         followees={data.followeesCount}
         username={data.nickname}
       />
-      {myPage ? <UpdateTrigger /> : <FollowTrigger isFollowing={data.isFollowing} />}
+      {myPage ? (
+        <UpdateTrigger nickname={data.nickname} description={data.description} />
+      ) : (
+        <FollowTrigger isFollowing={data.isFollowing} />
+      )}
     </div>
   );
 };
