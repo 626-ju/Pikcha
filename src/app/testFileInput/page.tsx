@@ -1,10 +1,8 @@
-import FileInput from '@/components/common/FileInput';
-
 const testFileInput = () => {
   return (
     <div className='p-10'>
-      <FileInput />
-      <FileInput maxFiles={3} />
+      {/* <FileInput /> */}
+      {/* <FileInput maxFiles={3} /> */}
     </div>
   );
 };
