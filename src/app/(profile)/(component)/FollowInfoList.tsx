@@ -4,25 +4,25 @@ import { useCallback, useRef } from 'react';
 
 import Link from 'next/link';
 
+import useFetchUserList from '@/hooks/useFetchUserList';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useModalStore } from '@/store/modalStore';
-import { FollowUserInfo } from '@/types/profile/follow';
+import { FollowType, FollowUserInfo } from '@/types/profile/follow';
 
 interface Props {
-  fetchFollowInfo: () => void;
-  cursor: number | null;
-  userList: FollowUserInfo[] | undefined;
-  error: string | null;
-  isFetching: boolean;
+  type: FollowType;
 }
 
-const FollowInfoList = ({ fetchFollowInfo, cursor, isFetching, userList }: Props) => {
+const FollowInfoList = ({ type }: Props) => {
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const close = useModalStore((state) => state.close);
 
+  const { userList, isFetching, fetchFollowInfo, cursor } = useFetchUserList(type);
+
   const onIntersect = useCallback(() => {
     if (!isFetching && cursor !== null) fetchFollowInfo();
-  }, [cursor]);
+    // eslint-disable-next-line
+  }, [cursor, isFetching]);
 
   useIntersectionObserver(loadMoreRef, cursor, onIntersect);
 
