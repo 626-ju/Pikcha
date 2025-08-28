@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
+import KakaoProvider from 'next-auth/providers/kakao';
 
 // 백엔드 API에서 반환되는 유저 객체 타입 정의
 interface BackendUser {
@@ -32,6 +34,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+    }),
+
+    // 카카오 OAuth 로그인 설정
+    KakaoProvider({
+      clientId: process.env.AUTH_KAKAO_ID!,
+      clientSecret: process.env.AUTH_KAKAO_SECRET!,
+    }),
+
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
     }),
 
     // 이메일/비밀번호 로그인 설정
@@ -91,6 +104,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   // 콜백 설정
   callbacks: {
+    async redirect({ baseUrl }) {
+      // 로그인 성공 후 무조건 랜딩페이지로 이동
+      return `${baseUrl}`;
+    },
+
     // JWT 생성/갱신 시 호출
     async jwt({ token, user }) {
       if (user) {
