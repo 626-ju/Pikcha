@@ -4,7 +4,7 @@ import { getUserInfo } from '@/actions/profile/getUserInfo';
 import StatisticsCard from '@/app/(profile)/(component)/StatisticsCard';
 import ReviewIcon from '@/assets/icon/Icon-review.svg';
 import StarIcon from '@/assets/icon/Icon-star.svg';
-import { CategoryChip } from '@/components/ui/Chips';
+import CategoryChip from '@/components/ui/chips/CategoryChip';
 
 interface Props {
   userid: number;
