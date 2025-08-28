@@ -1,6 +1,9 @@
 'use client';
 
+import { useState, useCallback, useEffect } from 'react';
+
 import { searchProducts } from '@/actions/productList';
+import SortDropdown from '@/components/common/dropdowns/SortDropdown';
 import ProductCard from '@/components/common/ProductCard';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { Product } from '@/types/product/productType';
@@ -21,24 +24,43 @@ export default function SearchResultList({
   initialCursor,
   searchParams,
 }: SearchResultListProps) {
-  const { items, triggerRef, isPending, hasMore } = useInfiniteScroll({
-    initialData: initialProducts,
-    initialCursor,
-    fetcher: async (cursor) => {
+  const [sortBy, setSortBy] = useState<'recent' | 'rating' | 'reviewCount'>('recent');
+
+  const fetcher = useCallback(
+    async (cursor: number | null) => {
       const result = await searchProducts({
         q: searchParams.q,
         category: searchParams.category,
         cursor,
+        order: sortBy,
       });
       return {
         list: result.list,
         nextCursor: result.nextCursor,
       };
     },
+    [searchParams.q, searchParams.category, sortBy],
+  );
+
+  const { items, triggerRef, isPending, hasMore, reset } = useInfiniteScroll({
+    initialData: initialProducts,
+    initialCursor,
+    fetcher,
   });
 
+  useEffect(() => {
+    reset();
+  }, [sortBy, reset]);
+
+  const handleSortChange = (value: string) => {
+    setSortBy(value as 'recent' | 'rating' | 'reviewCount');
+  };
+
   return (
-    <>
+    <div className='relative'>
+      <div className='absolute top-[-30px] right-0 z-10'>
+        <SortDropdown variant='product' onChange={handleSortChange} menuPosition='right' />
+      </div>
       <ProductList>
         {items.map((product) => (
           <ProductCard key={product.id} movie={product} />
@@ -54,6 +76,6 @@ export default function SearchResultList({
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
