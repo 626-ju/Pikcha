@@ -8,7 +8,7 @@ import Modal from '@/components/common/ModalUi';
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { FollowType } from '@/types/profile/follow';
 
-import FollowInfoList from './FollowInfoList';
+import FollowInfoList from '../FollowInfoList';
 
 interface Props {
   username: string;
