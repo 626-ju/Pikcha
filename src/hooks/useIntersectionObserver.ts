@@ -35,5 +35,8 @@ export function useIntersectionObserver(
       if (observerRef.current) observerRef.current.disconnect();
       observerRef.current = null;
     };
+
+    //targetRef어차피 안 바뀌니까
+    // eslint-disable-next-line
   }, [onIntersect]);
 }
