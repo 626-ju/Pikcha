@@ -4,7 +4,7 @@ import { useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useErrorBoundary } from 'react-error-boundary';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { patchProfileInfo } from '@/actions/profile/patchProfileInfo';
 import FileInput from '@/components/common/FileInput';
@@ -24,11 +24,10 @@ const ProfileUpdateForm = () => {
   const description = useUserInfoStore((state) => state.description);
   const image = useUserInfoStore((state) => state.image);
 
-  console.log(image);
-
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -41,7 +40,7 @@ const ProfileUpdateForm = () => {
         await patchProfileInfo({
           nickname: data.nickname,
           description: data.description,
-          image: image,
+          image: data.image,
         });
       } catch (err) {
         showBoundary(err);
@@ -54,7 +53,14 @@ const ProfileUpdateForm = () => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
-        <FileInput />
+        <Controller
+          name='image'
+          control={control}
+          defaultValue={image ? [image] : []}
+          render={({ field }) => (
+            <FileInput value={field.value ?? []} onChange={field.onChange} maxFiles={1} />
+          )}
+        />
 
         <Input
           placeholder='닉네임을 입력해주세요'
