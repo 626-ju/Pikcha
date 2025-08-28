@@ -1,6 +1,6 @@
-import { getTopRatingProducts } from '@/actions/productLank';
+import { getTopRatingProducts } from '@/actions/productRank';
+import ProductCard from '@/components/common/ProductCard';
 
-import ProductCard from './ProductCard';
 import ProductList from './ProductList';
 
 const RatingRank = async () => {
@@ -18,17 +18,7 @@ const RatingRank = async () => {
       </h1>
       <ProductList>
         {topRated.map((p) => (
-          <ProductCard
-            key={p.id}
-            movie={{
-              id: p.id,
-              name: p.name,
-              image: p.image,
-              rating: p.rating ?? 0,
-              reviewCount: p.reviewCount ?? 0,
-              favoriteCount: p.favoriteCount ?? 0,
-            }}
-          />
+          <ProductCard key={p.id} movie={p} />
         ))}
       </ProductList>
     </section>
