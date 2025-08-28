@@ -13,7 +13,7 @@ const ReviewRank = async () => {
 
   return (
     <section>
-      <h1 className='text-mogazoa-24px-600 text-white-f1f1f5'>
+      <h1 className='text-mogazoa-24px-600 text-white-f1f1f5 pt-[60px]'>
         지금 핫한 상품 <span className='text-mogazoa-24px-600 text-gradient'>TOP 6</span>
       </h1>
       <ProductList>
