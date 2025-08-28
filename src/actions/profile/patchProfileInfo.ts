@@ -12,7 +12,7 @@ export const patchProfileInfo = async ({ nickname, description, image }: Profile
   const payload = {
     nickname,
     description,
-    image: image[0],
+    image: image?.[0] ?? '',
   };
 
   const res = await fetcher(`${process.env.SERVER_API_URL}/7777/users/me`, {
