@@ -1,14 +1,19 @@
 'use client';
 
+import { useState } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
+import { signUp } from '@/actions/auth';
 import Input from '@/components/Input';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
 import { SignupFormValues, signupSchema } from '@/lib/validations/auth';
 
 const SignupPage = () => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -18,8 +23,24 @@ const SignupPage = () => {
     mode: 'onTouched',
   });
 
-  const onSubmit = (data: SignupFormValues) => {
-    console.log('폼 제출 데이터:', data);
+  const onSubmit = async (data: SignupFormValues) => {
+    setErrorMessage(null);
+
+    const formData = new FormData();
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('nickname', data.nickname);
+    formData.append('passwordConfirmation', data.confirmPassword);
+
+    try {
+      const result = await signUp(formData);
+      if (result?.error) {
+        setErrorMessage(result.error);
+      }
+    } catch (error) {
+      console.error('An unexpected error occurred:', error);
+      setErrorMessage('알 수 없는 오류가 발생했습니다.');
+    }
   };
 
   return (
@@ -65,6 +86,8 @@ const SignupPage = () => {
           errorMessage={errors.confirmPassword?.message}
           {...register('confirmPassword')}
         />
+
+        {errorMessage && <p className='text-sm text-red-500'>{errorMessage}</p>}
       </div>
 
       <Button className='shrink-0'>가입하기</Button>
