@@ -1,3 +1,4 @@
+import { X } from 'lucide-react';
 import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
@@ -28,7 +29,7 @@ const FilePreview = ({ url, index, onRemove }: FilePreviewProps) => {
         )}
         aria-label='파일 삭제'
       >
-        <Image src='/icon/Icon-close.svg' alt='파일 삭제 아이콘' width={11} height={11} />
+        <X />
       </button>
     </div>
   );
