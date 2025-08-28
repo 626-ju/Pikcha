@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import { getUserInfo } from '@/actions/profile/getUserInfo';
 
 import FollowerModalTrigger from './FollowModalTrigger';
@@ -17,12 +19,20 @@ const ProfileCard = async ({ userid, myPage }: Props) => {
       {/* 오버레이 */}
       <div
         className='pointer-events-none absolute inset-0 h-full w-full bg-center opacity-20 blur-2xl'
-        style={{ backgroundImage: "url('/images/profile-overay.jpg')" }}
+        style={{ backgroundImage: `url(${data.image})` }}
       />
-      {/* 추후 이미지로 변경 
-        <Image src={user.image} size={120}>
-      */}
-      <div className='h-30 w-30 rounded-full bg-amber-500 xl:h-45 xl:w-45' />
+      {data.image ? (
+        <Image
+          src={data.image}
+          alt='프로필 이미지'
+          width={180}
+          height={180}
+          className='h-30 w-30 rounded-full object-cover xl:h-45 xl:w-45'
+        />
+      ) : (
+        <div className='h-30 w-30 rounded-full bg-amber-500 xl:h-45 xl:w-45' />
+      )}
+
       <div className='flex flex-col items-center justify-between gap-2.5 xl:gap-5'>
         <h2 className='text-mogazoa-20px-600 md:text-mogazoa-24px-600 text-white-f1f1f5'>
           {data.nickname}
