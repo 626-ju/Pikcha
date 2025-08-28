@@ -4,10 +4,16 @@ import React from 'react';
 
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
+import { useUserInfoStore } from '@/store/userInfoStore';
+import { ProfileFormValues } from '@/types/profile/profileUpdateSchema';
 
 import ProfileUpdateModal from './(modal)/ProfileUpdateModal';
 
-const UpdateTrigger = () => {
+const UpdateTrigger = ({ nickname, description }: ProfileFormValues) => {
+  const setUserInfo = useUserInfoStore((state) => state.setUserInfo);
+
+  setUserInfo({ nickname, description });
+
   const open = useModalStore((state) => state.open);
 
   return (
