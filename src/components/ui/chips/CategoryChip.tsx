@@ -1,12 +1,11 @@
-import { cn } from '@/lib/utils';
 import { categoryChipProps } from '@/types/chips';
 
-export const CategoryChip = ({ id, name, className }: categoryChipProps) => {
+export const CategoryChip = ({ category, className }: categoryChipProps) => {
   const baseStyle = 'flex text-mogazoa-12px-400 shrink-0 rounded-md px-2 py-1 ';
 
   let categoryColor;
 
-  switch (id) {
+  switch (category.id) {
     case 1:
       categoryColor = 'bg-[#c5d17c]/10 text-[#C5D17C]';
       break;
@@ -41,7 +40,10 @@ export const CategoryChip = ({ id, name, className }: categoryChipProps) => {
       categoryColor = '';
   }
 
-  return <span className={cn(baseStyle, categoryColor, className)}>{name}</span>;
+  const allClassName = `${baseStyle} ${categoryColor} ${className}`;
+  //cn으로 사용시 twMerge를 커스텀 해줘야함 서로다른 text 클래스가 충돌나서 후행 클래스만 적요됨
+
+  return <span className={allClassName}>{category.name}</span>;
 };
 
 export default CategoryChip;
