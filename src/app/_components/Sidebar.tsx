@@ -1,22 +1,10 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-
+import { useCategoryNavigation } from '@/hooks/useCategoryNavigation';
 import { CATEGORY_NAME_MAP } from '@/lib/utils/categoryNameMap';
 
 const Sidebar = ({ selected, q }: { selected: number | null; q: string }) => {
-  const router = useRouter();
-  const sp = useSearchParams();
-
-  const go = (category: number | null) => {
-    const next = new URLSearchParams(sp);
-    if (category != null) next.set('categoryId', String(category));
-    else next.delete('categoryId');
-    next.delete('cursor');
-    if (q) next.set('q', q);
-    else next.delete('q');
-    router.push(`/?${next.toString()}`);
-  };
+  const { navigateToCategory } = useCategoryNavigation();
 
   return (
     <aside className='hidden w-[clamp(250px,25vw,350px)] pt-[45px] md:flex md:justify-end'>
@@ -31,7 +19,7 @@ const Sidebar = ({ selected, q }: { selected: number | null; q: string }) => {
             <button
               key={id}
               className={`h-[50px] w-[200px] rounded-md px-[20px] py-[15px] text-left ${isSelected ? 'text-white-f1f1f5 bg-black-353542' : 'text-gray-6e6e82'}`}
-              onClick={() => go(isSelected ? null : numId)}
+              onClick={() => navigateToCategory(isSelected ? null : numId, q)}
             >
               {label}
             </button>
