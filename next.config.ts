@@ -4,7 +4,7 @@ import type { Configuration as WebpackConfig } from 'webpack';
 const nextConfig: NextConfig = {
   webpack(config: WebpackConfig) {
     config.module?.rules?.push({
-      test: /\.svg$/,
+      test: /.svg$/,
       use: ['@svgr/webpack'],
     });
 
@@ -14,6 +14,16 @@ const nextConfig: NextConfig = {
     fetches: {
       fullUrl: true,
     },
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'sprint-fe-project.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
 };
 
