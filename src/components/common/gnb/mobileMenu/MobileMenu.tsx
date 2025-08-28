@@ -6,26 +6,18 @@ import { Menu, X } from 'lucide-react';
 
 import MobileMenuList from './MobileMenuList';
 
-interface AuthState {
-  isLoggedIn: boolean;
-  name?: string | null;
-  profileUrl?: string | null;
+import type { Session } from 'next-auth';
+
+interface MobileMenuProps {
+  session: Session | null;
 }
 
-function useAuth(): AuthState {
-  // const isLoggedIn = useAuthStore((s) => Boolean(s.session));
-  // const name = useAuthStore((s) => s.user?.name ?? null);
-  // const profileUrl = useAuthStore((s) => s.user?.profileImg ?? null);
-  // return { isLoggedIn, name, profileUrl };
-
-  return { isLoggedIn: true, name: null, profileUrl: null }; // 임시 더미데이터 -> profileDropdown.tsx과 동일한 코드. 훅으로 만들 것 고려
-}
-
-const MobileMenu = () => {
+const MobileMenu = ({ session }: MobileMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn, name, profileUrl } = useAuth();
 
-  // const user = useAuthStore((s) => s.user); -> AvatarProfile로 유저 정보 내려줌
+  const isLoggedIn = !!session;
+  const name = session?.user?.name ?? null;
+  const profileUrl = session?.user?.image ?? null;
 
   return (
     <div>
