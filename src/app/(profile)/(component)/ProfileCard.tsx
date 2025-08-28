@@ -2,12 +2,14 @@ import { getUserInfo } from '@/actions/profile/getUserInfo';
 
 import FollowerModalTrigger from './FollowModalTrigger';
 import FollowTrigger from './FollowTrigger';
+import UpdateTrigger from './UpdateTrigger';
 
 interface Props {
   userid: number;
+  myPage?: boolean;
 }
 
-const ProfileCard = async ({ userid }: Props) => {
+const ProfileCard = async ({ userid, myPage }: Props) => {
   const data = await getUserInfo(userid);
 
   return (
@@ -34,7 +36,7 @@ const ProfileCard = async ({ userid }: Props) => {
         followees={data.followeesCount}
         username={data.nickname}
       />
-      <FollowTrigger isFollowing={data.isFollowing} />
+      {myPage ? <UpdateTrigger /> : <FollowTrigger isFollowing={data.isFollowing} />}
     </div>
   );
 };

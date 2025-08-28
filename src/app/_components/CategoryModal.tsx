@@ -78,7 +78,7 @@ const CategoryModal = () => {
               >
                 <div className='flex items-center justify-between'>
                   <span>{name}</span>
-                  <CategoryChip id={numId} name={name} className='pointer-events-none' />
+                  <CategoryChip category={{ id: numId, name }} className='pointer-events-none' />
                 </div>
               </button>
             );
