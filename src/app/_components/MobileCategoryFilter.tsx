@@ -28,7 +28,13 @@ const MobileCategoryFilter = ({ className }: MobileCategoryFilterProps) => {
     });
   };
 
-  return <CategoryFilterChip name={displayName} className={className} onClick={handleClick} />;
+  return (
+    <CategoryFilterChip
+      name={displayName}
+      className={`w-fit ${className || ''}`}
+      onClick={handleClick}
+    />
+  );
 };
 
 export default MobileCategoryFilter;
