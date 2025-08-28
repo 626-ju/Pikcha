@@ -1,10 +1,11 @@
+import SortDropdown from '@/components/common/dropdowns/SortDropdown';
+import Button from '@/components/ui/Buttons';
+import CategoryChip from '@/components/ui/chips/CategoryChip';
+
 import MetricCard from '@/app/product/[productId]/components/MetricCard';
 import mockReviews from '@/app/product/[productId]/components/mock';
 import ReviewCard from '@/app/product/[productId]/components/ReviewCard';
 import ShareButton from '@/app/product/[productId]/components/ShareButton';
-import SortDropdown from '@/components/common/dropdowns/SortDropdown';
-import Button from '@/components/ui/Buttons';
-import CategoryChip from '@/components/ui/chips/CategoryChip';
 
 const ProductIdPage = () => {
   const product = {
