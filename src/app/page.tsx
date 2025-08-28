@@ -26,8 +26,8 @@ const Home = async ({
     <div>
       <div className='flex gap-6'>
         <Sidebar selected={category} q={q} />
-        <section className='flex-1 px-[20px] pt-[60px]'>
-          <ReviewerRank users={users} className='mb-6 xl:hidden' />
+        <section className='flex-1 overflow-hidden px-[20px]'>
+          <ReviewerRank users={users} className='mb-6 pt-[40px] xl:hidden' />
           {q === '' && category === null ? (
             <div className='flex flex-col gap-[80px]'>
               <ReviewRank />
