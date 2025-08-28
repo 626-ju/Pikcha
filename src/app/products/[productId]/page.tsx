@@ -2,10 +2,10 @@ import SortDropdown from '@/components/common/dropdowns/SortDropdown';
 import Button from '@/components/ui/Buttons';
 import CategoryChip from '@/components/ui/chips/CategoryChip';
 
-import MetricCard from '@/app/product/[productId]/components/MetricCard';
-import mockReviews from '@/app/product/[productId]/components/mock';
-import ReviewCard from '@/app/product/[productId]/components/ReviewCard';
-import ShareButton from '@/app/product/[productId]/components/ShareButton';
+import MetricCard from './components/MetricCard';
+import mockReviews from './components/mock';
+import ReviewCard from './components/ReviewCard';
+import ShareButton from './components/ShareButton';
 
 const ProductIdPage = () => {
   const product = {
@@ -33,6 +33,8 @@ const ProductIdPage = () => {
       reviewCount: 35,
     },
   };
+
+  const productReviews = mockReviews;
 
   return (
     <div className='mx-auto max-w-[1000px] px-5 py-10'>
@@ -82,11 +84,13 @@ const ProductIdPage = () => {
           <h2 className='text-mogazoa-18px-600 xl:text-mogazoa-20px-600'>상품리뷰</h2>
           <SortDropdown variant='review' />
         </div>
-        <div className='flex flex-col gap-3'>
-          {mockReviews?.map((rev) => (
-            <ReviewCard review={rev} key={rev.id} />
-          ))}
-        </div>
+        {productReviews ? (
+          <div className='flex flex-col gap-3'>
+            {productReviews?.map((rev) => (
+              <ReviewCard review={rev} key={rev.id} />
+            ))}
+          </div>
+        ) : null}
       </section>
     </div>
   );
