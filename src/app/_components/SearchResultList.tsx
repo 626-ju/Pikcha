@@ -1,12 +1,11 @@
 'use client';
 
-import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-
-import ProductCard from './ProductCard';
-import ProductList from './ProductList';
-
 import { searchProducts } from '@/actions/productList';
-import { Product } from '@/types/products/productList';
+import ProductCard from '@/components/common/ProductCard';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { Product } from '@/types/product/productType';
+
+import ProductList from './ProductList';
 
 interface SearchResultListProps {
   initialProducts: Product[];
@@ -42,17 +41,7 @@ export default function SearchResultList({
     <>
       <ProductList>
         {items.map((product) => (
-          <ProductCard
-            key={product.id}
-            movie={{
-              id: product.id,
-              name: product.name,
-              image: product.image,
-              rating: product.rating ?? 0,
-              reviewCount: product.reviewCount ?? 0,
-              favoriteCount: product.favoriteCount ?? 0,
-            }}
-          />
+          <ProductCard key={product.id} movie={product} />
         ))}
       </ProductList>
 
