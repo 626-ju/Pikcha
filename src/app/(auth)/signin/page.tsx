@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
+import { signIn } from '@/actions/auth';
 import GoogleIcon from '@/assets/icon/status=google.svg';
 import KakaoIcon from '@/assets/icon/status=kakao.svg';
 import Input from '@/components/common/Input';

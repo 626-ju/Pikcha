@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
+import { signUp } from '@/actions/auth';
 import Input from '@/components/common/Input';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
