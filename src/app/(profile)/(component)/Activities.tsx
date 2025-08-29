@@ -37,7 +37,7 @@ const Activities = async ({ userid }: Props) => {
 
         <StatisticsCard title='관심 카테고리'>
           <CategoryChip
-            className='inline'
+            className='text-mogazoa-14px-400 px-3 py-2' //시안과 다르게 카테고리 칩 크기 키우기
             category={data.mostFavoriteCategory ?? { id: 1, name: '기타' }}
           />
         </StatisticsCard>

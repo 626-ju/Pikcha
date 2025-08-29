@@ -10,17 +10,18 @@ interface TextboxProps extends React.ComponentProps<'textarea'> {
 
 const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
   ({ maxLength = 300, ...props }, ref) => {
-    const [count, setCount] = React.useState(0);
+    const [count, setCount] = React.useState(props?.defaultValue?.toString().length ?? 0);
 
     return (
       <div className='relative w-fit'>
         <Textarea
           ref={ref}
           maxLength={maxLength}
+          {...props}
           onChange={(e) => {
             setCount(e.target.value.length);
+            props.onChange?.(e);
           }}
-          {...props}
         />
 
         {/* 글자수 카운트 */}
