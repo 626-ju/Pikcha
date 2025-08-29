@@ -34,7 +34,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'bg-black-252530 text-mogazoa-14px-400 border-black-353542',
               hasError ? 'border-red-FF0000' : 'border-black-353542',
               'rounded-[8px] border outline-none',
-              'flex h-[55px] w-full px-5 py-6 xl:h-[70px]',
+              'flex h-[55px] w-full py-6 pr-10 pl-5 xl:h-[70px]',
               'disabled:pointer-events-none disabled:cursor-not-allowed',
               'aria-invalid:border-red-ff0000',
               'focus:border-main-blue',
