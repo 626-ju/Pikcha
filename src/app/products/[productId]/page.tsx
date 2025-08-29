@@ -1,46 +1,51 @@
+import Image from 'next/image';
+
+import { getProductDetail } from '@/actions/productDetail';
+import { getProductReviews } from '@/actions/productReview';
+import NoReview from '@/assets/icon/ReviewState.svg';
 import SortDropdown from '@/components/common/dropdowns/SortDropdown';
 import Button from '@/components/ui/Buttons';
 import CategoryChip from '@/components/ui/chips/CategoryChip';
 
+import FavoriteButton from './components/FavoriteButton';
 import MetricCard from './components/MetricCard';
-import mockReviews from './components/mock';
 import ReviewCard from './components/ReviewCard';
 import ShareButton from './components/ShareButton';
 
-const ProductIdPage = () => {
-  const product = {
-    id: 1,
-    name: '어쩌고 저쩌고',
-    description:
-      '뭐가될지 모르지만 아주 긴 디스크립션 뭐가될지 모르지만 아주 긴 디스크립션 뭐가될지 모르지만 아주 긴 디스크립션 뭐가될지 모르지만 아주 긴 디스크립션 뭐가될지 모르지만 아주 긴 디스크립션 뭐가될지 모르지만 아주 긴 디스크립션 뭐가될지 모르지만 아주 긴 디스크립션 뭐가될지 모르지만 아주 긴 디스크립션 뭐가될지 모르지만 아주 긴 디스크립션 ',
-    image:
-      'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MWP22?wid=1144&hei=1144&fmt=jpeg&qlt=80&.v=1591634795000',
-    rating: 4.5,
-    reviewCount: 100,
-    favoriteCount: 1000,
-    categoryId: 1,
-    createdAt: '2025-07-15T12:19:35.432Z',
-    updatedAt: '2025-07-15T12:19:35.432Z',
-    writerId: 1,
-    isFavorite: false,
-    category: {
-      id: 1,
-      name: '전자제품',
-    },
-    categoryMetric: {
-      rating: 4.6,
-      favoriteCount: 1023,
-      reviewCount: 35,
-    },
-  };
+// 찜버튼 임시 함수
+async function randomPromise(): Promise<void> {
+  'use server';
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const isSuccess = Math.random() > 0.5;
+      if (isSuccess) {
+        resolve();
+      } else {
+        reject(new Error(`Error! Rejected after 1000ms`));
+      }
+    }, 1000);
+  });
+}
 
-  const productReviews = mockReviews;
+type ProductIdPageProps = {
+  params: Promise<{ productId: string }>;
+  searchParams: { order?: string };
+};
+
+const ProductIdPage = async ({ params, searchParams }: ProductIdPageProps) => {
+  const { productId } = await params;
+  const currentProductId = Number(productId);
+  const sortOption = searchParams.order || 'recent';
+
+  const product = await getProductDetail(currentProductId);
+
+  const productReviews = await getProductReviews(currentProductId, sortOption);
 
   return (
-    <div className='mx-auto max-w-[1000px] px-5 py-10'>
+    <div className='mx-auto max-w-250 px-5 py-10'>
       <header className='flex w-full flex-col md:max-h-[300px] md:flex-row'>
-        <div className='aspect-[27/40] h-60 shrink-0 bg-amber-300 transition-normal duration-300 md:max-h-[300px] xl:h-[300px]'>
-          이미지
+        <div className='relative aspect-[27/40] h-60 shrink-0 transition-normal duration-300 md:max-h-[300px] xl:h-[300px]'>
+          <Image src={product.image} alt='영화 포스터' fill className='object-cover' />
         </div>
         <div className='mt-5 flex w-full flex-col gap-[10px] md:mt-0 md:pl-5'>
           <div className='flex justify-between'>
@@ -50,10 +55,9 @@ const ProductIdPage = () => {
               <ShareButton variant='primary' />
             </div>
           </div>
-          <div className='flex justify-between'>
-            <h2 className='text-mogazoa-20px-600'>{product.name}</h2>
-
-            {'찜 버튼'}
+          <div className='flex items-center justify-between md:justify-start md:gap-[15px]'>
+            <h2 className='text-mogazoa-20px-600 xl:text-mogazoa-24px-600'>{product.name}</h2>
+            <FavoriteButton initialState={product.isFavorite} asyncAction={randomPromise} />
           </div>
           <div className='text-mogazoa-14px-400 flex-1'>{product.description}</div>
           <div className='flex w-full flex-col gap-[15px] md:flex-row'>
@@ -84,13 +88,18 @@ const ProductIdPage = () => {
           <h2 className='text-mogazoa-18px-600 xl:text-mogazoa-20px-600'>상품리뷰</h2>
           <SortDropdown variant='review' />
         </div>
-        {productReviews ? (
+        {productReviews?.length > 0 ? (
           <div className='flex flex-col gap-3'>
             {productReviews?.map((rev) => (
               <ReviewCard review={rev} key={rev.id} />
             ))}
           </div>
-        ) : null}
+        ) : (
+          <div className='my-30 flex flex-col items-center justify-center gap-3 xl:my-40'>
+            <NoReview className='w-[50px]' />
+            <div className='text-mogazoa-20px-400 text-gray-6e6e82'>첫 리뷰를 작성해 보세요!</div>
+          </div>
+        )}
       </section>
     </div>
   );
