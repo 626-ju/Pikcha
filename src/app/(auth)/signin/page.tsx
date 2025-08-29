@@ -90,18 +90,21 @@ const SigninPage = () => {
         <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
         <div className='flex items-center justify-center gap-5'>
           <button
+            type='button'
             onClick={() => nextAuthSignIn('google')}
             className='border-black-353542 rounded-full border p-[14px]'
           >
             <GoogleIcon className='h-full w-full' />
           </button>
           <button
+            type='button'
             onClick={() => nextAuthSignIn('kakao')}
             className='border-black-353542 rounded-full border p-[14px]'
           >
             <KakaoIcon className='h-full w-full' />
           </button>
           <button
+            type='button'
             onClick={() => nextAuthSignIn('github')}
             className='border-black-353542 rounded-full border p-[14px]'
           >
