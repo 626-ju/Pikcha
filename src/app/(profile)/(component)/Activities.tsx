@@ -33,8 +33,8 @@ const Activities = async ({ userid }: Props) => {
 
         <StatisticsCard title='관심 카테고리'>
           <CategoryChip
-            className='text-mogazoa-14px-400 md:text-mogazoa-16px-400' //시안과 다르게 카테고리 칩 크기 키우기
-            category={data.mostFavoriteCategory ?? { id: 3, name: '기타' }}
+            className='md:text-mogazoa-16px-400 break-words' //시안과 다르게 카테고리 칩 크기 키우기
+            category={data.mostFavoriteCategory ?? { id: 6, name: '기타' }}
           />
         </StatisticsCard>
       </div>
