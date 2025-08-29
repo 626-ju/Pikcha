@@ -11,7 +11,7 @@ interface Props {
 const ProductCard = ({ movie }: Props) => {
   return (
     <Link
-      href={`/product/${movie?.id}`}
+      href={`/products/${movie?.id}`}
       className='border-black-353542 bg-black-252530 block rounded-[8px] p-2.5 xl:p-5'
     >
       {/* 컨텐츠 영화로 했을 때는 세로로 좀 더 길어야 할 것 같은데 고민이네요 */}
