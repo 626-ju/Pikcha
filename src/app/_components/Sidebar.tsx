@@ -7,7 +7,7 @@ const Sidebar = ({ selected, q }: { selected: number | null; q: string }) => {
   const { navigateToCategory } = useCategoryNavigation();
 
   return (
-    <aside className='hidden w-[clamp(250px,25vw,350px)] pt-[45px] md:flex md:justify-end'>
+    <aside className='sticky top-[80px] hidden h-fit w-[clamp(250px,25vw,350px)] pt-[45px] md:flex md:justify-end xl:top-[100px]'>
       <div className='flex flex-col'>
         <p className='text-mogazoa-16px-400'>카테고리</p>
         {/* 변경된 카테고리 이름으로 변경하고 map*/}

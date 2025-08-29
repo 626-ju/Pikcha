@@ -19,7 +19,9 @@ const MobileCategoryFilter = ({ className }: MobileCategoryFilterProps) => {
     ? Number(searchParams.get('categoryId'))
     : null;
 
-  const displayName = selectedCategory ? getCategoryName(selectedCategory, '알 수 없음') : '전체';
+  const displayName = selectedCategory
+    ? getCategoryName(selectedCategory, '알 수 없음')
+    : '전체 카테고리';
 
   const handleClick = () => {
     open({
