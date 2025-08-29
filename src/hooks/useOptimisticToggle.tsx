@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 const useOptimisticToggle = ({
-  initialCount,
+  initialCount = 0,
   initialState,
   asyncAction,
 }: {
-  initialCount: number;
+  initialCount?: number;
   initialState: boolean;
   asyncAction: () => Promise<void>;
 }) => {
