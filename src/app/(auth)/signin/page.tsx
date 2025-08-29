@@ -3,10 +3,11 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
+import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
 import { signIn } from '@/actions/auth';
+import GithubIcon from '@/assets/icon/status=github.svg';
 import GoogleIcon from '@/assets/icon/status=google.svg';
 import KakaoIcon from '@/assets/icon/status=kakao.svg';
 import Input from '@/components/common/Input';
@@ -86,17 +87,26 @@ const SigninPage = () => {
       </Button>
 
       <div className='flex flex-col gap-5'>
-        <Link href='/'>
-          <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
-        </Link>
-
+        <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
         <div className='flex items-center justify-center gap-5'>
-          <div className='border-black-353542 rounded-full border p-[14px]'>
-            <GoogleIcon width={28} height={28} />
-          </div>
-          <div className='border-black-353542 rounded-full border p-[14px]'>
-            <KakaoIcon width={28} height={28} />
-          </div>
+          <button
+            onClick={() => nextAuthSignIn('google')}
+            className='border-black-353542 rounded-full border p-[14px]'
+          >
+            <GoogleIcon className='h-full w-full' />
+          </button>
+          <button
+            onClick={() => nextAuthSignIn('kakao')}
+            className='border-black-353542 rounded-full border p-[14px]'
+          >
+            <KakaoIcon className='h-full w-full' />
+          </button>
+          <button
+            onClick={() => nextAuthSignIn('github')}
+            className='border-black-353542 rounded-full border p-[14px]'
+          >
+            <GithubIcon className='h-[24px] w-[24px] text-[#6e6e82]' />
+          </button>
         </div>
       </div>
     </form>
