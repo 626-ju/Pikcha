@@ -6,7 +6,6 @@ import { ReviewCardProps } from '@/types/review/review';
 import ReviewAvatar from './ReviewAvatar';
 
 async function randomPromise(): Promise<void> {
-  'use server';
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const isSuccess = Math.random() > 0.5;

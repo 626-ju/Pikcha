@@ -29,17 +29,19 @@ async function randomPromise(): Promise<void> {
 
 type ProductIdPageProps = {
   params: Promise<{ productId: string }>;
-  searchParams: { order?: string };
+  // searchParams: { order: string };
 };
 
-const ProductIdPage = async ({ params, searchParams }: ProductIdPageProps) => {
+const ProductIdPage = async ({ params /*searchParams*/ }: ProductIdPageProps) => {
   const { productId } = await params;
   const currentProductId = Number(productId);
-  const sortOption = searchParams.order || 'recent';
+
+  // const resolvedSearchParams = searchParams;
+  // const sortOption = resolvedSearchParams.order || 'recent';
 
   const product = await getProductDetail(currentProductId);
 
-  const productReviews = await getProductReviews(currentProductId, sortOption);
+  const productReviews = await getProductReviews(currentProductId);
 
   return (
     <div className='mx-auto max-w-250 px-5 py-10'>
