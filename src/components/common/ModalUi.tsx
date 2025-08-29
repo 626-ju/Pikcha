@@ -28,8 +28,8 @@ const Modal = ({ showCloseButton = true, variant = 'basic', className, children 
   return (
     <Dialog open={true} onOpenChange={close}>
       <DialogContent
-        showCloseButton={showCloseButton}
         className={cn(className, contentStyle[variant])}
+        showCloseButton={showCloseButton}
       >
         {/*본격적인 모달 컨텐츠*/}
         {children}

@@ -62,22 +62,22 @@ const ProfileUpdateForm = () => {
           name='image'
           control={control}
           render={({ field }) => (
-            <FileInput value={field.value ?? []} onChange={field.onChange} maxFiles={1} />
+            <FileInput maxFiles={1} value={field.value ?? []} onChange={field.onChange} />
           )}
         />
 
         <Input
           placeholder='닉네임을 입력해주세요'
-          {...register('nickname')}
           errorMessage={errors.nickname?.message}
+          {...register('nickname')}
         />
 
         {/* 요구사항엔 300자 시안에는 500자네요... */}
         <Textbox
           placeholder='자신을 소개하세요'
-          {...register('description')}
           maxLength={300}
           defaultValue={description}
+          {...register('description')}
         />
 
         <Button disabled={!isDirty || isLoading} className='my-5'>

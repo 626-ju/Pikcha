@@ -35,7 +35,7 @@ const FollowInfoList = ({ type }: Props) => {
       {userList?.map(({ id, nickname }: FollowUserInfo) => {
         return (
           <li key={id}>
-            <Link href={`/user/${id}`} onClick={close} className='flex items-center gap-5'>
+            <Link href={`/user/${id}`} className='flex items-center gap-5' onClick={close}>
               {/*추후 이미지로 변경*/}
               <div className='bg-green-05d58b h-12 w-12 rounded-full md:h-13 md:w-13' />
               {nickname}

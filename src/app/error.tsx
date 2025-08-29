@@ -35,7 +35,7 @@ const ErrorFallback = ({ error, reset, resetErrorBoundary }: Props) => {
         <div className='text-mogazoa-24px-600 mb-10 text-center'>{userErrMsg}</div>
 
         {reset ? (
-          <Button onClick={() => router.back()} className='mb-6'>
+          <Button className='mb-6' onClick={() => router.back()}>
             이전 페이지로 돌아가기
           </Button>
         ) : null}

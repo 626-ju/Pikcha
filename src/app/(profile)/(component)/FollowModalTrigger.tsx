@@ -24,14 +24,14 @@ const FollowerModalTrigger = ({ followers, followees, username }: Props) => {
   return (
     <div className='flex items-center'>
       <button
-        onClick={handleFollowerClick}
         className='border-r-gray-6e6e82 border-r-[1px] pr-[50px] text-center md:pr-20 xl:pr-[50px]'
+        onClick={handleFollowerClick}
       >
         <div className={followerCountText}>{followers}</div>
         <span className={followerTextStyle}>팔로워</span>
       </button>
 
-      <button onClick={handleFolloweeClick} className='pl-[50px] text-center md:pl-20 xl:pl-[50px]'>
+      <button className='pl-[50px] text-center md:pl-20 xl:pl-[50px]' onClick={handleFolloweeClick}>
         <div className={followerCountText}>{followees}</div>
         <span className={followerTextStyle}>팔로잉</span>
       </button>
