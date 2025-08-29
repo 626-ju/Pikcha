@@ -75,7 +75,7 @@ const ProfileUpdateForm = () => {
         {/* 요구사항엔 300자 시안에는 500자네요... */}
         <Textbox
           placeholder='자신을 소개하세요'
-          maxLength={300}
+          maxLength={100}
           defaultValue={description}
           {...register('description')}
         />
