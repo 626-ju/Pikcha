@@ -4,7 +4,7 @@ import fetcher from '@/lib/utils/fetcher';
 import { ReviewDetail } from '@/types/review/review';
 
 const API_BASE_URL = process.env.API_BASE_URL;
-const TEAM_ID = process.env.TEST_TEAM_ID;
+const TEAM_ID = process.env.TEAM_ID;
 
 export const getProductReviews = async (
   productId: number,
