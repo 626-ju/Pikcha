@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -15,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
 }) => {
   const baseStyle =
-    'text-mogazoa-16px-600 flex h-[50px] w-full max-w-[640px] items-center justify-center rounded-lg md:h-[55px] xl:h-[65px] ';
+    'text-mogazoa-16px-600 flex h-[50px] w-full items-center justify-center rounded-lg md:h-[55px] xl:h-[65px] ';
 
   const cursorAndHoverClasses = disabled
     ? 'cursor-not-allowed'

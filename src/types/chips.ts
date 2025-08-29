@@ -5,8 +5,10 @@ export interface CompareChipProps {
 }
 
 export interface categoryChipProps {
-  id: number;
-  name: string;
+  category: {
+    id: number;
+    name: string;
+  };
   className?: string;
 }
 

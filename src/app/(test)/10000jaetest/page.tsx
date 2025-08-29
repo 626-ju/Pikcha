@@ -64,7 +64,7 @@ const Page = () => {
       </div>
       <div className='flex gap-2 py-4'>
         {CATEGORY.map((ca) => (
-          <CategoryChip key={ca.id} id={ca.id} name={ca.name} />
+          <CategoryChip key={ca.id} category={ca} />
         ))}
       </div>
       <div className='flex items-center gap-2 pb-4'>
