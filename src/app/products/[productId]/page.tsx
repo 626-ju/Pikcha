@@ -1,15 +1,12 @@
 import Image from 'next/image';
 
 import { getProductDetail } from '@/actions/productDetail';
-import { getProductReviews } from '@/actions/productReview';
-import NoReview from '@/assets/icon/ReviewState.svg';
-import SortDropdown from '@/components/common/dropdowns/SortDropdown';
 import Button from '@/components/ui/Buttons';
 import CategoryChip from '@/components/ui/chips/CategoryChip';
 
 import FavoriteButton from './components/FavoriteButton';
 import MetricCard from './components/MetricCard';
-import ReviewCard from './components/ReviewCard';
+import ReviewSection from './components/ReviewSection';
 import ShareButton from './components/ShareButton';
 
 // 찜버튼 임시 함수
@@ -32,16 +29,11 @@ type ProductIdPageProps = {
   // searchParams: { order: string };
 };
 
-const ProductIdPage = async ({ params /*searchParams*/ }: ProductIdPageProps) => {
+const ProductIdPage = async ({ params }: ProductIdPageProps) => {
   const { productId } = await params;
   const currentProductId = Number(productId);
 
-  // const resolvedSearchParams = searchParams;
-  // const sortOption = resolvedSearchParams.order || 'recent';
-
   const product = await getProductDetail(currentProductId);
-
-  const productReviews = await getProductReviews(currentProductId);
 
   return (
     <div className='mx-auto max-w-250 px-5 py-10'>
@@ -85,24 +77,7 @@ const ProductIdPage = async ({ params /*searchParams*/ }: ProductIdPageProps) =>
           <MetricCard variant='review' product={product} />
         </div>
       </section>
-      <section>
-        <div className='mb-5 flex justify-between'>
-          <h2 className='text-mogazoa-18px-600 xl:text-mogazoa-20px-600'>상품리뷰</h2>
-          <SortDropdown variant='review' />
-        </div>
-        {productReviews?.length > 0 ? (
-          <div className='flex flex-col gap-3'>
-            {productReviews?.map((rev) => (
-              <ReviewCard review={rev} key={rev.id} />
-            ))}
-          </div>
-        ) : (
-          <div className='my-30 flex flex-col items-center justify-center gap-3 xl:my-40'>
-            <NoReview className='w-[50px]' />
-            <div className='text-mogazoa-20px-400 text-gray-6e6e82'>첫 리뷰를 작성해 보세요!</div>
-          </div>
-        )}
-      </section>
+      <ReviewSection productId={currentProductId} />
     </div>
   );
 };
