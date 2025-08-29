@@ -2,31 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-interface TextareaProps extends React.ComponentProps<'textarea'> {
-  size?: 'sm' | 'md' | 'lg';
-}
-
-function Textarea({ className, size = 'sm', ...props }: TextareaProps) {
-  const sizeMap = {
-    sm: {
-      border: 'w-[295px] h-[120px]',
-      inner: 'w-[293px] h-[118px]',
-      textbox: 'h-[80px]',
-    },
-    md: {
-      border: 'w-[360px] h-[120px]',
-      inner: 'w-[358px] h-[118px]',
-      textbox: 'h-[80px]',
-    },
-    lg: {
-      border: 'w-[400px] h-[128px]',
-      inner: 'w-[398px] h-[126px]',
-      textbox: 'h-[90px]',
-    },
-  };
-
-  const currentSize = sizeMap[size];
-
+function Textarea({ ...props }: React.ComponentProps<'textarea'>) {
   return (
     <div
       className={cn(
@@ -34,7 +10,7 @@ function Textarea({ className, size = 'sm', ...props }: TextareaProps) {
         'focus-within:border-transparent focus-within:bg-gradient-to-r',
         'focus-within:bg-main-gradation',
         'transition-all duration-700',
-        currentSize.border,
+        'w-[295px] md:w-[510px] xl:w-[540px]',
       )}
     >
       <div
@@ -49,8 +25,7 @@ function Textarea({ className, size = 'sm', ...props }: TextareaProps) {
 
           // Layout & Sizing
           'flex field-sizing-content p-5',
-
-          currentSize.inner,
+          'h-30 md:h-40',
         )}
       >
         <textarea
@@ -58,8 +33,7 @@ function Textarea({ className, size = 'sm', ...props }: TextareaProps) {
           className={cn(
             'no-scrollbar w-full resize-none',
             'focus:ring-0 focus:outline-none',
-            currentSize.textbox,
-            className,
+            'w-full',
           )}
           {...props}
         />

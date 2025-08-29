@@ -6,18 +6,16 @@ import { Textarea } from '@/components/ui/textarea';
 
 interface TextboxProps extends React.ComponentProps<'textarea'> {
   maxLength?: number;
-  size?: 'sm' | 'md' | 'lg';
 }
 
 const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
-  ({ maxLength = 300, size = 'sm', ...props }, ref) => {
+  ({ maxLength = 300, ...props }, ref) => {
     const [count, setCount] = React.useState(0);
 
     return (
       <div className='relative w-fit'>
         <Textarea
           ref={ref}
-          size={size}
           maxLength={maxLength}
           onChange={(e) => {
             setCount(e.target.value.length);

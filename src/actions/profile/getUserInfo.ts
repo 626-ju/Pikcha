@@ -16,7 +16,7 @@ export const getMyInfo = async () =>
   });
 
 export const getUserInfo = async (userid: number) =>
-  await fetcher(`${process.env.API_BASE_URL}//users/${userid}`, {
+  await fetcher(`${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/users/${userid}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,

@@ -43,9 +43,9 @@ const ProductList = ({ userid, initailData }: Props) => {
             </li>
           ))
         ) : (
-          <div className='m-auto mt-15 h-30 w-30'>
+          <div className='m-auto mt-15 h-60 w-60'>
             <Empty />
-            <p>목록이 없어요.</p>
+            <p className='text-mogazoa-24px-400 mt-6 text-center'>목록이 없습니다</p>
           </div>
         )}
       </ul>
