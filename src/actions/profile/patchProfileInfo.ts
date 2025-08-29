@@ -15,7 +15,7 @@ export const patchProfileInfo = async ({ nickname, description, image }: Profile
     image: image?.[0] ?? '',
   };
 
-  const res = await fetcher(`${process.env.SERVER_API_URL}/7777/users/me`, {
+  const res = await fetcher(`${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/users/me`, {
     method: 'PATCH',
     headers: {
       Authorization: `Bearer ${accessToken}`,

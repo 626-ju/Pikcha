@@ -6,7 +6,7 @@ import fetcher from '@/lib/utils/fetcher';
 const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 
 export const getMyInfo = async () =>
-  await fetcher(`${process.env.SERVER_API_URL}/7777/users/me`, {
+  await fetcher(`${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/users/me`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -16,7 +16,7 @@ export const getMyInfo = async () =>
   });
 
 export const getUserInfo = async (userid: number) =>
-  await fetcher(`${process.env.SERVER_API_URL}/7777/users/${userid}`, {
+  await fetcher(`${process.env.API_BASE_URL}//users/${userid}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,

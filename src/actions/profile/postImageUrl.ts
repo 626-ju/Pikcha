@@ -8,13 +8,16 @@ export const postImageUrl = async (file: File) => {
   const formData = new FormData();
   formData.append('image', file);
 
-  const res = await fetcher(`${process.env.SERVER_API_URL}/7777/images/upload`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
+  const res = await fetcher(
+    `${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/images/upload`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: formData,
     },
-    body: formData,
-  });
+  );
 
   return res;
 };
