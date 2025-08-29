@@ -73,7 +73,12 @@ const ProfileUpdateForm = () => {
         />
 
         {/* 요구사항엔 300자 시안에는 500자네요... */}
-        <Textbox placeholder='자신을 소개하세요' {...register('description')} maxLength={300} />
+        <Textbox
+          placeholder='자신을 소개하세요'
+          {...register('description')}
+          maxLength={300}
+          defaultValue={description}
+        />
 
         <Button disabled={!isDirty || isLoading} className='my-5'>
           {isLoading ? '저장 중...' : '저장하기'}

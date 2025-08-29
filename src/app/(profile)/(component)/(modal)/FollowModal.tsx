@@ -19,7 +19,7 @@ const FollowModalContent = ({ username, type }: Props) => {
 
   return (
     //팔로워나 비교하기 모달일 때만 버라이언트 주시면 됩니다
-    <Modal variant={'follower'}>
+    <Modal variant={'follower'} className='px-10 pb-10'>
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription aria-labelledby={title} />
