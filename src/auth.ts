@@ -25,6 +25,7 @@ interface CustomUser {
   image?: string | null;
   updatedAt: string;
   createdAt: string;
+  accessToken?: string;
 }
 
 // NextAuth 객체 생성
@@ -110,27 +111,37 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     // JWT 생성/갱신 시 호출
-    async jwt({ token, user }) {
-      if (user) {
-        // 로그인 시 토큰에 유저 정보 저장
+    async jwt({ token, user, account }) {
+      if (user && account) {
+        // 로그인 시 토큰에 유저 정보 + accessToken 저장
         token.id = user.id;
         token.email = user.email;
         token.description = user.description;
         token.nickname = user.nickname;
         token.image = user.image;
+
+        // OAuth 로그인 시 access_token 포함
+        if (account.access_token) {
+          token.accessToken = account.access_token;
+        }
+
+        // Credentials 로그인이라면 authorize() 응답에서 직접 받은 accessToken 넣기
+        if (user.accessToken) {
+          token.accessToken = user.accessToken;
+        }
       }
       return token;
     },
 
-    // 세션 생성 시 호출 (클라이언트에서 session 사용 가능 : AuthHydration 연동)
+    // 세션 생성 시 호출
     async session({ session, token }) {
       if (token) {
-        // 토큰 정보를 세션에 매핑
         session.user.id = token.id;
         session.user.email = token.email as string;
         session.user.description = token.description as string;
         session.user.image = token.image as string;
         session.user.nickname = token.nickname;
+        session.accessToken = token.accessToken as string;
       }
       return session;
     },

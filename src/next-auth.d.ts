@@ -9,6 +9,7 @@ declare module 'next-auth' {
       nickname?: string | null;
       teamId?: string | null;
     } & DefaultSession['user'];
+    accessToken?: string;
   }
 
   // User 인터페이스 확장
@@ -17,6 +18,7 @@ declare module 'next-auth' {
     nickname?: string | null;
     teamId?: string | null;
     description?: string | null;
+    accessToken?: string;
   }
 }
 
@@ -26,5 +28,6 @@ declare module 'next-auth/jwt' {
     id: string;
     nickname?: string | null;
     teamId?: string | null;
+    accessToken?: string;
   }
 }
