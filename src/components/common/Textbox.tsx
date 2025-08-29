@@ -8,6 +8,10 @@ interface TextboxProps extends React.ComponentProps<'textarea'> {
   maxLength?: number;
 }
 
+const truncated = (e: React.ChangeEvent<HTMLTextAreaElement>, maxLength: number) => {
+  return e.target.value.slice(0, maxLength).length;
+};
+
 const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
   ({ maxLength = 300, ...props }, ref) => {
     const [count, setCount] = React.useState(props?.defaultValue?.toString().length ?? 0);
@@ -19,7 +23,7 @@ const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
           maxLength={maxLength}
           {...props}
           onChange={(e) => {
-            setCount(e.target.value.length);
+            setCount(truncated(e, 300));
             props.onChange?.(e);
           }}
         />
