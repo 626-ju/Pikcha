@@ -3,9 +3,9 @@ import { CalculationMapProps, ProductDetail } from '@/types/product/productType'
 import { METRIC_CONFIG } from './MetricConfig';
 
 const calculationMap: CalculationMapProps = {
-  rating: (product) => (product.rating * 10 - product.categoryMetric.rating * 10) / 10,
+  rating: (product) => Math.trunc(product.rating * 10 - product.categoryMetric.rating * 10) / 10,
   favorite: (product) => product.favoriteCount - product.categoryMetric.favoriteCount,
-  review: (product) => product.reviewCount - product.categoryMetric.reviewCount,
+  review: (product) => Math.trunc(product.reviewCount - product.categoryMetric.reviewCount),
 };
 
 interface MetricCardProps {
@@ -16,12 +16,11 @@ interface MetricCardProps {
 const MetricCard = ({ variant, product }: MetricCardProps) => {
   const { title, unit, icon, isSmaller, isGreater } = METRIC_CONFIG[variant];
 
-  const initialCount =
-    variant === 'rating'
-      ? product.rating
-      : variant === 'favorite'
-        ? product.favoriteCount?.toLocaleString()
-        : product.reviewCount?.toLocaleString();
+  const initialCount = () => {
+    if (variant === 'rating') return product.rating;
+    if (variant === 'favorite') return product.favoriteCount?.toLocaleString();
+    if (variant === 'review') return product.reviewCount?.toLocaleString();
+  };
 
   const comparisonCount = calculationMap[variant] ? calculationMap[variant](product) : null;
 
@@ -38,7 +37,7 @@ const MetricCard = ({ variant, product }: MetricCardProps) => {
         <div className='flex items-center gap-[5px]'>
           {icon}
           <div className='text-mogazoa-16px-300 md:text-mogazoa-20px-300 xl:text-mogazoa-24px-300 text-gray-9fa6b2'>
-            {initialCount}
+            {initialCount()}
           </div>
         </div>
       </div>
