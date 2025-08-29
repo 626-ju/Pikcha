@@ -1,3 +1,4 @@
+import { getTopReviewedProducts, getTopRatingProducts } from '@/actions/productRank';
 import { getReviewerRanking } from '@/actions/review/reviewer';
 import FloatingButton from '@/components/ui/FloatingButton';
 
@@ -16,13 +17,19 @@ const Home = async ({
 }: {
   searchParams: Promise<{ q?: string; categoryId?: string; cursor?: string }>;
 }) => {
-  const users = await getReviewerRanking();
   const params = await searchParams;
   const q = params.q ?? '';
   const category = params.categoryId ? Number(params.categoryId) : null;
   const cursor = params.cursor ? Number(params.cursor) : null;
 
-  const data = await searchProducts({ q, category, cursor });
+  // API 병렬 호출
+  const [users, data, topReviewed, topRated] = await Promise.all([
+    getReviewerRanking(),
+    searchProducts({ q, category, cursor }),
+    getTopReviewedProducts(),
+    getTopRatingProducts(),
+  ]);
+
   const items = data.list;
 
   return (
@@ -35,8 +42,8 @@ const Home = async ({
             <div className='flex flex-col'>
               <MobileCategoryFilter className='mb-6 md:hidden' />
               <div className='flex flex-col gap-[80px]'>
-                <ReviewRank />
-                <RatingRank />
+                <ReviewRank products={topReviewed} />
+                <RatingRank products={topRated} />
               </div>
             </div>
           ) : items.length === 0 ? (
