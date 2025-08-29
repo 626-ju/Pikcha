@@ -25,7 +25,7 @@ const Activities = async ({ userid }: Props) => {
         </StatisticsCard>
 
         <StatisticsCard title='남긴 리뷰'>
-          <div className='mt-4 flex gap-[5px] md:mt-0'>
+          <div className='flex gap-[5px]'>
             <ReviewIcon size={20} />
             {data.reviewCount}
           </div>
@@ -33,8 +33,8 @@ const Activities = async ({ userid }: Props) => {
 
         <StatisticsCard title='관심 카테고리'>
           <CategoryChip
-            className='text-mogazoa-14px-400 px-3 py-2' //시안과 다르게 카테고리 칩 크기 키우기
-            category={data.mostFavoriteCategory ?? { id: 1, name: '기타' }}
+            className='text-mogazoa-14px-400 md:text-mogazoa-16px-400' //시안과 다르게 카테고리 칩 크기 키우기
+            category={data.mostFavoriteCategory ?? { id: 3, name: '기타' }}
           />
         </StatisticsCard>
       </div>
