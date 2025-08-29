@@ -10,7 +10,7 @@ import type { Session } from 'next-auth';
 const GlobalNav = ({ session }: { session: Session | null }) => {
   const isLoggedIn = !!session;
   return (
-    <header className='border-black-2e2e3a md:px=[30px] relative z-50 h-[70px] border-b-2 shadow-sm shadow-black md:h-[80px] xl:h-[100px] xl:px-[120px]'>
+    <header className='border-black-2e2e3a md:px=[30px] bg-black-1c1c22 sticky top-0 z-50 h-[70px] border-b-2 shadow-sm shadow-black md:h-[80px] xl:h-[100px] xl:px-[120px]'>
       <div className='mx-auto flex h-full items-center gap-4 px-5'>
         {/*모바일*/}
         <div className='flex items-center gap-2 md:hidden'>
