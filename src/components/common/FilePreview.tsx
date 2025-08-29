@@ -1,3 +1,4 @@
+import { X } from 'lucide-react';
 import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
@@ -13,7 +14,9 @@ const FilePreview = ({ url, index, onRemove }: FilePreviewProps) => {
     <div
       className={cn(
         'relative overflow-hidden',
-        'h-[140px] w-[140px] rounded-[8px]',
+        'aspect-square w-[140px] rounded-[8px]',
+        'md:w-[135px]',
+        'xl:w-[160px]',
         'border-black-353542 border',
       )}
     >
@@ -28,7 +31,7 @@ const FilePreview = ({ url, index, onRemove }: FilePreviewProps) => {
         )}
         aria-label='파일 삭제'
       >
-        <Image src='/icon/Icon-close.svg' alt='파일 삭제 아이콘' width={11} height={11} />
+        <X />
       </button>
     </div>
   );

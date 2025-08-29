@@ -6,20 +6,14 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '@/app/error';
 import Modal from '@/components/common/ModalUi';
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { FollowType } from '@/types/profile/follow';
 
-import FollowInfoList from './FollowInfoList';
+import ProfileUpdateForm from '../ProfileUpdateForm';
 
-interface Props {
-  username: string;
-  type: FollowType;
-}
-const FollowModalContent = ({ username, type }: Props) => {
-  const title = `${username}님을 ${type === 'followers' ? '팔로우' : '팔로잉'} 하는 유저`; //추후 username 받아오기
+const ProfileUpdateModal = () => {
+  const title = `프로필 편집`;
 
   return (
-    //팔로워나 비교하기 모달일 때만 버라이언트 주시면 됩니다
-    <Modal variant={'follower'}>
+    <Modal className='w-min-[335px] px-10'>
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription aria-labelledby={title} />
@@ -27,11 +21,11 @@ const FollowModalContent = ({ username, type }: Props) => {
 
       <div>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <FollowInfoList type={type} />
+          <ProfileUpdateForm />
         </ErrorBoundary>
       </div>
     </Modal>
   );
 };
 
-export default FollowModalContent;
+export default ProfileUpdateModal;

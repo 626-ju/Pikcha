@@ -3,50 +3,53 @@
 import { useState, ChangeEvent, useRef } from 'react';
 
 import Image from 'next/image';
+import { useErrorBoundary } from 'react-error-boundary';
 
+import { postImageUrl } from '@/actions/profile/postImageUrl';
 import { cn } from '@/lib/utils';
 
-import FilePreview from './FilePreview'; // 새로 만든 컴포넌트 import
+import FilePreview from './FilePreview';
 
 interface FileInputProps {
-  maxFiles?: number; // 기본값 1
+  maxFiles?: number;
+  value: string[];
+  onChange: (value: string[]) => void;
 }
 
-const FileInput = ({ maxFiles = 1 }: FileInputProps) => {
-  const [files, setFiles] = useState<File[]>([]);
-  const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
+const FileInput = ({ maxFiles = 1, value, onChange }: FileInputProps) => {
+  const [files, setFiles] = useState<string[]>(value ?? []);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { showBoundary } = useErrorBoundary();
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files).slice(0, maxFiles - files.length);
-      const updatedFiles = [...files, ...newFiles];
-      setFiles(updatedFiles);
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
 
-      newFiles.forEach((file) => {
-        if (file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setImagePreviewUrls((prev) => [...prev, reader.result as string]);
-          };
-          reader.readAsDataURL(file);
-        }
+    const file = e.target.files[0];
+
+    try {
+      const { url } = await postImageUrl(file);
+      setFiles((prev) => {
+        const updated = [...prev, url].slice(0, maxFiles);
+        onChange(updated);
+        return updated;
       });
+    } catch (err) {
+      showBoundary(err);
     }
   };
 
   const handleRemoveFile = (index: number) => {
-    setFiles((prev) => prev.filter((_, i) => i !== index));
-    setImagePreviewUrls((prev) => prev.filter((_, i) => i !== index));
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+    const updated = files.filter((_, i) => i !== index);
+    setFiles(updated);
+    onChange(updated);
+    //브라우저가 삭제했다가 다시 같은 이미지를 넣더라도 이벤트가 트리거 되게
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   return (
     <div className={cn('flex items-center', 'gap-[10px]', 'md:gap-[15px]', 'xl:gap-[20px]')}>
       {/* 업로드 버튼 */}
-      {imagePreviewUrls.length < maxFiles && (
+      {files.length < maxFiles && (
         <div
           onClick={() => fileInputRef.current?.click()}
           className={cn(
@@ -62,7 +65,7 @@ const FileInput = ({ maxFiles = 1 }: FileInputProps) => {
       )}
 
       {/* 업로드된 이미지 미리보기 - FilePreview 컴포넌트 사용 */}
-      {imagePreviewUrls.map((url, index) => (
+      {files.map((url, index) => (
         <FilePreview key={index} url={url} index={index} onRemove={handleRemoveFile} />
       ))}
 
