@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import { categoryChipProps } from '@/types/chips';
 
 export const CategoryChip = ({ id, name, className }: categoryChipProps) => {
-  const baseStyle = 'flex text-mogazoa-12px-400 shrink-0 rounded-md px-2 py-1 ';
+  const baseStyle = 'flex text-mogazoa-12px-400 shrink-0 rounded-md px-2 py-1';
 
   let categoryColor;
 
