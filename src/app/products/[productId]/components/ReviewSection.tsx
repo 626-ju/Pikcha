@@ -35,33 +35,31 @@ const ReviewSection = ({ productId }: { productId: number }) => {
     fetchReviews();
   }, [productId, option]);
 
-  if (isLoading) {
-    return (
-      <div className='my-30 flex flex-col items-center justify-center gap-3 xl:my-40'>
-        <NoReview className='w-[50px]' />
-        <div className='text-mogazoa-20px-400 text-gray-6e6e82'>Loading...</div>
-      </div>
-    );
-  }
-
   return (
     <section>
       <div className='mb-5 flex justify-between'>
         <h2 className='text-mogazoa-18px-600 xl:text-mogazoa-20px-600'>상품리뷰</h2>
         <SortDropdown variant='review' onChange={handleChangeOption} option={option} />
       </div>
-      {productReviews?.length > 0 ? (
-        <div className='flex flex-col gap-3'>
-          {productReviews?.map((rev) => (
-            <ReviewCard review={rev} key={rev.id} />
-          ))}
-        </div>
-      ) : (
+      {isLoading && (
         <div className='my-30 flex flex-col items-center justify-center gap-3 xl:my-40'>
           <NoReview className='w-[50px]' />
-          <div className='text-mogazoa-20px-400 text-gray-6e6e82'>첫 리뷰를 작성해 보세요!</div>
+          <div className='text-mogazoa-20px-400 text-gray-6e6e82'>Loading...</div>
         </div>
       )}
+      {!isLoading &&
+        (productReviews?.length > 0 ? (
+          <div className='flex flex-col gap-3'>
+            {productReviews?.map((rev) => (
+              <ReviewCard review={rev} key={rev.id} />
+            ))}
+          </div>
+        ) : (
+          <div className='my-30 flex flex-col items-center justify-center gap-3 xl:my-40'>
+            <NoReview className='w-[50px]' />
+            <div className='text-mogazoa-20px-400 text-gray-6e6e82'>첫 리뷰를 작성해 보세요!</div>
+          </div>
+        ))}
     </section>
   );
 };
