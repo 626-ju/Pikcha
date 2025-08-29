@@ -66,7 +66,7 @@ function DialogContent({
             data-slot='dialog-close'
             className={cn(
               'ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground',
-              'absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden',
+              'absolute top-9 right-9 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden',
               "disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-full",
               'size-6 md:size-9 xl:size-10', //반응형 x버튼 크기 24, 36, 40
             )}
@@ -84,7 +84,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot='dialog-header'
-      className={cn('mt-10 flex flex-col text-left', className)}
+      className={cn('mt-5 flex flex-col text-left', className)}
       {...props}
     />
   );
