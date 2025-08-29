@@ -22,9 +22,9 @@ const Activities = async ({ userid }: Props) => {
             이건 폰트 제대로 반영된 후에도 이러면 아예 ReactNode로 넘겨줘서 <br>하고 함께 넘기겠습니다.
         */}
         <StatisticsCard title='남긴 별점 평균'>
-          <div className='flex gap-[5px]'>
+          <div className='text-yellow-ffc83c flex gap-[5px]'>
             <StarIcon size={20} />
-            {data.averageRating}
+            <span className='text-white-f1f1f5'>{data.averageRating}</span>
           </div>
         </StatisticsCard>
 
@@ -36,7 +36,10 @@ const Activities = async ({ userid }: Props) => {
         </StatisticsCard>
 
         <StatisticsCard title='관심 카테고리'>
-          <CategoryChip className='inline' category={data.mostFavoriteCategory ?? '기타'} />
+          <CategoryChip
+            className='inline'
+            category={data.mostFavoriteCategory ?? { id: 1, name: '기타' }}
+          />
         </StatisticsCard>
       </div>
     </>

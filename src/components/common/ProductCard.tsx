@@ -33,9 +33,9 @@ const ProductCard = ({ movie }: Props) => {
             <span className='mr-2.5'>후기 {movie.reviewCount}</span>
             <span>찜 {movie.favoriteCount}</span>
           </div>
-          <div className='text-[var(--color-gray-9fa6b2)]'>
+          <div className='text-yellow-ffc83c'>
             <StarIcon className='mr-[2px] inline-block h-3 w-3' />
-            {movie?.rating}
+            <span className='text-gray-9fa6b2'>{movie?.rating}</span>
           </div>
         </div>
       </div>

@@ -28,7 +28,7 @@ const ErrorFallback = ({ error, reset, resetErrorBoundary }: Props) => {
 
   return (
     <div className='w-full'>
-      <div className={cn('m-auto max-w-[640px]', reset && 'mt-100')}>
+      <div className={cn('m-auto max-w-[640px]', reset && 'mt-80')}>
         <div className='text-mogazoa-24px-600 mb-10 text-center'>{userErrMsg}</div>
 
         {reset ? (
