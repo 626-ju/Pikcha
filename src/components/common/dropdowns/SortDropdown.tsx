@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import DropdownIcon from '@/assets/icon/Icon-dropdown.svg';
 import DropupIcon from '@/assets/icon/Icon-dropup.svg';
@@ -18,11 +18,13 @@ const SortDropdown = ({
   menuPosition = 'right',
   className,
   onChange,
+  option,
 }: {
   variant: 'product' | 'review' | 'user'; //product는 제품 sort / review는 리뷰 sort / user 는 유저페이지용
   menuPosition?: 'left' | 'right'; // 셀렉트박스(isOpen 하면 나오는 부분)의 정렬 방향
   className?: string; //트리거만 커스텀...
   onChange?: (value: string) => void; // 프롭을 string으로 받는 함수
+  option?: string;
 }) => {
   const getSortOption = () => {
     switch (variant) {
@@ -37,12 +39,14 @@ const SortDropdown = ({
     }
   };
 
-  const sortOptions = useMemo(() => getSortOption(), [getSortOption]);
-  const [value, setValue] = useState<string | undefined>(() => sortOptions?.[0]?.name); // 초기값으로 옵션의 0번 인덱스 name
+  const sortOptions = useMemo(() => getSortOption(), [variant]);
+
+  const displayValue =
+    sortOptions.find((op) => op.value === option)?.name || sortOptions?.[0]?.name;
+
   const { isOpen, toggleDropdown, dropdownRef: dropdownRef } = useDropdown();
 
   const handleSelectValue = (op: Sort) => {
-    setValue(op.name);
     onChange?.(op.value);
   };
 
@@ -56,7 +60,7 @@ const SortDropdown = ({
           className,
         )}
       >
-        {value}
+        {displayValue}
         {isOpen ? <DropupIcon /> : <DropdownIcon />}
         {isOpen && (
           <div

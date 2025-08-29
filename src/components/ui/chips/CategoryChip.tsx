@@ -1,5 +1,5 @@
+import { getCategoryName } from '@/lib/utils/categoryNameMap';
 import { categoryChipProps } from '@/types/chips';
-
 
 export const CategoryChip = ({ category, className }: categoryChipProps) => {
   const baseStyle = 'flex text-mogazoa-12px-400 shrink-0 rounded-md px-2 py-1 ';
@@ -44,7 +44,7 @@ export const CategoryChip = ({ category, className }: categoryChipProps) => {
   const allClassName = `${baseStyle} ${categoryColor} ${className}`;
   //cn으로 사용시 twMerge를 커스텀 해줘야함 서로다른 text 클래스가 충돌나서 후행 클래스만 적요됨
 
-  return <span className={allClassName}>{category.name}</span>;
+  return <span className={allClassName}>{getCategoryName(category.id)}</span>;
 };
 
 export default CategoryChip;

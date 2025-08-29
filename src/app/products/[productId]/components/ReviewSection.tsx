@@ -48,7 +48,7 @@ const ReviewSection = ({ productId }: { productId: number }) => {
     <section>
       <div className='mb-5 flex justify-between'>
         <h2 className='text-mogazoa-18px-600 xl:text-mogazoa-20px-600'>상품리뷰</h2>
-        <SortDropdown variant='review' onChange={handleChangeOption} />
+        <SortDropdown variant='review' onChange={handleChangeOption} option={option} />
       </div>
       {productReviews?.length > 0 ? (
         <div className='flex flex-col gap-3'>

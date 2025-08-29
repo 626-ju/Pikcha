@@ -11,13 +11,13 @@ const ShareButton = ({ variant }: { variant: 'primary' | 'kakao' }) => {
     <button
       type='button'
       className={cn(
-        'bg-black-252530 flex h-6 w-6 items-center justify-center rounded-[6px] xl:h-7 xl:w-7',
+        'bg-black-252530 flex h-6 w-6 items-center justify-center rounded-[6px] md:h-7 md:w-7 xl:h-8 xl:w-8',
       )}
     >
       {variant === 'primary' ? (
-        <ShareIcon className='h-[14px] w-[14px] xl:h-[18px] xl:w-[18px]' />
+        <ShareIcon className='h-[14px] w-[14px] md:h-[18px] md:w-[18px] xl:h-[22px] xl:w-[22px]' />
       ) : (
-        <KakaoIcon className='h-[14px] w-[14px] xl:h-[18px] xl:w-[18px]' />
+        <KakaoIcon className='h-[14px] w-[14px] md:h-[18px] md:w-[18px] xl:h-[22px] xl:w-[22px]' />
       )}
     </button>
   );
