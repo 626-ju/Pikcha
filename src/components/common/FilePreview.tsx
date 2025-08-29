@@ -14,7 +14,9 @@ const FilePreview = ({ url, index, onRemove }: FilePreviewProps) => {
     <div
       className={cn(
         'relative overflow-hidden',
-        'h-[140px] w-[140px] rounded-[8px]',
+        'aspect-square w-[140px] rounded-[8px]',
+        'md:w-[135px]',
+        'xl:w-[160px]',
         'border-black-353542 border',
       )}
     >
