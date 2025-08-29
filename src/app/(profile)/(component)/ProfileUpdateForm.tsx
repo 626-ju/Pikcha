@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useErrorBoundary } from 'react-error-boundary';
@@ -17,8 +17,8 @@ import { profileSchema, type ProfileFormValues } from '@/types/profile/profileUp
 
 const ProfileUpdateForm = () => {
   const { showBoundary } = useErrorBoundary();
-  const [isPending, startTrainsition] = useTransition();
   const close = useModalStore((state) => state.close);
+  const [isLoading, setIsLoading] = useState(false);
 
   const nickname = useUserInfoStore((state) => state.nickname);
   const description = useUserInfoStore((state) => state.description);
@@ -28,26 +28,31 @@ const ProfileUpdateForm = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     mode: 'all',
+    defaultValues: {
+      nickname,
+      description,
+      image: [image],
+    },
   });
 
-  const onSubmit = (data: ProfileFormValues) => {
-    startTrainsition(async () => {
-      try {
-        await patchProfileInfo({
-          nickname: data.nickname,
-          description: data.description,
-          image: data.image,
-        });
-      } catch (err) {
-        showBoundary(err);
-      } finally {
-        close();
-      }
-    });
+  const onSubmit = async (data: ProfileFormValues) => {
+    try {
+      setIsLoading(true);
+      await patchProfileInfo({
+        nickname: data.nickname,
+        description: data.description,
+        image: data.image,
+      });
+      close();
+    } catch (err) {
+      showBoundary(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -56,7 +61,6 @@ const ProfileUpdateForm = () => {
         <Controller
           name='image'
           control={control}
-          defaultValue={image ? [image] : []}
           render={({ field }) => (
             <FileInput value={field.value ?? []} onChange={field.onChange} maxFiles={1} />
           )}
@@ -65,7 +69,6 @@ const ProfileUpdateForm = () => {
         <Input
           placeholder='닉네임을 입력해주세요'
           {...register('nickname')}
-          defaultValue={nickname}
           errorMessage={errors.nickname?.message}
         />
 
@@ -74,11 +77,12 @@ const ProfileUpdateForm = () => {
           placeholder='자신을 소개하세요'
           {...register('description')}
           className='w-full'
-          defaultValue={description}
           maxLength={300}
         />
 
-        <Button className='my-5'>{isPending ? '저장 중...' : '저장하기'}</Button>
+        <Button disabled={!isDirty || isLoading} className='my-5'>
+          {isLoading ? '저장 중...' : '저장하기'}
+        </Button>
       </form>
     </div>
   );
