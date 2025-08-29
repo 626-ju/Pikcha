@@ -6,10 +6,11 @@ import { ProductListRes } from '@/types/products/productList';
 // 상품 검색을 위한 api 호출
 // .env 내 teamId 환경 변수로 포함되어 있음.
 // 순위 확인 시 최신 결과가 중요하기 때문에 no-store 처리
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? '';
+const API_BASE_URL = process.env.API_BASE_URL ?? '';
+const TEAM_ID = process.env.TEAM_ID ?? '';
 
 async function api<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(`${API_BASE_URL}/${TEAM_ID}/${path}`, {
     method: 'GET',
     cache: 'no-store',
     headers: { 'Content-Type': 'application/json' },

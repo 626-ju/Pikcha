@@ -8,7 +8,7 @@ type ReviewerListProps = {
 
 const ReviewerList = ({ users }: ReviewerListProps) => {
   return (
-    <div className='flex h-auto w-full flex-col gap-5 px-[30px] pt-[45px] xl:h-full xl:w-[250px] xl:gap-[30px]'>
+    <div className='flex h-auto w-full flex-col gap-5 xl:h-full xl:w-[250px] xl:gap-[30px] xl:px-[30px] xl:pt-[45px]'>
       <h2 className='text-mogazoa-14px-400 xl:text-mogazoa-16px-400 text-white-f1f1f5'>
         리뷰어 랭킹
       </h2>

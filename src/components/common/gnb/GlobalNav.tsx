@@ -5,13 +5,16 @@ import MobileCenter from './section/MobileCenter';
 import MobileLeft from './section/MobileLeft';
 import MobileRight from './section/MobileRight';
 
-const GlobalNav = () => {
+import type { Session } from 'next-auth';
+
+const GlobalNav = ({ session }: { session: Session | null }) => {
+  const isLoggedIn = !!session;
   return (
-    <header className='border-black-2e2e3a md:px=[30px] relative z-50 h-[70px] border-b-2 shadow-sm shadow-black md:h-[80px] xl:h-[100px] xl:px-[120px]'>
+    <header className='border-black-2e2e3a md:px=[30px] bg-black-1c1c22 sticky top-0 z-50 h-[70px] border-b-2 shadow-sm shadow-black md:h-[80px] xl:h-[100px] xl:px-[120px]'>
       <div className='mx-auto flex h-full items-center gap-4 px-5'>
         {/*모바일*/}
         <div className='flex items-center gap-2 md:hidden'>
-          <MobileLeft />
+          <MobileLeft session={session} />
         </div>
         <div className='grid flex-1 place-items-center md:hidden'>
           <MobileCenter />
@@ -27,7 +30,7 @@ const GlobalNav = () => {
           <DesktopCenter />
         </div>
         <div className='hidden w-2/7 items-center justify-end gap-2 px-3 md:flex xl:w-2/12'>
-          <DesktopRight isLoggedIn={true} /> {/* auth 연결 이후 프롭으로 내려줄 예정 */}
+          <DesktopRight isLoggedIn={isLoggedIn} />
         </div>
       </div>
     </header>

@@ -19,9 +19,9 @@ export interface Sort {
 }
 
 export const SORT_OPTION_PRODUCTS: Sort[] = [
-  { value: 'recent', name: '조회순' },
-  { value: 'ratingDesc', name: '별점 높은순' },
-  { value: 'ratingAsc', name: '별점 낮은순' },
+  { value: 'recent', name: '최신순' },
+  { value: 'rating', name: '별점순' },
+  { value: 'reviewCount', name: '리뷰순' },
 ];
 
 export const SORT_OPTION_REVIEWS: Sort[] = [
