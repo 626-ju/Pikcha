@@ -3,7 +3,6 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
 import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
@@ -88,10 +87,7 @@ const SigninPage = () => {
       </Button>
 
       <div className='flex flex-col gap-5'>
-        <Link href='/'>
-          <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
-        </Link>
-
+        <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
         <div className='flex items-center justify-center gap-5'>
           <button
             onClick={() => nextAuthSignIn('google')}
