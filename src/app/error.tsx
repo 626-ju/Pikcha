@@ -7,12 +7,6 @@
 //이때 FallbackComponent로 오는 ErrorFallback이 쓰이기 때문에 타입이 다르게 들어올 거라고 생각했어요 ->(이 컴포넌트를 종류가 다른 두 에러바운더리에서 사용한다는 말)
 //-> 그래서 아래와 같이 확장하고 reset이 있으면 reset을 쓰고 resetErrorBoundary가 있으면 이걸 쓰는 식으로 짰습니다.
 
-interface Props extends Partial<FallbackProps> {
-  error: Error;
-  reset?: () => void;
-  className?: string;
-}
-
 import React, { startTransition } from 'react';
 
 import { useRouter } from 'next/navigation';
@@ -20,6 +14,15 @@ import { FallbackProps } from 'react-error-boundary';
 
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
+
+interface Props extends Partial<FallbackProps> {
+  error: Error; //-> 서버액션에서의 에러 발생은 Error타입
+  // //리액트 에러바운더리의 에러발생은 any로 정의되어 있기는 한데 애초에 서버액션에서 throw한 에러가
+  // 서버액션 호출부의 try/catch에서 걸리고 showBoundary를 통해 넘어오니까 무조건 Error타입(throw new Error(에러 생성자로 던져준 거니까)
+  //Error는 js전역 내장 타입이니까 임포트x
+  reset?: () => void;
+  className?: string;
+}
 
 const ErrorFallback = ({ error, reset, resetErrorBoundary }: Props) => {
   const router = useRouter();
