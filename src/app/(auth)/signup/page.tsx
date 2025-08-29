@@ -61,6 +61,7 @@ const SignupPage = () => {
           placeholder='이메일을 입력해주세요'
           errorMessage={errors.email?.message}
           {...register('email')}
+          hintMessage=''
         />
 
         <Input
@@ -69,6 +70,7 @@ const SignupPage = () => {
           placeholder='닉네임을 입력해주세요'
           errorMessage={errors.nickname?.message}
           {...register('nickname')}
+          hintMessage='최대 10자 가능'
         />
 
         <Input
@@ -77,6 +79,7 @@ const SignupPage = () => {
           placeholder='비밀번호를 입력해주세요'
           errorMessage={errors.password?.message}
           {...register('password')}
+          hintMessage='최소 8자 이상'
         />
 
         <Input
@@ -85,6 +88,7 @@ const SignupPage = () => {
           placeholder='비밀번호를 한번 더 입력해주세요'
           errorMessage={errors.confirmPassword?.message}
           {...register('confirmPassword')}
+          hintMessage=''
         />
 
         {errorMessage && <p className='text-sm text-red-500'>{errorMessage}</p>}
