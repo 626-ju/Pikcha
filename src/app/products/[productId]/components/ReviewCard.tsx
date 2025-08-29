@@ -22,6 +22,8 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
   const validImages = review.reviewImages.filter((ri) => ri.source);
   const formattedDate = review.createdAt.split('T')[0];
 
+  console.log('review', review.reviewImages);
+
   return (
     <div className='bg-black-252530 border-black-353542 flex w-full flex-col gap-5 rounded-[8px] border-[1px] p-5 transition-normal duration-300 md:flex-row'>
       <ReviewAvatar user={review.user} rating={review.rating} />
