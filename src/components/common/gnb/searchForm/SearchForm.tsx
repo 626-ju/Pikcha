@@ -91,12 +91,12 @@ const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
         placeholder='상품 이름을 검색해 보세요'
         className='bg-black-252530 text-white-f1f1f5 placeholder:text-gray-6e6e82 md:max-x-[300px] relative w-full rounded-[28px] py-4 pr-12 pl-13 outline-none focus:border-none focus:ring-0 focus:outline-none md:h-[50px] xl:h-[56px] xl:max-w-[400px]'
       />
-      <Search className='text-gray-9fa6b2 absolute top-4 left-6 md:top-3 md:left-4 xl:top-4' />
+      <Search className='text-gray-9fa6b2 absolute top-4 left-6 md:top-3 xl:top-4' />
       {/* X 버튼 : 사용자 의도로만 지우기 */}
       {query && (
         <button
           aria-label='검색어 지우기'
-          className='text-gray-9fa6b2 absolute top-1/2 right-6 -translate-y-1/2 cursor-pointer md:right-4'
+          className='text-gray-9fa6b2 absolute top-1/2 right-6 -translate-y-1/2 cursor-pointer'
           onClick={() => {
             setQuery('');
             setSugs([]);

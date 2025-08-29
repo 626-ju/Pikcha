@@ -1,5 +1,6 @@
 import { categoryChipProps } from '@/types/chips';
 
+
 export const CategoryChip = ({ category, className }: categoryChipProps) => {
   const baseStyle = 'flex text-mogazoa-12px-400 shrink-0 rounded-md px-2 py-1 ';
 

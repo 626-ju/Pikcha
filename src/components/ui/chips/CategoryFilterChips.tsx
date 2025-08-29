@@ -6,7 +6,7 @@ const CategoryFilterChip = ({ name, className, onClick }: CategoryFilterChipProp
   return (
     <button
       className={cn(
-        'border-black-353542 text-mogazoa-14px-400 text-gray-9fa6b2 flex max-w-[120px] shrink-0 items-center justify-between gap-[4px] rounded-full border-1 px-3 py-2',
+        'border-black-353542 text-mogazoa-14px-400 text-gray-9fa6b2 flex shrink-0 items-center gap-[4px] rounded-full border-1 px-3 py-2 whitespace-nowrap',
         className,
       )}
       onClick={onClick}
