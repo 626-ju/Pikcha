@@ -11,14 +11,14 @@ interface Props {
 }
 
 const FollowerModalTrigger = ({ followers, followees, username }: Props) => {
-  const open = useModalStore((state) => state.open);
+  const openModal = useModalStore((state) => state.openModal);
 
   const handleFollowerClick = () => {
-    open({ component: FollowModalContent, props: { username, type: 'followers' } });
+    openModal({ component: FollowModalContent, props: { username, type: 'followers' } });
   };
 
   const handleFolloweeClick = () => {
-    open({ component: FollowModalContent, props: { username, type: 'followees' } });
+    openModal({ component: FollowModalContent, props: { username, type: 'followees' } });
   };
 
   return (

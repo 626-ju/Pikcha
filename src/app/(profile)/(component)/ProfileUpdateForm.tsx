@@ -17,7 +17,7 @@ import { profileSchema, type ProfileFormValues } from '@/types/profile/profileUp
 
 const ProfileUpdateForm = () => {
   const { showBoundary } = useErrorBoundary();
-  const close = useModalStore((state) => state.close);
+  const closeModal = useModalStore((state) => state.closeModal);
   const [isLoading, setIsLoading] = useState(false);
 
   const nickname = useUserInfoStore((state) => state.nickname);
@@ -47,7 +47,7 @@ const ProfileUpdateForm = () => {
         description: data.description,
         image: data.image,
       });
-      close();
+      closeModal();
     } catch (err) {
       showBoundary(err);
     } finally {
