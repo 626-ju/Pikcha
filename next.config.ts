@@ -4,7 +4,7 @@ import type { Configuration as WebpackConfig } from 'webpack';
 const nextConfig: NextConfig = {
   webpack(config: WebpackConfig) {
     config.module?.rules?.push({
-      test: /\.svg$/,
+      test: /.svg$/,
       use: ['@svgr/webpack'],
     });
 
@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    domains: ['mogazoa-api.vercel.app', 'example.com'],
   },
 };
 

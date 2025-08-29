@@ -36,7 +36,7 @@ const Activities = async ({ userid }: Props) => {
         </StatisticsCard>
 
         <StatisticsCard title='관심 카테고리'>
-          <CategoryChip className='inline' id={3} name={data.favoriteCategory ?? '기타'} />
+          <CategoryChip className='inline' category={data.mostFavoriteCategory ?? '기타'} />
         </StatisticsCard>
       </div>
     </>

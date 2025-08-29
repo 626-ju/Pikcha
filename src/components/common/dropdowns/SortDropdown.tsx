@@ -37,7 +37,7 @@ const SortDropdown = ({
     }
   };
 
-  const sortOptions = useMemo(() => getSortOption(), [variant]);
+  const sortOptions = useMemo(() => getSortOption(), [getSortOption]);
   const [value, setValue] = useState<string | undefined>(() => sortOptions?.[0]?.name); // 초기값으로 옵션의 0번 인덱스 name
   const { isOpen, toggleDropdown, dropdownRef: dropdownRef } = useDropdown();
 
