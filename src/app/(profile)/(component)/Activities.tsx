@@ -29,7 +29,7 @@ const Activities = async ({ userid }: Props) => {
         </StatisticsCard>
 
         <StatisticsCard title='남긴 리뷰'>
-          <div className='flex gap-[5px]'>
+          <div className='mt-4 flex gap-[5px] md:mt-0'>
             <ReviewIcon size={20} />
             {data.reviewCount}
           </div>
