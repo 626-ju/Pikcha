@@ -31,7 +31,7 @@ const ProfileUpdateForm = () => {
     formState: { errors, isDirty },
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    mode: 'all',
+    mode: 'onBlur',
     defaultValues: {
       nickname,
       description,
