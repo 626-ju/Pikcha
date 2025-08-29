@@ -9,7 +9,12 @@ interface TextboxProps extends React.ComponentProps<'textarea'> {
 }
 
 const truncated = (e: React.ChangeEvent<HTMLTextAreaElement>, maxLength: number) => {
-  return e.target.value.slice(0, maxLength).length;
+  const chars = e.target.value;
+  if (chars.length > maxLength) {
+    e.target.value = chars.slice(0, maxLength);
+  }
+
+  return chars.slice(0, maxLength).length;
 };
 
 const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
@@ -20,10 +25,10 @@ const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
       <div className='relative w-fit'>
         <Textarea
           ref={ref}
-          maxLength={maxLength}
+          spellCheck={false}
           {...props}
           onChange={(e) => {
-            setCount(truncated(e, 300));
+            setCount(truncated(e, 100));
             props.onChange?.(e);
           }}
         />
