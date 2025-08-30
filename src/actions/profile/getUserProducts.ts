@@ -2,7 +2,7 @@
 
 import fetcher from '@/lib/utils/fetcher';
 
-export const getUserProducts = async (userid: number, option: string = 'created-product') =>
+export const getUserProducts = async (userid: number, option: string = 'reviewed-products') =>
   await fetcher(
     `${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/users/${userid}/${option}`,
     {

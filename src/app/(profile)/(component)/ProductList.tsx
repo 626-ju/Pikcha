@@ -1,40 +1,45 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
-import { getUserProducts } from '@/actions/profile/getUserProducts';
 import Empty from '@/assets/icon/Icon-empty.svg';
+import SortDropdown from '@/components/common/dropdowns/SortDropdown';
 import ProductCard from '@/components/common/ProductCard';
+import useFetchUserProductList from '@/hooks/useFetchUserProductList';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { Product } from '@/types/product/productType';
 
 interface Props {
   userid: number;
-  initailData: Product[];
+  initialData: Product[];
 }
 
-const ProductList = ({ userid, initailData }: Props) => {
-  const [movieList, setMovieList] = useState(initailData);
-  const [option, setOption] = useState('created-products');
+const ProductList = ({ userid, initialData }: Props) => {
+  const [option, setOption] = useState('reviewed-products');
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   const onValueChange = (value: string) => {
     setOption(value);
   };
 
-  //드랍다운에 넘겨줄 수 있게 되면 삭제.
-  console.log(onValueChange);
+  const { movieList, isFetching, fetchProducts, cursor } = useFetchUserProductList(
+    userid,
+    option,
+    initialData,
+  );
 
-  const fetchProductsByOption = useCallback(async () => {
-    const data = await getUserProducts(userid, option);
-    setMovieList(data.list);
-  }, [userid, option]);
+  const onIntersect = useCallback(() => {
+    if (!isFetching && cursor !== null) fetchProducts();
+    // eslint-disable-next-line
+  }, [cursor, isFetching]);
 
-  useEffect(() => {
-    fetchProductsByOption();
-  }, [fetchProductsByOption]);
+  useIntersectionObserver(loadMoreRef, cursor, onIntersect);
 
   return (
-    <>
-      <div className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-20'>드랍다운 자리</div>
+    <div className='mb-30 md:mb-15'>
+      <div className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-20'>
+        <SortDropdown variant={'user'} onChange={onValueChange} menuPosition='left' />
+      </div>
       <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
         {movieList?.length !== 0 ? (
           movieList?.map((movie) => (
@@ -49,7 +54,7 @@ const ProductList = ({ userid, initailData }: Props) => {
           </div>
         )}
       </ul>
-    </>
+    </div>
   );
 };
 
