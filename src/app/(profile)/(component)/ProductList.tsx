@@ -5,8 +5,10 @@ import { useCallback, useRef, useState } from 'react';
 import Empty from '@/assets/icon/Icon-empty.svg';
 import SortDropdown from '@/components/common/dropdowns/SortDropdown';
 import ProductCard from '@/components/common/ProductCard';
+import { SORT_OPTION_USER_PAGE } from '@/constants/ProductsConst';
 import useFetchUserProductList from '@/hooks/useFetchUserProductList';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { cn } from '@/lib/utils';
 import { Product } from '@/types/product/productType';
 
 interface Props {
@@ -38,7 +40,23 @@ const ProductList = ({ userid, initialData }: Props) => {
   return (
     <div className='mb-30 md:mb-15'>
       <div className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-20'>
-        <SortDropdown variant={'user'} onChange={onValueChange} menuPosition='left' />
+        <div className='hidden gap-10 xl:flex'>
+          {SORT_OPTION_USER_PAGE.map(({ value, name }) => (
+            <button
+              key={`tab-${value}`}
+              className={cn('text-gray-6e6e82', value === option && 'text-white-f1f1f5')}
+              onClick={() => setOption(value)}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+        <SortDropdown
+          variant={'user'}
+          menuPosition='left'
+          className='xl:hidden'
+          onChange={onValueChange}
+        />
       </div>
       <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
         {movieList?.length !== 0 ? (
