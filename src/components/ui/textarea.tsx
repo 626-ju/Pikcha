@@ -9,7 +9,7 @@ function Textarea({ ...props }: React.ComponentProps<'textarea'>) {
         'relative rounded-[8px] p-[1px]',
         'focus-within:border-transparent focus-within:bg-gradient-to-r',
         'focus-within:bg-main-gradation',
-        'transition-all duration-700',
+        'transition-all duration-300',
         'w-[295px] md:w-[510px] xl:w-[540px]',
       )}
     >
