@@ -39,7 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'disabled:pointer-events-none disabled:cursor-not-allowed',
               'aria-invalid:border-red-ff0000',
               'focus:border-main-blue',
-              'transition-all duration-200',
+              'transition-all duration-300',
               'placeholder:text-gray-6e6e82',
               className,
             )}
