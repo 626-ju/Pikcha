@@ -53,7 +53,7 @@ const ProductList = ({ userid, initialData }: Props) => {
         </div>
         <SortDropdown
           variant={'user'}
-          menuPosition='right'
+          menuPosition='left'
           className='xl:hidden'
           onChange={onValueChange}
         />

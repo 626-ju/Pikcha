@@ -24,6 +24,7 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
       setCursor(() => data.nextCursor);
     } catch (err) {
       console.log(err);
+      setErrOccur(true);
       setMovieList([]);
     } finally {
       setIsFetching(false);
