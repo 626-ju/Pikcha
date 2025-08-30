@@ -20,7 +20,7 @@ const SignupPage = () => {
     formState: { errors },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
-    mode: 'onTouched',
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data: SignupFormValues) => {
@@ -90,11 +90,11 @@ const SignupPage = () => {
           {...register('confirmPassword')}
           hintMessage=''
         />
-
-        {errorMessage && <p className='text-sm text-red-500'>{errorMessage}</p>}
       </div>
-
-      <Button className='shrink-0'>가입하기</Button>
+      <div>
+        <Button className='shrink-0'>가입하기</Button>
+        {errorMessage && <p className='my-5 text-center text-sm text-red-500'>{errorMessage}</p>}
+      </div>
     </form>
   );
 };
