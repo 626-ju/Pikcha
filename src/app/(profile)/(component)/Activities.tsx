@@ -13,8 +13,7 @@ interface Props {
 const Activities = async ({ userid }: Props) => {
   const data = await getUserInfo(userid);
 
-  const flooraverageRating = Math.floor(data.averageRating);
-  const floorReviewCount = Math.floor(data.reviewCount);
+  const RoundaverageRating = Math.round(data.averageRating * 10) / 10;
 
   return (
     <>
@@ -23,14 +22,14 @@ const Activities = async ({ userid }: Props) => {
         <StatisticsCard title='남긴 별점 평균'>
           <div className='text-yellow-ffc83c flex gap-[5px]'>
             <StarIcon size={20} />
-            <span className='text-white-f1f1f5'>{flooraverageRating}</span>
+            <span className='text-white-f1f1f5'>{RoundaverageRating}</span>
           </div>
         </StatisticsCard>
 
         <StatisticsCard title='남긴 리뷰'>
           <div className='flex gap-[5px]'>
             <ReviewIcon size={20} />
-            {floorReviewCount}
+            {data.reviewCount}
           </div>
         </StatisticsCard>
 

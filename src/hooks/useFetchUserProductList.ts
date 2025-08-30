@@ -9,6 +9,7 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
   const [movieList, setMovieList] = useState(initialData);
   const [isFetching, setIsFetching] = useState(false);
   const [cursor, setCursor] = useState<number | null>(0);
+  const [errOccur, setErrOccur] = useState(false);
 
   const fetchProducts = async () => {
     if (cursor === null || isFetching) return;
@@ -40,6 +41,7 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
         setCursor(data.nextCursor);
       } catch (err) {
         console.log(err);
+        setErrOccur(true);
         setMovieList([]);
       } finally {
         setIsFetching(false);
@@ -50,7 +52,7 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
     // 여기에 커서는 들어가면 안도ㅒ!
   }, [option, userid]);
 
-  return { movieList, isFetching, fetchProducts, cursor };
+  return { movieList, isFetching, fetchProducts, cursor, errOccur };
 };
 
 export default useFetchUserProductList;

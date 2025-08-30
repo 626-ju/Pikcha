@@ -24,7 +24,7 @@ const ProductList = ({ userid, initialData }: Props) => {
     setOption(value);
   };
 
-  const { movieList, isFetching, fetchProducts, cursor } = useFetchUserProductList(
+  const { movieList, isFetching, fetchProducts, cursor, errOccur } = useFetchUserProductList(
     userid,
     option,
     initialData,
@@ -70,10 +70,14 @@ const ProductList = ({ userid, initialData }: Props) => {
         ) : (
           <div className='m-auto mt-15 h-60 w-60'>
             <Empty />
-            <p className='text-mogazoa-24px-400 mt-6 text-center'>목록이 없습니다</p>
+            <p className='text-mogazoa-24px-400 mt-6 text-center'>
+              {errOccur ? '잠시 후에 시도해주세요' : '목록이 없습니다'}
+            </p>
           </div>
         )}
-        {cursor !== null && <div ref={loadMoreRef} className='h-[5px] w-4'></div>}
+        {cursor !== null && errOccur === false && (
+          <div ref={loadMoreRef} className='h-[5px] w-4'></div>
+        )}
       </ul>
     </div>
   );

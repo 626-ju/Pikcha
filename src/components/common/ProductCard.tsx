@@ -9,6 +9,8 @@ interface Props {
 }
 
 const ProductCard = ({ movie }: Props) => {
+  const averageRating = Math.round(movie.rating * 10) / 10;
+
   return (
     <Link
       href={`/products/${movie.id}`}
@@ -35,7 +37,7 @@ const ProductCard = ({ movie }: Props) => {
           </div>
           <div className='text-yellow-ffc83c'>
             <StarIcon className='mr-[2px] inline-block h-3 w-3' />
-            <span className='text-gray-9fa6b2'>{Math.floor(movie.rating)}</span>
+            <span className='text-gray-9fa6b2'>{averageRating}</span>
           </div>
         </div>
       </div>
