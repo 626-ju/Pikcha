@@ -45,7 +45,7 @@ const ProductPostForm = () => {
             <FileInput value={field.value ?? []} onChange={field.onChange} maxFiles={1} />
           )}
         />
-        <div className='flex flex-col md:flex-1 md:gap-[6px]'>
+        <div className='flex flex-col gap-[10px] md:flex-1 md:gap-3'>
           <Input
             placeholder='작품 제목'
             {...register('name')}
