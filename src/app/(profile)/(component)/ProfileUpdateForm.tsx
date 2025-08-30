@@ -17,7 +17,7 @@ import { profileSchema, type ProfileFormValues } from '@/types/profile/profileUp
 
 const ProfileUpdateForm = () => {
   const { showBoundary } = useErrorBoundary();
-  const close = useModalStore((state) => state.close);
+  const closeModal = useModalStore((state) => state.closeModal);
   const [isLoading, setIsLoading] = useState(false);
 
   const nickname = useUserInfoStore((state) => state.nickname);
@@ -31,7 +31,7 @@ const ProfileUpdateForm = () => {
     formState: { errors, isDirty },
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    mode: 'all',
+    mode: 'onBlur',
     defaultValues: {
       nickname,
       description,
@@ -47,7 +47,7 @@ const ProfileUpdateForm = () => {
         description: data.description,
         image: data.image,
       });
-      close();
+      closeModal();
     } catch (err) {
       showBoundary(err);
     } finally {
@@ -62,22 +62,21 @@ const ProfileUpdateForm = () => {
           name='image'
           control={control}
           render={({ field }) => (
-            <FileInput value={field.value ?? []} onChange={field.onChange} maxFiles={1} />
+            <FileInput maxFiles={1} value={field.value ?? []} onChange={field.onChange} />
           )}
         />
 
         <Input
           placeholder='닉네임을 입력해주세요'
-          {...register('nickname')}
           errorMessage={errors.nickname?.message}
+          {...register('nickname')}
         />
 
-        {/* 요구사항엔 300자 시안에는 500자네요... */}
         <Textbox
           placeholder='자신을 소개하세요'
-          {...register('description')}
-          maxLength={300}
+          maxLength={140}
           defaultValue={description}
+          {...register('description')}
         />
 
         <Button disabled={!isDirty || isLoading} className='my-5'>

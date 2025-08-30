@@ -13,7 +13,7 @@ interface MobileCategoryFilterProps {
 }
 
 const MobileCategoryFilter = ({ className }: MobileCategoryFilterProps) => {
-  const { open } = useModalStore();
+  const { openModal } = useModalStore();
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get('categoryId')
     ? Number(searchParams.get('categoryId'))
@@ -24,7 +24,7 @@ const MobileCategoryFilter = ({ className }: MobileCategoryFilterProps) => {
     : '전체 카테고리';
 
   const handleClick = () => {
-    open({
+    openModal({
       component: CategoryModal,
       props: {},
     });
