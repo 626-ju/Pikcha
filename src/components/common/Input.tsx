@@ -22,8 +22,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputType = type === 'password' ? (showPassword ? 'text' : 'password') : type;
 
     return (
-      <div className='flex w-full flex-col gap-[10px]'>
-        {/* h-[106px] xl:h-[126px]*/}
+      <div className='relative flex w-full flex-col gap-[10px]'>
         {label && <Label htmlFor={inputId}>{label}</Label>}
         <div className='relative'>
           <input
@@ -60,9 +59,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {errorMessage ? (
-          <p className='text-sm text-red-500'>{errorMessage}</p>
+          <p className='absolute -bottom-5 text-sm text-red-500'>{errorMessage}</p>
         ) : (
-          <p className='text-gray-6e6e82 text-sm'>{hintMessage}</p>
+          <p className='text-gray-6e6e82 absolute -bottom-5 text-sm'>{hintMessage}</p>
         )}
       </div>
     );

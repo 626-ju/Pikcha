@@ -62,7 +62,7 @@ const SigninPage = () => {
           'xl:w-[640px] xl:pt-[90px]',
         )}
       >
-        <div className='flex flex-col gap-[30px] md:gap-5'>
+        <div className='flex flex-col gap-[30px] md:gap-10'>
           <Input
             type='email'
             label='이메일'
