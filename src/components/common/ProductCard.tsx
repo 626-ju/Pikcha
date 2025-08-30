@@ -11,7 +11,7 @@ interface Props {
 const ProductCard = ({ movie }: Props) => {
   return (
     <Link
-      href={`/products/${movie?.id}`}
+      href={`/products/${movie.id}`}
       className='border-black-353542 bg-black-252530 block rounded-[8px] p-2.5 xl:p-5'
     >
       {/* 컨텐츠 영화로 했을 때는 세로로 좀 더 길어야 할 것 같은데 고민이네요 */}
@@ -30,12 +30,12 @@ const ProductCard = ({ movie }: Props) => {
         </h3>
         <div className='text-mogazoa-12px-300 md:text-mogazoa-14px-300 xl:text-mogazoa-16px-300 text-gray-6e6e82 flex flex-col md:flex-row md:justify-between'>
           <div className='mb-[5px]'>
-            <span className='mr-2.5'>후기 {movie.reviewCount}</span>
+            <span className='mr-2.5'>후기 {Math.floor(movie.reviewCount)}</span>
             <span>찜 {movie.favoriteCount}</span>
           </div>
           <div className='text-yellow-ffc83c'>
             <StarIcon className='mr-[2px] inline-block h-3 w-3' />
-            <span className='text-gray-9fa6b2'>{movie?.rating}</span>
+            <span className='text-gray-9fa6b2'>{Math.floor(movie.rating)}</span>
           </div>
         </div>
       </div>
