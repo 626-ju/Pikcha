@@ -50,7 +50,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
             onChange={(e) => {
               setCount(() => {
-                e.target.value = truncated(e.target.value, 10);
+                maxLength && (e.target.value = truncated(e.target.value, maxLength));
                 return e.target.value.length;
               });
               props.onChange?.(e);
