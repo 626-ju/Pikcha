@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import { Textarea } from '@/components/ui/textarea';
+import { truncated } from '@/lib/utils/truncated';
 
 interface TextboxProps extends React.ComponentProps<'textarea'> {
   maxLength?: number;
@@ -16,10 +17,13 @@ const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
       <div className='relative w-fit'>
         <Textarea
           ref={ref}
-          maxLength={maxLength}
+          spellCheck={false}
           {...props}
           onChange={(e) => {
-            setCount(e.target.value.length);
+            setCount(() => {
+              e.target.value = truncated(e.target.value, 140);
+              return e.target.value.length;
+            });
             props.onChange?.(e);
           }}
         />

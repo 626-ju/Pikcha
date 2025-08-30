@@ -18,7 +18,7 @@ const FollowTrigger = ({ isFollowing }: Props) => {
   };
 
   return isFollowing ? (
-    <Button onClick={handleUnFollowClick} variant='tertiary'>
+    <Button variant='tertiary' onClick={handleUnFollowClick}>
       팔로우 취소
     </Button>
   ) : (
