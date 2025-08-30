@@ -16,7 +16,7 @@ const MobileMenu = ({ session }: MobileMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const isLoggedIn = !!session;
-  const name = session?.user?.name ?? null;
+  const name = session?.user?.nickname ?? null;
   const profileUrl = session?.user?.image ?? null;
 
   return (
