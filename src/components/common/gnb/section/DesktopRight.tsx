@@ -5,7 +5,14 @@ import LoginButton from '../buttons/LoginButton';
 import SignupButton from '../buttons/SignupButton';
 import ProfileDropdown from '../profile/ProfileDropdown';
 
-const DesktopRight = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+import type { Session } from 'next-auth';
+
+interface DesktopRightProps {
+  session: Session | null;
+}
+
+const DesktopRight = ({ session }: DesktopRightProps) => {
+  const isLoggedIn = !!session;
   return (
     <div>
       {/* guest */}
@@ -16,7 +23,7 @@ const DesktopRight = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       {/* auth */}
       <div className={isLoggedIn ? 'flex gap-5' : 'hidden'}>
         <CompareButton />
-        <ProfileDropdown /> {/* 프로필 너비를 고정할 거라면 hidden 안써도 될듯 */}
+        <ProfileDropdown session={session} />
       </div>
     </div>
   );
