@@ -35,7 +35,7 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
       setIsFetching(true);
 
       try {
-        const data = await getUserProducts(userid, option, cursor ?? 0);
+        const data = await getUserProducts(userid, option, 0);
         setMovieList(data.list);
         setCursor(data.nextCursor);
       } catch (err) {
@@ -47,6 +47,7 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
     };
 
     fetchOptionChange();
+    // 여기에 커서는 들어가면 안도ㅒ!
   }, [option, userid]);
 
   return { movieList, isFetching, fetchProducts, cursor };

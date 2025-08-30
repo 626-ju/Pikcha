@@ -53,7 +53,7 @@ const ProductList = ({ userid, initialData }: Props) => {
         </div>
         <SortDropdown
           variant={'user'}
-          menuPosition='left'
+          menuPosition='right'
           className='xl:hidden'
           onChange={onValueChange}
         />
@@ -73,7 +73,7 @@ const ProductList = ({ userid, initialData }: Props) => {
             <p className='text-mogazoa-24px-400 mt-6 text-center'>목록이 없습니다</p>
           </div>
         )}
-        {cursor !== null && <div ref={loadMoreRef}>로딩트리거어어어어어ㅓ</div>}
+        {cursor !== null && <div ref={loadMoreRef} className='h-[5px] w-4'></div>}
       </ul>
     </div>
   );
