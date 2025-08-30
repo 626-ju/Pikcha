@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import { getUserInfo } from '@/actions/profile/getUserInfo';
+import { truncated } from '@/lib/utils/truncated';
 
 import FollowerModalTrigger from './FollowModalTrigger';
 import FollowTrigger from './FollowTrigger';
@@ -13,6 +14,9 @@ interface Props {
 
 const ProfileCard = async ({ userid, myPage }: Props) => {
   const data = await getUserInfo(userid);
+
+  const truncatedDescription = truncated(data.description, 140);
+  const truncatedNickname = truncated(data.nickname, 10);
 
   return (
     <div className='border-black-353542 bg-black-252530 relative flex w-[335px] flex-col items-center gap-7.5 rounded-[12px] px-5 py-7.5 md:w-[509px] md:px-7.5 xl:h-fit xl:w-[340px] xl:gap-10 xl:px-5 xl:py-10'>
@@ -35,10 +39,10 @@ const ProfileCard = async ({ userid, myPage }: Props) => {
 
       <div className='flex flex-col items-center justify-between gap-2.5 xl:gap-5'>
         <h2 className='text-mogazoa-20px-600 md:text-mogazoa-24px-600 text-white-f1f1f5'>
-          {data.nickname}
+          {truncatedNickname}
         </h2>
         <p className='text-mogazoa-14px-400 xl:text-mogazoa-16px-400 text-gray-6e6e82 break-words'>
-          {data.description}
+          {truncatedDescription}
         </p>
       </div>
       <FollowerModalTrigger
@@ -47,7 +51,11 @@ const ProfileCard = async ({ userid, myPage }: Props) => {
         username={data.nickname}
       />
       {myPage ? (
-        <UpdateTrigger nickname={data.nickname} description={data.description} image={data.image} />
+        <UpdateTrigger
+          nickname={truncatedNickname}
+          description={truncatedDescription}
+          image={data.image}
+        />
       ) : (
         <FollowTrigger isFollowing={data.isFollowing} />
       )}

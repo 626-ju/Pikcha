@@ -55,7 +55,7 @@ function DialogContent({
         className={cn(
           'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
           'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)]',
-          'w-[355px] translate-x-[-50%] translate-y-[-50%] gap-5 rounded-xl border-0 p-5 shadow-lg duration-200 md:w-[590px] md:gap-10 xl:w-[620px]',
+          'w-[355px] translate-x-[-50%] translate-y-[-50%] gap-5 rounded-xl border-0 p-5 shadow-lg duration-300 md:w-[590px] md:gap-10 xl:w-[620px]',
           className,
         )}
         {...props}
@@ -66,7 +66,7 @@ function DialogContent({
             data-slot='dialog-close'
             className={cn(
               'ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground',
-              'absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden',
+              'absolute top-8 right-9 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden',
               "disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-full",
               'size-6 md:size-9 xl:size-10', //반응형 x버튼 크기 24, 36, 40
             )}
@@ -84,7 +84,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot='dialog-header'
-      className={cn('mt-10 flex flex-col text-left', className)}
+      className={cn('mt-5 flex flex-col text-left', className)}
       {...props}
     />
   );

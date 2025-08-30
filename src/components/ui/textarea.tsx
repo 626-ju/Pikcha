@@ -9,7 +9,7 @@ function Textarea({ ...props }: React.ComponentProps<'textarea'>) {
         'relative rounded-[8px] p-[1px]',
         'focus-within:border-transparent focus-within:bg-gradient-to-r',
         'focus-within:bg-main-gradation',
-        'transition-all duration-700',
+        'transition-all duration-300',
         'w-[295px] md:w-[510px] xl:w-[540px]',
       )}
     >
@@ -34,6 +34,7 @@ function Textarea({ ...props }: React.ComponentProps<'textarea'>) {
             'no-scrollbar w-full resize-none',
             'focus:ring-0 focus:outline-none',
             'w-full',
+            'text-mogazoa-14px-400 xl:text-mogazoa-16px-400',
           )}
           {...props}
         />

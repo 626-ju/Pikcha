@@ -51,7 +51,6 @@ const FileInput = ({ maxFiles = 1, value, onChange }: FileInputProps) => {
       {/* 업로드 버튼 */}
       {files.length < maxFiles && (
         <div
-          onClick={() => fileInputRef.current?.click()}
           className={cn(
             'flex cursor-pointer items-center justify-center',
             'border-black-353542 bg-black-252530 border',
@@ -59,6 +58,7 @@ const FileInput = ({ maxFiles = 1, value, onChange }: FileInputProps) => {
             'md:w-[135px]',
             'xl:w-[160px]',
           )}
+          onClick={() => fileInputRef.current?.click()}
         >
           <Image src='/icon/Icon-addfile.svg' alt='파일 추가 아이콘' width={24} height={24} />
         </div>
