@@ -23,13 +23,13 @@ const contentStyle = {
 };
 
 const Modal = ({ showCloseButton = true, variant = 'basic', className, children }: Props) => {
-  const close = useModalStore((state) => state.close);
+  const closeModal = useModalStore((state) => state.closeModal);
 
   return (
-    <Dialog open={true} onOpenChange={close}>
+    <Dialog open={true} onOpenChange={closeModal}>
       <DialogContent
-        showCloseButton={showCloseButton}
         className={cn(className, contentStyle[variant])}
+        showCloseButton={showCloseButton}
       >
         {/*본격적인 모달 컨텐츠*/}
         {children}

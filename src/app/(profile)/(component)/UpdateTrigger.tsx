@@ -19,11 +19,11 @@ const UpdateTrigger = ({ nickname, description, image }: Props) => {
 
   setUserInfo({ nickname, description, image });
 
-  const open = useModalStore((state) => state.open);
+  const openModal = useModalStore((state) => state.openModal);
 
   return (
     <div className='w-full'>
-      <Button onClick={() => open({ component: ProfileUpdateModal })}>프로필 편집</Button>
+      <Button onClick={() => openModal({ component: ProfileUpdateModal })}>프로필 편집</Button>
       <Button variant='tertiary' className='mt-2.5 md:mt-[15px] xl:mt-5'>
         로그아웃
       </Button>

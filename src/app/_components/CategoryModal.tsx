@@ -9,7 +9,7 @@ import { CATEGORY_NAME_MAP } from '@/lib/utils/categoryNameMap';
 import { useModalStore } from '@/store/modalStore';
 
 const CategoryModal = () => {
-  const { close } = useModalStore();
+  const { closeModal } = useModalStore();
   const { navigateToCategory } = useCategoryNavigation();
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get('categoryId')
@@ -18,12 +18,12 @@ const CategoryModal = () => {
 
   const handleCategorySelect = (categoryId: number | null) => {
     navigateToCategory(categoryId);
-    close(); // 선택 후 모달 닫기
+    closeModal(); // 선택 후 모달 닫기
   };
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      close();
+      closeModal();
     }
   };
 
@@ -37,7 +37,7 @@ const CategoryModal = () => {
         <div className='mb-6 flex items-center justify-between'>
           <h2 className='text-mogazoa-18px-600 text-white-f1f1f5'>카테고리 선택</h2>
           <button
-            onClick={close}
+            onClick={closeModal}
             className='text-gray-9fa6b2 hover:text-white-f1f1f5 text-xl transition-colors'
           >
             ×

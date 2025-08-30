@@ -23,13 +23,13 @@ const FilePreview = ({ url, index, onRemove }: FilePreviewProps) => {
       <Image src={url} alt={`선택된 이미지 ${index + 1}`} fill style={{ objectFit: 'cover' }} />
       <button
         type='button'
-        onClick={() => onRemove(index)}
         className={cn(
           'absolute top-[5px] right-[5px] flex items-center justify-center',
           'h-[26px] w-[26px] rounded-[8px] p-1',
           'bg-black text-white opacity-50',
         )}
         aria-label='파일 삭제'
+        onClick={() => onRemove(index)}
       >
         <X />
       </button>

@@ -13,7 +13,7 @@ const ErrorFallback = ({}) => {
       <div className={cn('m-auto mt-80 max-w-[640px]')}>
         <div className='text-mogazoa-24px-600 mb-10 text-center'>존재하지 않는 페이지입니다</div>
 
-        <Button onClick={() => router.back()} className='mb-6'>
+        <Button className='mb-6' onClick={() => router.back()}>
           이전 페이지로 돌아가기
         </Button>
       </div>
