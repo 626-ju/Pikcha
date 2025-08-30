@@ -5,7 +5,7 @@ export const profileSchema = z.object({
     .string()
     .nonempty('닉네임은 필수 입력입니다.')
     .max(10, '닉네임은 최대 10자까지 가능합니다.'),
-  description: z.string().max(100, '소개는 최대 100자까지 가능해요').optional(),
+  description: z.string().max(140, '소개는 최대 140자까지 가능해요').optional(),
   image: z.array(z.string()).optional(),
 });
 

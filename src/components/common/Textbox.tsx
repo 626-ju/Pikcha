@@ -3,19 +3,11 @@
 import * as React from 'react';
 
 import { Textarea } from '@/components/ui/textarea';
+import { truncated } from '@/lib/utils/truncated';
 
 interface TextboxProps extends React.ComponentProps<'textarea'> {
   maxLength?: number;
 }
-
-const truncated = (e: React.ChangeEvent<HTMLTextAreaElement>, maxLength: number) => {
-  const chars = e.target.value;
-  if (chars.length > maxLength) {
-    e.target.value = chars.slice(0, maxLength);
-  }
-
-  return chars.slice(0, maxLength).length;
-};
 
 const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
   ({ maxLength = 300, ...props }, ref) => {
@@ -28,7 +20,10 @@ const Textbox = React.forwardRef<HTMLTextAreaElement, TextboxProps>(
           spellCheck={false}
           {...props}
           onChange={(e) => {
-            setCount(truncated(e, 100));
+            setCount(() => {
+              e.target.value = truncated(e.target.value, 140);
+              return e.target.value.length;
+            });
             props.onChange?.(e);
           }}
         />
