@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
@@ -18,6 +19,7 @@ import { LoginFormValues, signinSchema } from '@/lib/validations/auth';
 
 const SigninPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   const {
     register,
@@ -38,18 +40,15 @@ const SigninPage = () => {
     formData.append('email', data.email);
     formData.append('password', data.password);
 
-    try {
-      const result = await signIn(formData);
+    const result = await signIn(formData);
 
-      // result.error가 존재하면 로그인 실패
-      if (result?.error) {
-        setErrorMessage(result.error);
-        reset(); // 폼 필드 초기화
-      }
-    } catch (error) {
-      console.error('An unexpected error occurred:', error);
-      setErrorMessage('알 수 없는 오류가 발생했습니다.');
+    if (result.success) {
+      router.replace(result.redirectTo);
+      return;
     }
+
+    setErrorMessage(result.error);
+    reset();
   };
 
   return (

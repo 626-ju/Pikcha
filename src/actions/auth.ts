@@ -5,6 +5,8 @@ import { redirect } from 'next/navigation';
 import { signIn as nextAuthSignIn } from '../auth';
 import { CredentialsSignin, AuthError } from '../types/auth/authErrors'; // AuthError 계열 import
 
+type Result = { success: true; redirectTo: string } | { success: false; error: string };
+
 // 일반 회원가입 (CredentialsProvider 사용 시)
 export async function signUp(formData: FormData) {
   const email = formData.get('email');
@@ -64,41 +66,20 @@ export async function signUp(formData: FormData) {
 }
 
 // 일반 로그인
-export async function signIn(formData: FormData) {
+export async function signIn(formData: FormData): Promise<Result> {
   const email = formData.get('email');
   const password = formData.get('password');
 
   try {
-    // next-auth의 signIn 함수를 호출하여 'credentials' 프로바이더로 로그인
-    // 백엔드 API 호출은 '../auth' 파일의 CredentialsProvider에서 처리됨
-    const result = await nextAuthSignIn('credentials', {
-      email,
-      password,
-      redirect: false, // 자동 리다이렉트 비활성
-    });
-
-    if (result?.error) {
-      if (result.error === 'CredentialsSignin') {
-        return { success: false, error: '잘못된 이메일 또는 비밀번호입니다.' };
-      }
-      return { success: false, error: result.error };
+    const r = await nextAuthSignIn('credentials', { email, password, redirect: false });
+    if (r?.error) {
+      return {
+        success: false,
+        error: r.error === 'CredentialsSignin' ? '잘못된 이메일 또는 비밀번호입니다.' : r.error,
+      };
     }
-
-    redirect('/');
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
-      throw error;
-    }
-
-    if (error instanceof AuthError) {
-      if (error instanceof CredentialsSignin) {
-        return { error: '잘못된 이메일 또는 비밀번호입니다.' };
-      }
-      console.error('NextAuth AuthError:', error);
-      return { error: '로그인에 실패했습니다.' };
-    }
-
-    console.error('NextAuth signIn failed:', error);
-    return { error: '로그인에 실패했습니다.' };
+    return { success: true, redirectTo: '/' };
+  } catch {
+    return { success: false, error: '로그인에 실패했습니다.' };
   }
 }
