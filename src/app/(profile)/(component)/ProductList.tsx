@@ -60,17 +60,20 @@ const ProductList = ({ userid, initialData }: Props) => {
       </div>
       <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
         {movieList?.length !== 0 ? (
-          movieList?.map((movie) => (
-            <li key={movie.id}>
-              <ProductCard movie={movie} />
-            </li>
-          ))
+          movieList?.map((movie) => {
+            return (
+              <li key={movie.id}>
+                <ProductCard movie={movie} />
+              </li>
+            );
+          })
         ) : (
           <div className='m-auto mt-15 h-60 w-60'>
             <Empty />
             <p className='text-mogazoa-24px-400 mt-6 text-center'>목록이 없습니다</p>
           </div>
         )}
+        {cursor !== null && <div ref={loadMoreRef}>로딩트리거어어어어어ㅓ</div>}
       </ul>
     </div>
   );

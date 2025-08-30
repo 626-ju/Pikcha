@@ -16,7 +16,7 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
     try {
       setIsFetching(true);
 
-      const data = await getUserProducts(userid, option);
+      const data = await getUserProducts(userid, option, cursor);
       setMovieList((prev) => [...(prev ?? []), ...data.list]);
 
       //cursor 업데이트
@@ -29,12 +29,13 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
     }
   };
 
+  //옵션 바뀔 때
   useEffect(() => {
     const fetchOptionChange = async () => {
       setIsFetching(true);
 
       try {
-        const data = await getUserProducts(userid, option);
+        const data = await getUserProducts(userid, option, cursor ?? 0);
         setMovieList(data.list);
         setCursor(data.nextCursor);
       } catch (err) {
