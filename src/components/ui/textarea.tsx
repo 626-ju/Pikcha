@@ -34,6 +34,7 @@ function Textarea({ ...props }: React.ComponentProps<'textarea'>) {
             'no-scrollbar w-full resize-none',
             'focus:ring-0 focus:outline-none',
             'w-full',
+            'text-mogazoa-14px-400, md:text-mogazoa-16px-400',
           )}
           {...props}
         />
