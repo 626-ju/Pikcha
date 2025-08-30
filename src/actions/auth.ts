@@ -1,14 +1,11 @@
 'use server';
 
-import { redirect } from 'next/navigation';
-
 import { signIn as nextAuthSignIn } from '../auth';
-import { CredentialsSignin, AuthError } from '../types/auth/authErrors'; // AuthError 계열 import
 
 type Result = { success: true; redirectTo: string } | { success: false; error: string };
 
 // 일반 회원가입 (CredentialsProvider 사용 시)
-export async function signUp(formData: FormData) {
+export async function signUp(formData: FormData): Promise<Result> {
   const email = formData.get('email');
   const nickname = formData.get('nickname');
   const password = formData.get('password');
@@ -37,31 +34,17 @@ export async function signUp(formData: FormData) {
     });
 
     if (result?.error) {
-      // CredentialsSignin 에러로 구분 가능
-      if (result.error === 'CredentialsSignin') {
-        return { success: false, error: '이메일 또는 비밀번호가 잘못되었습니다.' };
-      }
-      return { success: false, error: result.error };
+      return {
+        success: false,
+        error:
+          result.error === 'CredentialsSignin'
+            ? '잘못된 이메일 또는 비밀번호입니다.'
+            : result.error,
+      };
     }
-
-    // 로그인 성공 후 리다이렉트
-    redirect('/');
-  } catch (error) {
-    // signIn 실패 시 에러 처리
-    if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
-      throw error;
-    }
-
-    if (error instanceof AuthError) {
-      if (error instanceof CredentialsSignin) {
-        return { error: '이메일 또는 비밀번호가 잘못되었습니다.' };
-      }
-      console.error('NextAuth AuthError:', error);
-      return { error: '로그인에 실패했습니다.' };
-    }
-
-    console.error('NextAuth signIn failed:', error);
-    return { error: '로그인에 실패했습니다.' };
+    return { success: true, redirectTo: '/' };
+  } catch {
+    return { success: false, error: '로그인에 실패했습니다.' };
   }
 }
 
@@ -71,11 +54,14 @@ export async function signIn(formData: FormData): Promise<Result> {
   const password = formData.get('password');
 
   try {
-    const r = await nextAuthSignIn('credentials', { email, password, redirect: false });
-    if (r?.error) {
+    const result = await nextAuthSignIn('credentials', { email, password, redirect: false });
+    if (result?.error) {
       return {
         success: false,
-        error: r.error === 'CredentialsSignin' ? '잘못된 이메일 또는 비밀번호입니다.' : r.error,
+        error:
+          result.error === 'CredentialsSignin'
+            ? '잘못된 이메일 또는 비밀번호입니다.'
+            : result.error,
       };
     }
     return { success: true, redirectTo: '/' };

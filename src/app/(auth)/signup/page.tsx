@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { signUp } from '@/actions/auth';
@@ -13,11 +14,12 @@ import { SignupFormValues, signupSchema } from '@/lib/validations/auth';
 
 const SignupPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
     mode: 'onBlur',
@@ -34,11 +36,12 @@ const SignupPage = () => {
 
     try {
       const result = await signUp(formData);
-      if (result?.error) {
-        setErrorMessage(result.error);
+      if (result.success) {
+        router.replace(result.redirectTo);
+        return;
       }
-    } catch (error) {
-      console.error('An unexpected error occurred:', error);
+      setErrorMessage(result.error ?? '회원가입에 실패했습니다.');
+    } catch {
       setErrorMessage('알 수 없는 오류가 발생했습니다.');
     }
   };
@@ -92,7 +95,9 @@ const SignupPage = () => {
         />
       </div>
       <div>
-        <Button className='shrink-0'>가입하기</Button>
+        <Button className='shrink-0' disabled={isSubmitting}>
+          {isSubmitting ? '가입 중...' : '가입하기'}
+        </Button>
         {errorMessage && <p className='my-5 text-center text-sm text-red-500'>{errorMessage}</p>}
       </div>
     </form>
