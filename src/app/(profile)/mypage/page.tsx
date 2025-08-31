@@ -10,7 +10,7 @@ const Page = async () => {
   const userid = data.id;
   const parsedId = Number(userid);
 
-  const productData = await getUserProducts(parsedId, 'created-products');
+  const productData = await getUserProducts(parsedId, 'reviewed-products');
   const initialMoiveList = productData.list;
 
   return (
@@ -18,7 +18,7 @@ const Page = async () => {
       <ProfileCard userid={parsedId} myPage={true} />
       <div className='flex flex-col'>
         <Activities userid={parsedId} />
-        <ProductList userid={parsedId} initailData={initialMoiveList} />
+        <ProductList userid={parsedId} initialData={initialMoiveList} />
       </div>
     </div>
   );

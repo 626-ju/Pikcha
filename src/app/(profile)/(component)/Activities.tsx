@@ -13,6 +13,8 @@ interface Props {
 const Activities = async ({ userid }: Props) => {
   const data = await getUserInfo(userid);
 
+  const RoundaverageRating = Math.round(data.averageRating * 10) / 10;
+
   return (
     <>
       <h2 className='text-mogazoa-18px-600 mt-15 mb-7.5 xl:mt-0'>활동 내역</h2>
@@ -20,7 +22,7 @@ const Activities = async ({ userid }: Props) => {
         <StatisticsCard title='남긴 별점 평균'>
           <div className='text-yellow-ffc83c flex gap-[5px]'>
             <StarIcon size={20} />
-            <span className='text-white-f1f1f5'>{data.averageRating}</span>
+            <span className='text-white-f1f1f5'>{RoundaverageRating}</span>
           </div>
         </StatisticsCard>
 
