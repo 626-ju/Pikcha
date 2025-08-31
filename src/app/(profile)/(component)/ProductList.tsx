@@ -24,7 +24,7 @@ const ProductList = ({ userid, initialData }: Props) => {
     setOption(value);
   };
 
-  const { movieList, isFetching, fetchProducts, cursor, errOccur } = useFetchUserProductList(
+  const { productList, isFetching, fetchProducts, cursor, errOccur } = useFetchUserProductList(
     userid,
     option,
     initialData,
@@ -53,14 +53,15 @@ const ProductList = ({ userid, initialData }: Props) => {
         </div>
         <SortDropdown
           variant={'user'}
-          menuPosition='left'
+          menuPosition='right'
           className='xl:hidden'
           onChange={onValueChange}
+          option={option}
         />
       </div>
       <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
-        {movieList?.length !== 0 ? (
-          movieList?.map((movie) => {
+        {productList?.length !== 0 ? (
+          productList?.map((movie) => {
             return (
               <li key={movie.id}>
                 <ProductCard movie={movie} />

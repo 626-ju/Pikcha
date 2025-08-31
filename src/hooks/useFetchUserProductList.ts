@@ -6,7 +6,7 @@ import { getUserProducts } from '@/actions/profile/getUserProducts';
 import { Product } from '@/types/product/productType';
 
 export const useFetchUserProductList = (userid: number, option: string, initialData: Product[]) => {
-  const [movieList, setMovieList] = useState(initialData);
+  const [productList, setProductList] = useState(initialData);
   const [isFetching, setIsFetching] = useState(false);
   const [cursor, setCursor] = useState<number | null>(0);
   const [errOccur, setErrOccur] = useState(false);
@@ -18,14 +18,14 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
       setIsFetching(true);
 
       const data = await getUserProducts(userid, option, cursor);
-      setMovieList((prev) => [...(prev ?? []), ...data.list]);
+      setProductList((prev) => [...(prev ?? []), ...data.list]);
 
       //cursor 업데이트
       setCursor(() => data.nextCursor);
     } catch (err) {
       console.log(err);
       setErrOccur(true);
-      setMovieList([]);
+      setProductList([]);
     } finally {
       setIsFetching(false);
     }
@@ -38,12 +38,12 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
 
       try {
         const data = await getUserProducts(userid, option, 0);
-        setMovieList(data.list);
+        setProductList(data.list);
         setCursor(data.nextCursor);
       } catch (err) {
         console.log(err);
         setErrOccur(true);
-        setMovieList([]);
+        setProductList([]);
       } finally {
         setIsFetching(false);
       }
@@ -53,7 +53,7 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
     // 여기에 커서는 들어가면 안도ㅒ!
   }, [option, userid]);
 
-  return { movieList, isFetching, fetchProducts, cursor, errOccur };
+  return { productList, isFetching, fetchProducts, cursor, errOccur };
 };
 
 export default useFetchUserProductList;
