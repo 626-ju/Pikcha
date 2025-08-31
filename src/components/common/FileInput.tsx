@@ -25,9 +25,12 @@ const FileInput = ({ maxFiles = 1, value, onChange }: FileInputProps) => {
     if (!e.target.files) return;
 
     const file = e.target.files[0];
+    const ext = file.name.split('.').pop(); //확장자 잡시 뽑아
+    const newFileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${ext}`; //다시 넣어
+    const renamedFile = new File([file], newFileName, { type: file.type });
 
     try {
-      const { url } = await postImageUrl(file);
+      const { url } = await postImageUrl(renamedFile);
       setFiles((prev) => {
         const updated = [...prev, url].slice(0, maxFiles);
         onChange(updated);

@@ -62,6 +62,7 @@ const ErrorFallback = ({ error, reset, resetErrorBoundary }: Props) => {
 export default ErrorFallback;
 
 const errMap: { [key: string]: string } = {
+  400: `요청이 잘못 되었습니다`,
   401: `로그인이 필요합니다`,
   403: `권한이 없습니다 다시 로그인 해주세요`,
   404: `존재하지 않는 페이지입니다`,
