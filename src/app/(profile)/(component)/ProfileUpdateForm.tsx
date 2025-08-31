@@ -28,10 +28,10 @@ const ProfileUpdateForm = () => {
     register,
     handleSubmit,
     control,
-    formState: { isDirty },
+    formState: { errors, isDirty },
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    mode: 'all',
+    mode: 'onBlur',
     defaultValues: {
       nickname,
       description,
@@ -68,8 +68,7 @@ const ProfileUpdateForm = () => {
 
         <Input
           placeholder='닉네임을 입력해주세요'
-          maxLength={10}
-          defaultValue={nickname}
+          errorMessage={errors.nickname?.message}
           {...register('nickname')}
         />
 

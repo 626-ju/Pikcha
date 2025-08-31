@@ -20,7 +20,7 @@ const Page = async ({ params }: Props) => {
       <ProfileCard userid={parsedId} />
       <div className='flex flex-col'>
         <Activities userid={parsedId} />
-        <ProductList userid={parsedId} initialData={initialMoiveList} />
+        <ProductList userid={parsedId} initailData={initialMoiveList} />
       </div>
     </div>
   );
