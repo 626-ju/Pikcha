@@ -1,5 +1,8 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
+
+import { FOLLOWINFO_FOLLOWEES } from '@/constants/cacheTags';
 import fetcher from '@/lib/utils/fetcher';
 
 export const postFollow = async (userId: number) => {
@@ -12,6 +15,8 @@ export const postFollow = async (userId: number) => {
     body: JSON.stringify({ userId }),
     cache: 'no-store',
   });
+
+  revalidateTag(FOLLOWINFO_FOLLOWEES);
 
   return res;
 };
@@ -26,5 +31,8 @@ export const deleteFollow = async (userId: number) => {
     body: JSON.stringify({ userId }),
     cache: 'no-store',
   });
+
+  revalidateTag(FOLLOWINFO_FOLLOWEES);
+
   return res;
 };
