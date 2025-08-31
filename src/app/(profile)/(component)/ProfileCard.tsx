@@ -47,11 +47,7 @@ const ProfileCard = async ({ userid, myPage }: Props) => {
         myPage={myPage}
         username={truncatedNickname}
         description={truncatedDescription}
-        userid={userid}
-        image={data.image}
-        isFollowing={data.isFollowing}
-        followersCount={data.followersCount}
-        followeesCount={data.followeesCount}
+        data={data}
       />
     </div>
   );

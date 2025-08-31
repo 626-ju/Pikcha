@@ -2,6 +2,7 @@
 
 import { deleteFollow, postFollow } from '@/actions/profile/handleFollow';
 import useOptimisticToggle from '@/hooks/useOptimisticToggle';
+import { fetchUserRes } from '@/types/profile/fetchUserRes';
 
 import FollowerModalTrigger from './FollowModalTrigger';
 import FollowTrigger from './FollowTrigger';
@@ -9,37 +10,24 @@ import UpdateTrigger from './UpdateTrigger';
 
 interface Props {
   myPage: boolean;
-  userid: number;
   username: string;
   description: string;
-  image: string;
-  isFollowing: boolean;
-  followersCount: number;
-  followeesCount: number;
+  data: fetchUserRes;
 }
 
-const FollowSection = ({
-  myPage,
-  userid,
-  username,
-  description,
-  image,
-  isFollowing,
-  followersCount,
-  followeesCount,
-}: Props) => {
+const FollowSection = ({ myPage, username, description, data }: Props) => {
   const {
     isToggled: optimisticFollowing,
     optimisticCount,
     handleToggle,
   } = useOptimisticToggle({
-    initialState: isFollowing,
-    initialCount: followersCount,
+    initialState: data.isFollowing,
+    initialCount: data.followersCount,
     asyncAction: async () => {
       if (!optimisticFollowing) {
-        await postFollow(userid);
+        await postFollow(data.id);
       } else {
-        await deleteFollow(userid);
+        await deleteFollow(data.id);
       }
     },
   });
@@ -48,11 +36,11 @@ const FollowSection = ({
     <>
       <FollowerModalTrigger
         followers={optimisticCount}
-        followees={followeesCount}
+        followees={data.followeesCount}
         username={username}
       />
       {myPage ? (
-        <UpdateTrigger nickname={username} description={description} image={image} />
+        <UpdateTrigger nickname={username} description={description} image={data.image} />
       ) : (
         <FollowTrigger isFollowing={optimisticFollowing} onToggle={handleToggle} />
       )}
