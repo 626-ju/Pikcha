@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 
+import CategoryChip from '@/components/ui/chips/CategoryChip';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { getCategoryName } from '@/lib/utils/categoryNameMap';
 
@@ -42,9 +43,8 @@ const SearchSuggestions = ({
             <span>
               <Highlight text={p.name} query={query} />
             </span>
-            <span className='bg-main-blue text-mogazoa-12px-400 ml-2 rounded px-2 py-0.5'>
-              {/* 카테고리 이름 변경 */}
-              {getCategoryName(p.categoryId)}
+            <span>
+              <CategoryChip category={{ id: p.categoryId, name: getCategoryName(p.categoryId) }} />
             </span>
           </button>
         </li>
