@@ -9,17 +9,26 @@ import MobileMenuList from './MobileMenuList';
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const { data: session } = useSession();
 
   const isLoggedIn = !!session;
   const name = session?.user?.nickname ?? null;
   const profileUrl = session?.user?.image ?? null;
 
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsOpen(false);
+      setIsClosing(false);
+    }, 300);
+  };
+
   return (
     <div>
       <button
         type='button'
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => (isOpen ? handleClose() : setIsOpen(true))}
         aria-expanded={isOpen}
         aria-label='모바일 메뉴 열기/닫기'
         className='cursor-pointer'
@@ -30,15 +39,21 @@ const MobileMenu = () => {
         <>
           {/* 오버레이 */}
           <div
-            className='fixed top-[70px] right-0 bottom-0 left-0 z-40 bg-black/50'
-            onClick={() => setIsOpen(false)}
+            className={`fixed top-[70px] right-0 bottom-0 left-0 z-40 bg-black/50 duration-300 ${
+              isClosing ? 'animate-out fade-out' : 'animate-in fade-in'
+            }`}
+            onClick={handleClose}
           />
           {/* 사이드 메뉴 */}
-          <aside className='bg-black-252530 animate-in slide-in-from-left fixed top-[70px] bottom-0 left-0 z-50 w-80 duration-300 ease-out'>
+          <aside
+            className={`bg-black-252530 fixed top-[70px] bottom-0 left-0 z-50 w-80 duration-300 ease-out ${
+              isClosing ? 'animate-out slide-out-to-left' : 'animate-in slide-in-from-left'
+            }`}
+          >
             {/* X 버튼 */}
             <div className='flex justify-end p-4'>
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={handleClose}
                 aria-label='메뉴 닫기'
                 className='text-white-f1f1f5 hover:text-gray-9fa6b2 cursor-pointer'
               >
@@ -51,7 +66,7 @@ const MobileMenu = () => {
                 isLoggedIn={isLoggedIn}
                 name={name}
                 profileUrl={profileUrl}
-                onClose={() => setIsOpen(false)}
+                onClose={handleClose}
               />
             </div>
           </aside>
