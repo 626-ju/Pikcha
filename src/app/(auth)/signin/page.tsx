@@ -9,8 +9,6 @@ import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
 import { signIn } from '@/actions/auth';
-import GithubIcon from '@/assets/icon/status=github.svg';
-import GoogleIcon from '@/assets/icon/status=google.svg';
 import KakaoIcon from '@/assets/icon/status=kakao.svg';
 import Input from '@/components/common/Input';
 import Button from '@/components/ui/Buttons';
@@ -107,28 +105,14 @@ const SigninPage = () => {
       />
 
       <div className='my-5 flex flex-col gap-5'>
-        <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
+        <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작하기</p>
         <div className='flex items-center justify-center gap-5'>
           <button
             type='button'
-            onClick={() => nextAuthSignIn('google')}
-            className='border-black-353542 rounded-full border p-[14px]'
-          >
-            <GoogleIcon className='h-full w-full' />
-          </button>
-          <button
-            type='button'
-            onClick={() => nextAuthSignIn('kakao')}
+            onClick={() => nextAuthSignIn('kakao', { callbackUrl: '/' })}
             className='border-black-353542 rounded-full border p-[14px]'
           >
             <KakaoIcon className='h-full w-full' />
-          </button>
-          <button
-            type='button'
-            onClick={() => nextAuthSignIn('github')}
-            className='border-black-353542 rounded-full border p-[14px]'
-          >
-            <GithubIcon className='h-[24px] w-[24px] text-[#6e6e82]' />
           </button>
         </div>
       </div>

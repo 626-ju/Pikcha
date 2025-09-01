@@ -1,7 +1,5 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GitHubProvider from 'next-auth/providers/github';
-import GoogleProvider from 'next-auth/providers/google';
 import KakaoProvider from 'next-auth/providers/kakao';
 
 // 백엔드 API에서 반환되는 유저 객체 타입 정의
@@ -31,21 +29,10 @@ interface CustomUser {
 // NextAuth 객체 생성
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    // 구글 OAuth 로그인 설정 : 가능 할진...모르겠 카카오만 가능하다는 걸 어디서 읽은거같은데
-    GoogleProvider({
-      clientId: process.env.AUTH_GOOGLE_ID!,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-    }),
-
     // 카카오 OAuth 로그인 설정
     KakaoProvider({
       clientId: process.env.AUTH_KAKAO_ID!,
       clientSecret: process.env.AUTH_KAKAO_SECRET!,
-    }),
-
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
     }),
 
     // 이메일/비밀번호 로그인 설정
@@ -61,14 +48,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!credentials) return null;
 
         // 백엔드 API에 로그인 요청
-        const res = await fetch(`${process.env.API_BASE_URL}/${process.env.TEAM_ID}/auth/signIn`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password,
-          }),
-        });
+        const res = await fetch(
+          `${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/auth/signIn`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          },
+        );
 
         // 1️⃣ 응답 텍스트 확인
         const text = await res.text();
@@ -89,6 +79,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         const user = data.user as BackendUser;
+        const accessToken = data?.accessToken ?? data?.token ?? data?.jwt ?? null;
 
         return {
           id: user.id.toString(),
@@ -98,6 +89,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           nickname: user.nickname,
           updatedAt: user.updatedAt,
           createdAt: user.createdAt,
+          accessToken: accessToken || undefined,
         } as CustomUser;
       },
     }),
@@ -129,7 +121,34 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (user.accessToken) {
           token.accessToken = user.accessToken;
         }
+        token.provider = account.provider;
       }
+
+      // 닉네임이 없을 때만 호출 + Authorization 부착
+      if (!token.nickname) {
+        try {
+          const base = process.env.API_BASE_URL!;
+          const team = process.env.TEST_TEAM_ID!;
+          const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+          if (token.accessToken) headers.Authorization = `Bearer ${token.accessToken}`;
+
+          const meRes = await fetch(`${base}/${team}/users/me`, {
+            method: 'GET',
+            headers,
+            cache: 'no-store',
+          });
+          if (meRes.ok) {
+            const me = await meRes.json();
+            token.nickname = me?.nickname ?? null;
+            token.needsOnboarding = !me?.nickname;
+          } else {
+            token.needsOnboarding = !token?.nickname;
+          }
+        } catch {
+          token.needsOnboarding = !token?.nickname;
+        }
+      }
+
       return token;
     },
 
