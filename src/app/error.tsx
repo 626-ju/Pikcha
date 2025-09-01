@@ -39,7 +39,6 @@ const ErrorFallback = ({ error, reset, resetErrorBoundary }: Props) => {
             이전 페이지로 돌아가기
           </Button>
         ) : null}
-
         <Button
           variant='tertiary'
           onClick={() => {
@@ -62,9 +61,13 @@ const ErrorFallback = ({ error, reset, resetErrorBoundary }: Props) => {
 export default ErrorFallback;
 
 const errMap: { [key: string]: string } = {
-  400: `요청이 잘못 되었습니다`,
-  401: `로그인이 필요합니다`,
-  403: `권한이 없습니다 다시 로그인 해주세요`,
+  'fetch failed': '페이지를 불러오는데 실패했습니다 잠시 후 다시 시도해주세요',
+  'Validation Failed': '입력값이 잘못되었습니다',
+  'jwt malformed': `로그인이 필요합니다`,
+  'invalid token': `권한이 없습니다`,
   404: `존재하지 않는 페이지입니다`,
-  500: `페이지를 불러오는데 실패했습니다 잠시 후 다시 시도해주세요`,
+  '이미 사용중인 닉네임입니다.': '이미 사용중인 닉네임입니다',
+  '이미 존재하는 상품명입니다.': '이미 존재하는 영화명입니다',
+  '유저를 찾을 수 없습니다.': '존재하지 않는 유저입니다',
+  '상품을 찾을 수 없습니다.': '상품을 찾을 수 없습니다',
 };
