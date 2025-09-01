@@ -5,6 +5,7 @@ import { auth } from '@/auth'; // NextAuth의 서버 함수 임포트
 import AuthHydration from '@/components/AuthHydration';
 import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
+import SonnerToast from '@/components/common/SonnerToast';
 
 import pretendard from '../lib/utils/fonts/pretendard';
 
@@ -31,6 +32,7 @@ export default async function RootLayout({
           <AuthHydration session={session} />
           <GlobalNav session={session} />
           {children}
+          <SonnerToast />
           <SpeedInsights />
           <ModalContainer />
         </SessionProvider>
