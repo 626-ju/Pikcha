@@ -37,21 +37,18 @@ const Home = async ({
       <div className='flex items-start gap-6'>
         <Sidebar selected={category} q={q} />
         <section className='min-w-0 flex-1 overflow-hidden px-[20px]'>
-          <ReviewerRank users={users} className='mb-6 pt-[40px] xl:hidden' />
+          <ReviewerRank users={users} className='mb-6 pt-[40px] pb-3 xl:hidden' />
+          <MobileCategoryFilter className='mb-3 md:hidden' />
           {q === '' && category === null ? (
-            <div className='flex flex-col'>
-              <MobileCategoryFilter className='mb-6 md:hidden' />
-              <div className='flex flex-col gap-[80px]'>
-                <ReviewRank products={topReviewed} />
-                <RatingRank products={topRated} />
-              </div>
+            <div className='flex flex-col gap-[80px]'>
+              <ReviewRank products={topReviewed} />
+              <RatingRank products={topRated} />
             </div>
           ) : items.length === 0 ? (
             <NoResult />
           ) : (
             <div>
               <ResultTitle category={category} q={q} />
-              <MobileCategoryFilter className='mt-3 md:hidden' />
               <SearchResultList
                 initialProducts={items}
                 initialCursor={data.nextCursor}
