@@ -6,20 +6,23 @@ import VisibilityIcon from '@/assets/icon/status=visibility_300.svg';
 import VisibilityOffIcon from '@/assets/icon/status=visibility_off_300.svg';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { truncated } from '@/lib/utils/truncated';
 
 interface InputProps extends React.ComponentProps<'input'> {
   label?: string;
   errorMessage?: string;
   hintMessage?: string;
+  maxLength?: number;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, id, label, errorMessage, hintMessage, ...props }, ref) => {
+  ({ className, type, id, label, errorMessage, hintMessage, maxLength, ...props }, ref) => {
     const generatedId = React.useId();
     const inputId = id || generatedId;
     const hasError = !!errorMessage;
     const [showPassword, setShowPassword] = React.useState(false);
     const inputType = type === 'password' ? (showPassword ? 'text' : 'password') : type;
+    const [count, setCount] = React.useState(props?.defaultValue?.toString().length ?? 0);
 
     return (
       <div className='relative flex w-full flex-col gap-[10px]'>
@@ -43,7 +46,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             )}
             aria-invalid={hasError}
             {...props}
+            onChange={(e) => {
+              setCount(() => {
+                maxLength && (e.target.value = truncated(e.target.value, maxLength));
+                return e.target.value.length;
+              });
+              props.onChange?.(e);
+            }}
           />
+
+          {maxLength && (
+            <span className='text-gray-6e6e82 absolute right-3 bottom-2 text-xs'>
+              {count}/{maxLength}자
+            </span>
+          )}
           {type === 'password' && (
             <button
               type='button'
