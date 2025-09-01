@@ -3,17 +3,13 @@
 import { useState } from 'react';
 
 import { Menu, X } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 import MobileMenuList from './MobileMenuList';
 
-import type { Session } from 'next-auth';
-
-interface MobileMenuProps {
-  session: Session | null;
-}
-
-const MobileMenu = ({ session }: MobileMenuProps) => {
+const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
 
   const isLoggedIn = !!session;
   const name = session?.user?.nickname ?? null;

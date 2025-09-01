@@ -1,17 +1,14 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
+
 import CompareButton from '../buttons/CompareButton';
 import LoginButton from '../buttons/LoginButton';
 import SignupButton from '../buttons/SignupButton';
 import ProfileDropdown from '../profile/ProfileDropdown';
 
-import type { Session } from 'next-auth';
-
-interface DesktopRightProps {
-  session: Session | null;
-}
-
-const DesktopRight = ({ session }: DesktopRightProps) => {
+const DesktopRight = () => {
+  const { data: session } = useSession();
   const isLoggedIn = !!session;
   return (
     <div>
