@@ -13,12 +13,12 @@ const DesktopRight = () => {
   return (
     <div>
       {/* guest */}
-      <div className={isLoggedIn ? 'hidden' : 'flex gap-5'}>
+      <div className={isLoggedIn ? 'hidden' : 'flex md:gap-[30px] xl:gap-[60px]'}>
         <LoginButton />
         <SignupButton />
       </div>
       {/* auth */}
-      <div className={isLoggedIn ? 'flex gap-5' : 'hidden'}>
+      <div className={isLoggedIn ? 'flex items-center md:gap-[30px] xl:gap-[60px]' : 'hidden'}>
         <CompareButton />
         <ProfileDropdown session={session} />
       </div>
