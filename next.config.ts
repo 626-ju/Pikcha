@@ -23,6 +23,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'chipper-hummingbird-0e6d64.netlify.app',
+        port: '',
+        pathname: '/**',
+      },
     ],
     domains: ['mogazoa-api.vercel.app', 'example.com'],
   },
