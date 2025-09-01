@@ -77,7 +77,9 @@ const ProductList = ({ userid, initialData }: Props) => {
           </div>
         )}
         {cursor !== null && errOccur === false && (
-          <div ref={loadMoreRef} className='h-[5px] w-4'></div>
+          <>
+            <div ref={loadMoreRef} className='h-[5px] w-4'></div>
+          </>
         )}
       </ul>
     </div>
