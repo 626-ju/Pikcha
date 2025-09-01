@@ -2,16 +2,22 @@
 
 import { useEffect, useState } from 'react';
 
-import { getProductReviews } from '@/actions/productReview';
+import { getProductReviews } from '@/actions/review/review';
 import NoReview from '@/assets/icon/ReviewState.svg';
 import SortDropdown from '@/components/common/dropdowns/SortDropdown';
 import { ReviewDetail } from '@/types/review/review';
 
 import ReviewCard from './ReviewCard';
 
-const ReviewSection = ({ productId }: { productId: number }) => {
+const ReviewSection = ({
+  productId,
+  initialReviews,
+}: {
+  productId: number;
+  initialReviews: ReviewDetail[];
+}) => {
   const [option, setOption] = useState<string>('recent');
-  const [productReviews, setProductReviews] = useState<ReviewDetail[]>([]);
+  const [productReviews, setProductReviews] = useState<ReviewDetail[]>(initialReviews);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleChangeOption = (value: string) => {
