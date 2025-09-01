@@ -38,9 +38,12 @@ const ReviewerCard = ({
             />
           )}
           <div className='flex flex-col gap-[5.5px] xl:gap-[9px]'>
-            <div className='flex gap-[5px]'>
+            <div className='flex gap-[7px]'>
               <RankingChip idx={rankIdx} />
-              <h3 className='text-mogazoa-14px-400 xl:text-mogazoa-16px-400 text-white-f1f1f5'>
+              <h3
+                className='text-mogazoa-14px-400 xl:text-mogazoa-16px-400 text-white-f1f1f5 max-w-20 truncate xl:max-w-24'
+                title={nickname}
+              >
                 {nickname}
               </h3>
             </div>
