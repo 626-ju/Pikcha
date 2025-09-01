@@ -43,6 +43,12 @@ const SigninPage = () => {
     const result = await signIn(formData);
 
     if (result.success) {
+      // 헤더 내 로그인 정보 반영 위한 NextAuth session 갱신
+      await nextAuthSignIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
       router.replace(result.redirectTo);
       return;
     }
