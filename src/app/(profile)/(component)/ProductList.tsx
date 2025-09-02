@@ -53,13 +53,14 @@ const ProductList = ({ userid, initialData }: Props) => {
         </div>
         <SortDropdown
           variant={'user'}
-          menuPosition='right'
-          className='xl:hidden'
+          menuPosition='left'
+          className='text-white-f1f1f5 xl:hidden'
           onChange={onValueChange}
           option={option}
         />
       </div>
-      <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
+      {/* 940->820 */}
+      <ul className='flex max-w-[840px] flex-wrap gap-4 xl:gap-5'>
         {productList?.length !== 0 ? (
           productList?.map((movie) => {
             return (

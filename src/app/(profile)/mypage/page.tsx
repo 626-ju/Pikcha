@@ -14,9 +14,10 @@ const Page = async () => {
   const initialMoiveList = productData.list;
 
   return (
-    <div className='mx-auto mt-15 flex w-[335px] min-w-[335px] flex-col md:w-[510px] xl:w-full xl:max-w-[1340px] xl:flex-row xl:justify-between'>
+    //335->296//510->470//1340->1240(940->820)
+    <div className='mx-auto mt-15 flex w-[296px] min-w-[296px] flex-col md:w-[470px] xl:w-full xl:max-w-[1240px] xl:flex-row xl:justify-between'>
       <ProfileCard userid={parsedId} myPage={true} />
-      <div className='flex flex-col'>
+      <div className='flex max-w-[820px] flex-col'>
         <Activities userid={parsedId} />
         <ProductList userid={parsedId} initialData={initialMoiveList} />
       </div>

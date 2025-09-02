@@ -34,7 +34,7 @@ const ProductCard = ({ movie }: Props) => {
         />
 
         {/* 오버레이로 들어갈 경우 */}
-        <div className='absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+        {/* <div className='absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
           <h3 className='text-mogazoa-14px-500 md:text-mogazoa-16px-500 xl:text-mogazoa-18px-500 mb-[5px] line-clamp-1 w-[140px] md:w-[227px] xl:w-[260px]'>
             {movie.name}
           </h3>
@@ -48,11 +48,11 @@ const ProductCard = ({ movie }: Props) => {
               <span className='text-white-f1f1f5'>{averageRating}</span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* 카드형으로 들어갈 경우 */}
-      {/* <div className='flex flex-col'>
+      <div className='mb-4 flex flex-col'>
         <h3 className='text-mogazoa-14px-500 md:text-mogazoa-16px-500 xl:text-mogazoa-18px-500 mb-[5px] line-clamp-1 w-[140px] md:w-[227px] xl:w-[260px]'>
           {movie.name}
         </h3>
@@ -62,11 +62,11 @@ const ProductCard = ({ movie }: Props) => {
             <span>찜 {movie.favoriteCount}</span>
           </div>
           <div className='text-yellow-ffc83c'>
-            <StarIcon className='mr-[2px] inline-block h-3 w-3'/>
+            <StarIcon className='mr-[2px] inline-block h-3 w-3' />
             <span className='text-gray-9fa6b2'>{averageRating}</span>
           </div>
         </div>
-      </div> */}
+      </div>
     </Link>
   );
 };
