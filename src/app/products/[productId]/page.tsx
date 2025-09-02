@@ -27,7 +27,6 @@ async function randomPromise(): Promise<void> {
 
 type ProductIdPageProps = {
   params: Promise<{ productId: string }>;
-  // searchParams: { order: string };
 };
 
 const ProductIdPage = async ({ params }: ProductIdPageProps) => {

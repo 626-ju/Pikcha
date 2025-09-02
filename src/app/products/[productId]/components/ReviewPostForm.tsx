@@ -7,7 +7,6 @@ import FileInput from '@/components/common/FileInput';
 import Textbox from '@/components/common/Textbox';
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
-import { useTriggerStore } from '@/store/triggerStore';
 import { ReviewFormValue } from '@/types/review/review';
 import { reviewSchema } from '@/types/review/reviewSchema';
 
@@ -17,17 +16,16 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
   const { showBoundary } = useErrorBoundary();
   const closeModal = useModalStore((state) => state.closeModal);
 
-  const { setTrigger } = useTriggerStore();
-
-  const { register, handleSubmit, control } = useForm<ReviewFormValue>({
+  const { register, handleSubmit, control, formState } = useForm<ReviewFormValue>({
     resolver: zodResolver(reviewSchema),
     mode: 'all',
   });
 
+  const { isValid, isSubmitting } = formState;
+
   const onSubmit = async (data: ReviewFormValue) => {
     try {
       await postReview({ ...data, productId });
-      setTrigger();
       closeModal();
     } catch (err) {
       showBoundary(err);
@@ -49,7 +47,12 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
           <FileInput value={field.value ?? []} onChange={field.onChange} maxFiles={3} />
         )}
       />
-      <Button variant='primary' type='submit' className='mt-[15px]'>
+      <Button
+        variant='primary'
+        type='submit'
+        disabled={!isValid || isSubmitting}
+        className='mt-[15px]'
+      >
         작성하기
       </Button>
     </form>
