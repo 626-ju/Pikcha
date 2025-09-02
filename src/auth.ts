@@ -1,8 +1,27 @@
-import NextAuth from 'next-auth';
+import NextAuth, { type NextAuthConfig } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import KakaoProvider from 'next-auth/providers/kakao';
 
-// 백엔드 API에서 반환되는 유저 객체 타입 정의
+import CustomKakaoProvider from './auth/CustomKakaoProvider';
+
+import type { Session, User } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
+
+// --- 환경 변수/상수 ---
+const BASE = process.env.API_BASE_URL!;
+const TEAM = process.env.TEST_TEAM_ID!;
+
+// NextAuth(카카오) 콜백용
+const KAKAO_REDIRECT_URI =
+  process.env.AUTH_KAKAO_REDIRECT_URI ?? 'http://localhost:3000/api/auth/callback/kakao';
+
+// 백엔드 검증용 redirectUri
+// const BACKEND_KAKAO_REDIRECT_URI =
+//   process.env.BACKEND_KAKAO_REDIRECT_URI ?? 'http://localhost:3000/oauth/kakao';
+
+const KAKAO_ID = process.env.AUTH_KAKAO_ID!;
+const KAKAO_SECRET = process.env.AUTH_KAKAO_SECRET!;
+
+// --- 응답 타입 ---
 interface BackendUser {
   id: number;
   email: string;
@@ -13,159 +32,152 @@ interface BackendUser {
   updatedAt: string;
   createdAt: string;
 }
-
-// NextAuth에서 사용할 커스텀 유저 타입
-interface CustomUser {
-  id: string;
-  email?: string | null;
-  description?: string | null;
-  nickname?: string | null;
-  image?: string | null;
-  updatedAt: string;
-  createdAt: string;
+interface CredentialsLoginResponse {
+  user: BackendUser;
   accessToken?: string;
+  token?: string;
+  jwt?: string;
+  message?: string;
 }
 
-// NextAuth 객체 생성
-export const { handlers, auth, signIn, signOut } = NextAuth({
+// --- NextAuth 설정 ---
+const config: NextAuthConfig = {
   providers: [
-    // 카카오 OAuth 로그인 설정
-    KakaoProvider({
-      clientId: process.env.AUTH_KAKAO_ID!,
-      clientSecret: process.env.AUTH_KAKAO_SECRET!,
+    // Kakao OAuth Provider
+    CustomKakaoProvider({
+      clientId: KAKAO_ID,
+      clientSecret: KAKAO_SECRET,
+      authorization: { params: { redirect_uri: KAKAO_REDIRECT_URI } },
     }),
 
-    // 이메일/비밀번호 로그인 설정
+    // Credentials Provider
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-
-      // 실제 로그인 처리 함수
       async authorize(credentials) {
-        if (!credentials) return null;
+        console.log('🟢 [authorize] input credentials:', credentials);
+        if (!credentials?.email || !credentials?.password) return null;
 
-        // 백엔드 API에 로그인 요청
-        const res = await fetch(
-          `${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/auth/signIn`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: credentials.email,
-              password: credentials.password,
-            }),
-          },
-        );
+        // 카카오 회원가입 직후 임시 로그인
+        if (credentials.password === 'kakao-oauth') {
+          return {
+            id: String(credentials.email),
+            email: String(credentials.email),
+            nickname: '',
+            accessToken: undefined,
+          } as User;
+        }
 
-        // 1️⃣ 응답 텍스트 확인
-        const text = await res.text();
-        console.log('서버 응답 텍스트:', text);
+        // 일반 로그인
+        const res = await fetch(`${BASE}/${TEAM}/auth/signIn`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: credentials.email,
+            password: credentials.password,
+          }),
+        });
 
-        // 2️⃣ JSON 파싱 (빈 문자열이면 여기서 에러 가능)
-        let data;
+        const raw = await res.text();
+        let data: CredentialsLoginResponse | null = null;
         try {
-          data = text ? JSON.parse(text) : null;
-        } catch (err) {
-          console.error('JSON 파싱 실패:', err);
+          data = raw ? (JSON.parse(raw) as CredentialsLoginResponse) : null;
+        } catch {
+          console.error('❌ [authorize] invalid JSON:', raw);
           throw new Error('서버 응답이 올바른 JSON이 아닙니다.');
         }
 
-        // 3️⃣ user 객체 확인
-        if (!data?.user) {
-          throw new Error(data?.message || '유저 정보를 찾을 수 없습니다.');
+        if (!res.ok || !data?.user) {
+          throw new Error(data?.message ?? '유저 정보를 찾을 수 없습니다.');
         }
 
-        const user = data.user as BackendUser;
-        const accessToken = data?.accessToken ?? data?.token ?? data?.jwt ?? null;
+        const accessToken = data.accessToken ?? data.token ?? data.jwt ?? undefined;
 
         return {
-          id: user.id.toString(),
-          email: user.email,
-          description: user.description,
-          image: user.image,
-          nickname: user.nickname,
-          updatedAt: user.updatedAt,
-          createdAt: user.createdAt,
-          accessToken: accessToken || undefined,
-        } as CustomUser;
+          id: String(data.user.id),
+          email: data.user.email,
+          description: data.user.description ?? undefined,
+          image: data.user.image ?? undefined,
+          nickname: data.user.nickname ?? undefined,
+          updatedAt: data.user.updatedAt,
+          createdAt: data.user.createdAt,
+          accessToken,
+        } as User;
       },
     }),
   ],
 
-  // 콜백 설정
   callbacks: {
-    async redirect({ baseUrl }) {
-      // 로그인 성공 후 무조건 랜딩페이지로 이동
-      return `${baseUrl}`;
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     },
 
-    // JWT 생성/갱신 시 호출
-    async jwt({ token, user, account }) {
-      if (user && account) {
-        // 로그인 시 토큰에 유저 정보 + accessToken 저장
-        token.id = user.id;
-        token.email = user.email;
-        token.description = user.description;
-        token.nickname = user.nickname;
-        token.image = user.image;
+    async jwt({ token, user, account, trigger, session }): Promise<JWT> {
+      console.log('🟣 [jwt] start:', { token, user, account, trigger });
 
-        // OAuth 로그인 시 access_token 포함
-        if (account.access_token) {
-          token.accessToken = account.access_token;
-        }
-
-        // Credentials 로그인이라면 authorize() 응답에서 직접 받은 accessToken 넣기
-        if (user.accessToken) {
-          token.accessToken = user.accessToken;
-        }
-        token.provider = account.provider;
+      // 세션 업데이트 시
+      if (trigger === 'update' && session) {
+        const s = session as Session & { accessToken?: string; code?: string };
+        if (s.accessToken) token.accessToken = s.accessToken;
+        if (s.code) token.code = s.code;
+        return token;
       }
 
-      // 닉네임이 없을 때만 호출 + Authorization 부착
-      if (!token.nickname) {
-        try {
-          const base = process.env.API_BASE_URL!;
-          const team = process.env.TEST_TEAM_ID!;
-          const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-          if (token.accessToken) headers.Authorization = `Bearer ${token.accessToken}`;
+      // 최초 로그인 시 User → JWT 반영
+      if (user) {
+        token.id = 'id' in user ? String(user.id) : token.id;
+        token.email = 'email' in user ? (user.email as string) : token.email;
+        token.image = 'image' in user ? (user.image as string) : token.image;
+        token.nickname = 'nickname' in user ? user.nickname : token.nickname;
+        token.description = 'description' in user ? user.description : token.description;
+        if (user.accessToken) token.accessToken = user.accessToken;
+      }
 
-          const meRes = await fetch(`${base}/${team}/users/me`, {
-            method: 'GET',
-            headers,
-            cache: 'no-store',
-          });
-          if (meRes.ok) {
-            const me = await meRes.json();
-            token.nickname = me?.nickname ?? null;
-            token.needsOnboarding = !me?.nickname;
-          } else {
-            token.needsOnboarding = !token?.nickname;
-          }
-        } catch {
-          token.needsOnboarding = !token?.nickname;
+      // Kakao OAuth 로그인 시 → 인가코드 저장
+      if (account?.provider === 'kakao') {
+        console.log('🟠 [jwt] kakao account flow');
+        token.provider = 'kakao';
+
+        // CustomKakaoProvider에서 내려준 code
+        const code = account.code;
+        if (code) {
+          token.code = code; // ✅ 세션으로 흘려보냄
+          token.needsOnboarding = true;
         }
       }
 
+      console.log('🔵 [jwt] final token:', token);
       return token;
     },
 
-    // 세션 생성 시 호출
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.email = token.email as string;
-        session.user.description = token.description as string;
-        session.user.image = token.image as string;
-        session.user.nickname = token.nickname;
-        session.accessToken = token.accessToken as string;
-      }
+    async session({ session, token }): Promise<Session> {
+      console.log('🟢 [session] before mapping:', { token });
+
+      session.accessToken = typeof token.accessToken === 'string' ? token.accessToken : undefined;
+      session.code = typeof token.code === 'string' ? token.code : undefined; // ✅ 세션에 code 포함
+      session.needsOnboarding = !!token.needsOnboarding;
+      session.provider = token.provider === 'kakao' ? 'kakao' : undefined;
+
+      session.user = {
+        ...session.user,
+        id: typeof token.id === 'string' ? token.id : '',
+        email: typeof token.email === 'string' ? token.email : '',
+        image: typeof token.image === 'string' ? token.image : null,
+        nickname: typeof token.nickname === 'string' ? token.nickname : null,
+        description: typeof token.description === 'string' ? token.description : null,
+      };
+
+      console.log('🔵 [session] final session:', session);
       return session;
     },
   },
 
-  // 세션 전략 설정 : JWT 기반 세션 사용
   session: { strategy: 'jwt' },
-});
+};
+
+export const { handlers, auth, signIn, signOut } = NextAuth(config);

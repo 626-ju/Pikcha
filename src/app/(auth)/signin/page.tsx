@@ -9,6 +9,7 @@ import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
 import { signIn } from '@/actions/auth';
+import { registerKakaoOauthApp } from '@/actions/oauth';
 import KakaoIcon from '@/assets/icon/status=kakao.svg';
 import Input from '@/components/common/Input';
 import Button from '@/components/ui/Buttons';
@@ -17,6 +18,7 @@ import { LoginFormValues, signinSchema } from '@/lib/validations/auth';
 
 const SigninPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [_snsLoading, setSnsLoading] = useState(false);
   const router = useRouter();
 
   const {
@@ -115,7 +117,26 @@ const SigninPage = () => {
         <div className='flex items-center justify-center gap-5'>
           <button
             type='button'
-            onClick={() => nextAuthSignIn('kakao', { callbackUrl: '/' })}
+            onClick={async () => {
+              setErrorMessage(null);
+              setSnsLoading(true);
+
+              try {
+                const res = await registerKakaoOauthApp(); // 👈 서버액션 호출
+                if (!res.ok) {
+                  setErrorMessage(res.error ?? '카카오 앱 등록에 실패했습니다.');
+                  setSnsLoading(false);
+                  return;
+                }
+
+                // 등록 성공 → 카카오 로그인 진행
+                await nextAuthSignIn('kakao', { callbackUrl: '/oauth/kakao' });
+              } catch (e) {
+                console.error(e);
+                setErrorMessage('카카오 앱 등록 중 오류가 발생했습니다.');
+                setSnsLoading(false);
+              }
+            }}
             className='border-black-353542 rounded-full border p-[14px]'
           >
             <KakaoIcon className='h-full w-full' />
