@@ -1,15 +1,16 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react';
 
 interface UseDropdownReturn {
   isOpen: boolean;
   closeDropdown: () => void;
   toggleDropdown: () => void;
-  dropdownRef: React.RefObject<HTMLDivElement | null>;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  dropdownRef: React.RefObject<HTMLButtonElement | null>;
 }
 
 const useDropdown = (): UseDropdownReturn => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const dropdwonRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLButtonElement>(null);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -21,7 +22,7 @@ const useDropdown = (): UseDropdownReturn => {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdwonRef.current && !dropdwonRef.current.contains(e.target as Node)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         closeDropdown();
       }
     };
@@ -32,7 +33,7 @@ const useDropdown = (): UseDropdownReturn => {
     };
   }, []);
 
-  return { isOpen, closeDropdown, toggleDropdown, dropdownRef: dropdwonRef };
+  return { isOpen, closeDropdown, toggleDropdown, setIsOpen, dropdownRef };
 };
 
 export default useDropdown;

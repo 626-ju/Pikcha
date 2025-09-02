@@ -12,7 +12,7 @@ const ReviewAvatar = ({ user, rating }: { user: userType; rating: number }) => {
         <AvatarFallback>{user.nickname.charAt(0)}</AvatarFallback>
       </Avatar>
       <div className='flex shrink-0 flex-col gap-0.5'>
-        {user.nickname}
+        {user.nickname.slice(0, 10)}
         <div className='flex gap-[2px]'>
           {Array(maxRating)
             .fill(0)

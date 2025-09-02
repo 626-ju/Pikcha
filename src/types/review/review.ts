@@ -26,3 +26,10 @@ export interface ReviewDetail {
 export interface ReviewCardProps {
   review: ReviewDetail;
 }
+
+export interface ReviewFormValue {
+  productId?: number;
+  images?: string[];
+  content: string;
+  rating: number;
+}

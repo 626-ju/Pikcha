@@ -20,6 +20,11 @@ export function getCategoryName(id: number, fallback?: string) {
   return CATEGORY_NAME_MAP[id] ?? fallback ?? `Unknown(${id})`;
 }
 
+export const categoryArray = Object.entries(CATEGORY_NAME_MAP).map(([id, name]) => ({
+  id: Number(id),
+  name: name,
+}));
+
 // 대표 장르 리스트 결과 (17개) [
 // *   "가족",
 // *   "공연",
