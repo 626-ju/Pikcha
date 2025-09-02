@@ -42,10 +42,15 @@ const AddToCompareButton = ({ product, className }: AddToCompareButtonProps) => 
               label: 'Undo',
               onClick: () => undoRemove(result.removedProduct!, product),
             },
-            style: {
-              '--action-button-color': '#3b82f6',
-              '--action-button-color-hover': '#2563eb',
-            } as React.CSSProperties,
+            actionButtonStyle: {
+              backgroundColor: '#3b82f6',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              padding: '4px 8px',
+              fontSize: '12px',
+              fontWeight: '500',
+            },
           },
         );
       }
