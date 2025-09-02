@@ -10,16 +10,12 @@ import type { JWT } from 'next-auth/jwt';
 const BASE = process.env.API_BASE_URL!;
 const TEAM = process.env.TEST_TEAM_ID!;
 
-// NextAuth(카카오) 콜백용
-const KAKAO_REDIRECT_URI =
-  process.env.AUTH_KAKAO_REDIRECT_URI ?? 'http://localhost:3000/api/auth/callback/kakao';
+const mask = (v?: string) => (v ? `${v.slice(0, 2)}***${v.slice(-4)}` : v);
 
-// 백엔드 검증용 redirectUri
-// const BACKEND_KAKAO_REDIRECT_URI =
-//   process.env.BACKEND_KAKAO_REDIRECT_URI ?? 'http://localhost:3000/oauth/kakao';
-
-const KAKAO_ID = process.env.AUTH_KAKAO_ID!;
-const KAKAO_SECRET = process.env.AUTH_KAKAO_SECRET!;
+console.log('[ENV] AUTH_KAKAO_ID:', mask(process.env.AUTH_KAKAO_ID));
+console.log('[ENV] AUTH_KAKAO_SECRET set?:', !!process.env.AUTH_KAKAO_SECRET);
+console.log('[ENV] AUTH_KAKAO_REDIRECT_URI:', process.env.AUTH_KAKAO_REDIRECT_URI);
+console.log('[ENV] NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
 
 // --- 응답 타입 ---
 interface BackendUser {
@@ -44,12 +40,7 @@ interface CredentialsLoginResponse {
 const config: NextAuthConfig = {
   providers: [
     // Kakao OAuth Provider
-    CustomKakaoProvider({
-      clientId: KAKAO_ID,
-      clientSecret: KAKAO_SECRET,
-      authorization: { params: { redirect_uri: KAKAO_REDIRECT_URI } },
-    }),
-
+    CustomKakaoProvider({}),
     // Credentials Provider
     CredentialsProvider({
       name: 'Credentials',
@@ -58,11 +49,16 @@ const config: NextAuthConfig = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        console.log('🟢 [authorize] input credentials:', credentials);
-        if (!credentials?.email || !credentials?.password) return null;
+        console.log('🟢 [authorize] input:', credentials);
+
+        if (!credentials?.email || !credentials?.password) {
+          console.warn('⚠️ [authorize] missing email/password');
+          return null;
+        }
 
         // 카카오 회원가입 직후 임시 로그인
         if (credentials.password === 'kakao-oauth') {
+          console.log('🟢 [authorize] kakao-oauth temp login');
           return {
             id: String(credentials.email),
             email: String(credentials.email),
@@ -82,6 +78,8 @@ const config: NextAuthConfig = {
         });
 
         const raw = await res.text();
+        console.log('🟢 [authorize] raw response:', raw);
+
         let data: CredentialsLoginResponse | null = null;
         try {
           data = raw ? (JSON.parse(raw) as CredentialsLoginResponse) : null;
@@ -91,10 +89,17 @@ const config: NextAuthConfig = {
         }
 
         if (!res.ok || !data?.user) {
+          console.error('❌ [authorize] login failed:', data);
           throw new Error(data?.message ?? '유저 정보를 찾을 수 없습니다.');
         }
 
         const accessToken = data.accessToken ?? data.token ?? data.jwt ?? undefined;
+        console.log(
+          '🟢 [authorize] success, user id:',
+          data.user.id,
+          'accessToken:',
+          !!accessToken,
+        );
 
         return {
           id: String(data.user.id),
@@ -112,24 +117,25 @@ const config: NextAuthConfig = {
 
   callbacks: {
     async redirect({ url, baseUrl }) {
+      console.log('🔀 [redirect] url:', url, 'baseUrl:', baseUrl);
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
 
     async jwt({ token, user, account, trigger, session }): Promise<JWT> {
-      console.log('🟣 [jwt] start:', { token, user, account, trigger });
+      console.log('🟣 [jwt] start:', { token, user, account, trigger, session });
 
-      // 세션 업데이트 시
       if (trigger === 'update' && session) {
+        console.log('🟣 [jwt] update trigger with session:', session);
         const s = session as Session & { accessToken?: string; code?: string };
         if (s.accessToken) token.accessToken = s.accessToken;
         if (s.code) token.code = s.code;
         return token;
       }
 
-      // 최초 로그인 시 User → JWT 반영
       if (user) {
+        console.log('🟣 [jwt] mapping user → token:', user);
         token.id = 'id' in user ? String(user.id) : token.id;
         token.email = 'email' in user ? (user.email as string) : token.email;
         token.image = 'image' in user ? (user.image as string) : token.image;
@@ -138,15 +144,14 @@ const config: NextAuthConfig = {
         if (user.accessToken) token.accessToken = user.accessToken;
       }
 
-      // Kakao OAuth 로그인 시 → 인가코드 저장
       if (account?.provider === 'kakao') {
-        console.log('🟠 [jwt] kakao account flow');
+        console.log('🟠 [jwt] kakao account flow, account:', account);
         token.provider = 'kakao';
 
-        // CustomKakaoProvider에서 내려준 code
         const code = account.code;
         if (code) {
-          token.code = code; // ✅ 세션으로 흘려보냄
+          console.log('🟠 [jwt] saving kakao code:', code);
+          token.code = code;
           token.needsOnboarding = true;
         }
       }
@@ -156,10 +161,10 @@ const config: NextAuthConfig = {
     },
 
     async session({ session, token }): Promise<Session> {
-      console.log('🟢 [session] before mapping:', { token });
+      console.log('🟢 [session] start, token:', token);
 
       session.accessToken = typeof token.accessToken === 'string' ? token.accessToken : undefined;
-      session.code = typeof token.code === 'string' ? token.code : undefined; // ✅ 세션에 code 포함
+      session.code = typeof token.code === 'string' ? token.code : undefined;
       session.needsOnboarding = !!token.needsOnboarding;
       session.provider = token.provider === 'kakao' ? 'kakao' : undefined;
 
