@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 import AvatarProfile from '../profile/AvatarProfile';
 
@@ -73,12 +74,14 @@ const MobileMenuList = ({
             </li>
             <li>
               <button
-                onClick={onClose}
+                onClick={() => {
+                  onClose();
+                  signOut();
+                }}
                 className='hover:bg-black-353542 text-white-f1f1f5 text-mogazoa-18px-400 w-full rounded-lg px-4 py-3 text-left transition-colors'
               >
                 로그아웃
               </button>
-              {/* <button onClick={()=> signOut()}>로그아웃</button> -> auth 세팅 이후 사용 */}
             </li>
           </ul>
         </div>
