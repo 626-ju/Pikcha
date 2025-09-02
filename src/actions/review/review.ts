@@ -17,7 +17,7 @@ export const getProductReviews = async (
     `${BASE_URL}/${TEAM_ID}/products/${productId}/reviews?order=${option}`,
     {
       method: 'GET',
-      next: { revalidate: 300, tags: [`${productId}/reviews`] },
+      next: { revalidate: 300, tags: [`${productId}-reviews`] },
     },
   );
 

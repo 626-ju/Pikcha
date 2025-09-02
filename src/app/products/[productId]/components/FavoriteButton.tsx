@@ -13,7 +13,7 @@ interface FavoriteButtonProps {
 const FavoriteButton = ({ productId, initialState }: FavoriteButtonProps) => {
   const { isToggled, handleToggle } = useOptimisticToggle({
     asyncAction: async () => {
-      await postProductFavorite(productId, initialState);
+      await postProductFavorite(productId, isToggled);
     },
     initialState,
   });

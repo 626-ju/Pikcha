@@ -13,7 +13,10 @@ const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 export const getProductDetail = async (productId: number): Promise<ProductDetail> => {
   const productDetail = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${productId}`, {
     method: 'GET',
-    next: { revalidate: 300, tags: [`${productId}`] },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    next: { revalidate: 300, tags: [`products-${productId}`] },
   });
   return productDetail;
 };
@@ -35,7 +38,7 @@ export const postProduct = async ({ categoryId, image, description, name }: Prod
     body: JSON.stringify(newProduct),
   });
 
-  revalidateTag('products');
+  revalidateTag(`products`);
 
   return res;
 };
