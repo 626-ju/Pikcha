@@ -33,7 +33,7 @@ const ProductCard = ({ movie }: Props) => {
           className='rounded-sm'
         />
 
-        {/* 오버레이로 들어갈 경우 */}
+        {/* 오버레이로 들어갈 경우-> 일단은 주석처리만 하고 살려둘게요 */}
         {/* <div className='absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
           <h3 className='text-mogazoa-14px-500 md:text-mogazoa-16px-500 xl:text-mogazoa-18px-500 mb-[5px] line-clamp-1 w-[140px] md:w-[227px] xl:w-[260px]'>
             {movie.name}
