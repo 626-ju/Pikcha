@@ -60,6 +60,7 @@ const ProductList = ({ userid, initialData }: Props) => {
         />
       </div>
       <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
+        {/* <SuspenseLike isLoading={isFetching}> */}
         {productList?.length !== 0 ? (
           productList?.map((movie) => {
             return (
@@ -76,6 +77,7 @@ const ProductList = ({ userid, initialData }: Props) => {
             </p>
           </div>
         )}
+        {/* </SuspenseLike> */}
         {cursor !== null && errOccur === false && (
           <>
             <div ref={loadMoreRef} className='h-[5px] w-4'></div>

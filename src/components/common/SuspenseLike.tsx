@@ -8,10 +8,16 @@ interface Props {
   isLoading: boolean;
   fallback?: ReactNode;
   children?: ReactNode;
+  infinite?: boolean;
 }
 
 const SuspenseLike = ({ isLoading, fallback = <Loading />, children }: Props) => {
-  return <> {isLoading ? fallback : children}</>;
+  return (
+    <>
+      {children}
+      {isLoading && fallback}
+    </>
+  );
 };
 
 export default SuspenseLike;
