@@ -4,6 +4,7 @@ import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
 import { ProductDetail } from '@/types/product/productType';
 
+import AddToCompareButton from './AddToCompareButton';
 import ReviewPostModal from './ReviewPostModal';
 
 const ProductTriggers = ({ product }: { product: ProductDetail }) => {
@@ -23,9 +24,7 @@ const ProductTriggers = ({ product }: { product: ProductDetail }) => {
       >
         리뷰 작성하기
       </Button>
-      <Button variant='secondary' type='button' className='md:flex-1'>
-        비교하기
-      </Button>
+      <AddToCompareButton product={product} className='md:flex-1' />
       {product.writerId === 1 && (
         <Button variant='tertiary' type='button' className='md:flex-1'>
           편집하기
