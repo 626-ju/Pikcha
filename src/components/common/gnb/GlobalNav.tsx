@@ -1,5 +1,3 @@
-'use client';
-
 import DesktopNav from './DesktopNav';
 import MobileNav from './MobileNav';
 import DesktopCenter from './section/DesktopCenter';
