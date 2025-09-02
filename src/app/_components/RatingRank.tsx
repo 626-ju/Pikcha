@@ -1,13 +1,15 @@
-import { getTopRatingProducts } from '@/actions/productRank';
 import ProductCard from '@/components/common/ProductCard';
+import { Product } from '@/types/product/productType';
 
 import ProductList from './ProductList';
 
-const RatingRank = async () => {
-  const topRated = await getTopRatingProducts();
+interface RatingRankProps {
+  products: Product[];
+}
 
+const RatingRank = ({ products }: RatingRankProps) => {
   // 오류 방어용 -> 추후 수정할 수 있음.
-  if (!topRated || topRated.length === 0) {
+  if (!products || products.length === 0) {
     return <p>랭킹 데이터가 없습니다.</p>;
   }
 
@@ -17,7 +19,7 @@ const RatingRank = async () => {
         별점이 높은 상품 <span className='text-mogazoa-24px-600 text-gradient'>TOP 6</span>
       </h1>
       <ProductList>
-        {topRated.map((p) => (
+        {products.map((p) => (
           <ProductCard key={p.id} movie={p} />
         ))}
       </ProductList>

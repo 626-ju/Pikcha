@@ -12,7 +12,8 @@ export const patchProfileInfo = async ({ nickname, description, image }: Profile
   const payload = {
     nickname,
     description,
-    image: image?.[0] ?? '',
+    image:
+      image?.[0] ?? 'https://chipper-hummingbird-0e6d64.netlify.app/images/default-profile.png',
   };
 
   const res = await fetcher(`${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/users/me`, {

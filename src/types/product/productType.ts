@@ -40,3 +40,10 @@ export interface CalculationMapProps {
   favorite: (product: ProductDetail) => number;
   review: (product: ProductDetail) => number;
 }
+
+export interface ProductFormValue {
+  categoryId: number;
+  image: string[];
+  description: string;
+  name: string;
+}

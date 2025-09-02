@@ -17,11 +17,9 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
 }) => {
   const baseStyle =
-    'text-mogazoa-16px-600 flex h-[50px] w-full items-center justify-center rounded-lg md:h-[55px] xl:h-[65px] ';
+    'text-mogazoa-16px-600 flex h-[50px] w-full items-center justify-center rounded-lg md:h-[55px] xl:h-[65px]';
 
-  const cursorAndHoverClasses = disabled
-    ? 'cursor-not-allowed'
-    : 'hover:opacity-70 hover:cursor-pointer active:opacity-50';
+  const cursorAndHoverClasses = disabled ?? 'hover:opacity-70 active:opacity-50';
 
   let variantStyle;
 

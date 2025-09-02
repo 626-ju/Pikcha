@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const LogoButton = () => {
   return (
-    <Link href='/'>
+    <Link href='/' className='flex items-center'>
       <Image src='/icon/Logo.svg' alt='Logo' width={166} height={28} />
     </Link>
   );

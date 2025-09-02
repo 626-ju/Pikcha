@@ -2,6 +2,7 @@
 
 import { useCallback, useRef } from 'react';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 import useFetchUserList from '@/hooks/useFetchUserList';
@@ -32,12 +33,19 @@ const FollowInfoList = ({ type }: Props) => {
     <ul className='scrollbar-hide flex h-[456px] flex-col gap-5 overflow-y-scroll xl:h-[514px]'>
       {userList?.length === 0 && <div>팔로워가 없어요 😥</div>}
 
-      {userList?.map(({ id, nickname }: FollowUserInfo) => {
+      {userList?.map(({ id, nickname, image }: FollowUserInfo) => {
         return (
           <li key={id}>
             <Link href={`/user/${id}`} className='flex items-center gap-5' onClick={closeModal}>
               {/*추후 이미지로 변경*/}
-              <div className='bg-green-05d58b h-12 w-12 rounded-full md:h-13 md:w-13' />
+              <div className='bg-gray-9fa6b2 relative h-12 w-12 rounded-full md:h-13 md:w-13'>
+                <Image
+                  src={image ?? '/images/default-profile.png'}
+                  alt='프로필 이미지'
+                  className='object-cover'
+                  fill
+                />
+              </div>
               {nickname}
             </Link>
           </li>

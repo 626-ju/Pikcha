@@ -35,7 +35,10 @@ const ProfileUpdateForm = () => {
     defaultValues: {
       nickname,
       description,
-      image: [image],
+      image:
+        image === 'https://chipper-hummingbird-0e6d64.netlify.app/images/default-profile.png'
+          ? undefined
+          : [image],
     },
   });
 

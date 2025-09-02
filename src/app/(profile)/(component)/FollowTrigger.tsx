@@ -1,28 +1,19 @@
 'use client';
 
-import React from 'react';
-
 import Button from '@/components/ui/Buttons';
 
 interface Props {
   isFollowing: boolean;
+  onToggle: () => void;
 }
 
-const FollowTrigger = ({ isFollowing }: Props) => {
-  const handleFollowClick = () => {
-    //서버액션 요청 보내기
-  };
-
-  const handleUnFollowClick = () => {
-    //서버액션 요청 보내기
-  };
-
+const FollowTrigger = ({ isFollowing, onToggle }: Props) => {
   return isFollowing ? (
-    <Button variant='tertiary' onClick={handleUnFollowClick}>
+    <Button variant='tertiary' onClick={onToggle}>
       팔로우 취소
     </Button>
   ) : (
-    <Button onClick={handleFollowClick}>팔로우</Button>
+    <Button onClick={onToggle}>팔로우</Button>
   );
 };
 

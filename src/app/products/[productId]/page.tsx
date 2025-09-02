@@ -1,11 +1,12 @@
 import Image from 'next/image';
 
 import { getProductDetail } from '@/actions/productDetail';
-import Button from '@/components/ui/Buttons';
+import { getProductReviews } from '@/actions/review/review';
 import CategoryChip from '@/components/ui/chips/CategoryChip';
 
 import FavoriteButton from './components/FavoriteButton';
 import MetricCard from './components/MetricCard';
+import ProductTriggers from './components/ProductTriggers';
 import ReviewSection from './components/ReviewSection';
 import ShareButton from './components/ShareButton';
 
@@ -26,7 +27,6 @@ async function randomPromise(): Promise<void> {
 
 type ProductIdPageProps = {
   params: Promise<{ productId: string }>;
-  // searchParams: { order: string };
 };
 
 const ProductIdPage = async ({ params }: ProductIdPageProps) => {
@@ -34,6 +34,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
   const currentProductId = Number(productId);
 
   const product = await getProductDetail(currentProductId);
+  const reviews = await getProductReviews(currentProductId);
 
   return (
     <div className='mx-auto max-w-250 px-5 py-10'>
@@ -54,19 +55,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
             <FavoriteButton initialState={product.isFavorite} asyncAction={randomPromise} />
           </div>
           <div className='text-mogazoa-14px-400 flex-1'>{product.description}</div>
-          <div className='flex w-full flex-col gap-[15px] md:flex-row'>
-            <Button variant='primary' type='button' className='md:flex-2'>
-              리뷰 작성하기
-            </Button>
-            <Button variant='secondary' type='button' className='md:flex-1'>
-              비교하기
-            </Button>
-            {product.writerId === 1 && (
-              <Button variant='tertiary' type='button' className='md:flex-1'>
-                편집하기
-              </Button>
-            )}
-          </div>
+          <ProductTriggers product={product} />
         </div>
       </header>
       <section className='my-20'>
@@ -77,7 +66,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
           <MetricCard variant='review' product={product} />
         </div>
       </section>
-      <ReviewSection productId={currentProductId} />
+      <ReviewSection productId={currentProductId} initialReviews={reviews} />
     </div>
   );
 };
