@@ -3,13 +3,11 @@ import Image from 'next/image';
 import { getUserInfo } from '@/actions/profile/getUserInfo';
 import { truncated } from '@/lib/utils/truncated';
 
-import FollowerModalTrigger from './FollowModalTrigger';
-import FollowTrigger from './FollowTrigger';
-import UpdateTrigger from './UpdateTrigger';
+import FollowSection from './FollowSection';
 
 interface Props {
   userid: number;
-  myPage?: boolean;
+  myPage: boolean;
 }
 
 const ProfileCard = async ({ userid, myPage }: Props) => {
@@ -45,20 +43,12 @@ const ProfileCard = async ({ userid, myPage }: Props) => {
           {truncatedDescription}
         </p>
       </div>
-      <FollowerModalTrigger
-        followers={data.followersCount}
-        followees={data.followeesCount}
-        username={data.nickname}
+      <FollowSection
+        myPage={myPage}
+        username={truncatedNickname}
+        description={truncatedDescription}
+        data={data}
       />
-      {myPage ? (
-        <UpdateTrigger
-          nickname={truncatedNickname}
-          description={truncatedDescription}
-          image={data.image}
-        />
-      ) : (
-        <FollowTrigger isFollowing={data.isFollowing} />
-      )}
     </div>
   );
 };
