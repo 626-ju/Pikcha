@@ -7,6 +7,7 @@ import FileInput from '@/components/common/FileInput';
 import Textbox from '@/components/common/Textbox';
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
+import { useTriggerStore } from '@/store/triggerStore';
 import { ReviewFormValue } from '@/types/review/review';
 import { reviewSchema } from '@/types/review/reviewSchema';
 
@@ -16,6 +17,8 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
   const { showBoundary } = useErrorBoundary();
   const closeModal = useModalStore((state) => state.closeModal);
 
+  const { setTrigger } = useTriggerStore();
+
   const { register, handleSubmit, control } = useForm<ReviewFormValue>({
     resolver: zodResolver(reviewSchema),
     mode: 'all',
@@ -24,6 +27,7 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
   const onSubmit = async (data: ReviewFormValue) => {
     try {
       await postReview({ ...data, productId });
+      setTrigger();
       closeModal();
     } catch (err) {
       showBoundary(err);
