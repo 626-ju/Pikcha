@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
+import Modal from '@/components/common/ModalUi';
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
 
@@ -19,7 +20,7 @@ const CompareConfirmModal = () => {
   };
 
   return (
-    <div>
+    <Modal variant='compare'>
       <h2>비교하기</h2>
       <p>비교하러 가시겠습니까?</p>
       <div className='flex gap-3'>
@@ -30,7 +31,7 @@ const CompareConfirmModal = () => {
           비교하러 가기
         </Button>
       </div>
-    </div>
+    </Modal>
   );
 };
 
