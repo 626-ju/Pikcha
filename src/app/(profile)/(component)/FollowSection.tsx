@@ -10,8 +10,10 @@ import UpdateTrigger from './UpdateTrigger';
 
 interface Props {
   myPage: boolean;
+  //내부에서 truncated함수 또 돌리기 싫어서 이름이랑 설명은 그냥 따로 받았습니다
   username: string;
   description: string;
+  //추후에 객체로 내려주는 것 땜에 문제 생기면 다시 풀어서 내려주겠습니다ㄴ
   data: fetchUserRes;
 }
 
