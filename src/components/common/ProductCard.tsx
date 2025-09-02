@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import StarIcon from '@/assets/icon/Icon-star.svg';
+import { verifyImgUrl } from '@/lib/utils/verifyImgUrl';
 import { type Product } from '@/types/product/productType';
 
 interface Props {
@@ -11,26 +12,22 @@ interface Props {
 const ProductCard = ({ movie }: Props) => {
   const averageRating = Math.round(movie.rating * 10) / 10;
 
-  const imgUrl = !movie.image.includes('sprint-fe-project.s3.ap-northeast-2.amazonaws.com')
-    ? undefined
-    : movie.image;
+  const imgUrl = verifyImgUrl(movie.image);
 
   return (
     <Link
       href={`/products/${movie.id}`}
       // className='border-black-353542 bg-black-252530 block rounded-[8px] p-2.5 xl:p-5'
     >
-      {/* 컨텐츠 영화로 했을 때는 세로로 좀 더 길어야 할 것 같은데 고민이네요 */}
       {/* 약 5:7 */}
       {/* mb-2.5 md:mb-5  xl:mb-[25px] -> 기존 mb 임시 보관용-> 픽스나면 추후 삭제*/}
       <div className='group relative mb-1 h-[196px] w-[140px] overflow-hidden md:h-[320px] md:w-[227px] xl:h-[354px] xl:w-[260px]'>
         <Image
           src={imgUrl ?? '/images/profile-overay.jpg'}
           alt={`${movie.name} 사진`}
-          style={{ backgroundImage: "url('/images/profile-overay.jpg')" }}
           fill
-          sizes='260px'
           className='rounded-sm'
+          sizes='(max-width: 768px) 140px, (max-width: 1280px) 227px, 260px'
         />
 
         {/* 오버레이로 들어갈 경우-> 일단은 주석처리만 하고 살려둘게요 */}
