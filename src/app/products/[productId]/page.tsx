@@ -10,21 +10,6 @@ import ProductTriggers from './components/ProductTriggers';
 import ReviewSection from './components/ReviewSection';
 import ShareButton from './components/ShareButton';
 
-// 찜버튼 임시 함수
-async function randomPromise(): Promise<void> {
-  'use server';
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const isSuccess = Math.random() > 0.5;
-      if (isSuccess) {
-        resolve();
-      } else {
-        reject(new Error(`Error! Rejected after 1000ms`));
-      }
-    }, 1000);
-  });
-}
-
 type ProductIdPageProps = {
   params: Promise<{ productId: string }>;
 };
@@ -52,7 +37,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
           </div>
           <div className='flex items-center justify-between md:justify-start md:gap-[15px]'>
             <h2 className='text-mogazoa-20px-600 xl:text-mogazoa-24px-600'>{product.name}</h2>
-            <FavoriteButton initialState={product.isFavorite} asyncAction={randomPromise} />
+            <FavoriteButton productId={currentProductId} initialState={product.isFavorite} />
           </div>
           <div className='text-mogazoa-14px-400 flex-1'>{product.description}</div>
           <ProductTriggers product={product} />
