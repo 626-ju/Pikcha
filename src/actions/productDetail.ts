@@ -21,7 +21,7 @@ export const getProductDetail = async (productId: number): Promise<ProductDetail
 export const postProduct = async ({ categoryId, image, description, name }: ProductFormValue) => {
   const newProduct = {
     categoryId,
-    image: image ?? '',
+    image: image ?? image[0],
     description,
     name,
   };

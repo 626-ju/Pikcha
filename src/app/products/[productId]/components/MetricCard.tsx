@@ -4,7 +4,7 @@ import { METRIC_CONFIG } from './MetricConfig';
 
 const calculationMap: CalculationMapProps = {
   rating: (product) => Math.trunc(product.rating * 10 - product.categoryMetric.rating * 10) / 10,
-  favorite: (product) => product.favoriteCount - product.categoryMetric.favoriteCount,
+  favorite: (product) => Math.trunc(product.favoriteCount - product.categoryMetric.favoriteCount),
   review: (product) => Math.trunc(product.reviewCount - product.categoryMetric.reviewCount),
 };
 
@@ -17,9 +17,9 @@ const MetricCard = ({ variant, product }: MetricCardProps) => {
   const { title, unit, icon, isSmaller, isGreater } = METRIC_CONFIG[variant];
 
   const initialCount = () => {
-    if (variant === 'rating') return product.rating;
+    if (variant === 'rating') return Math.trunc(product.rating * 10) / 10;
     if (variant === 'favorite') return product.favoriteCount?.toLocaleString();
-    if (variant === 'review') return product.reviewCount?.toLocaleString();
+    if (variant === 'review') return Math.trunc(product.reviewCount)?.toLocaleString();
   };
 
   const comparisonCount = calculationMap[variant] ? calculationMap[variant](product) : null;

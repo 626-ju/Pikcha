@@ -14,7 +14,7 @@ import { ProductFormValue } from '@/types/product/productType';
 
 const ProductPostForm = () => {
   const { showBoundary } = useErrorBoundary();
-  const close = useModalStore((state) => state.closeModal);
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const {
     register,
@@ -29,7 +29,7 @@ const ProductPostForm = () => {
   const onSubmit = async (data: ProductFormValue) => {
     try {
       await postProduct(data);
-      close();
+      closeModal();
     } catch (err) {
       showBoundary(err);
     }
@@ -62,7 +62,6 @@ const ProductPostForm = () => {
         placeholder='작품에 대해 설명해주세요!'
         {...register('description')}
         maxLength={500}
-        className='w-full'
       />
       <Button variant='primary' className='mt-6'>
         추가하기
