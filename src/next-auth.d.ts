@@ -8,12 +8,11 @@ declare module 'next-auth' {
       id: string;
       nickname?: string | null;
       teamId?: string | null;
-      description?: string | null; // ← 필요 시
+      description?: string | null;
     } & DefaultSession['user'];
     accessToken?: string;
     code?: string;
 
-    // ↓↓↓ 추가
     needsOnboarding?: boolean;
     provider?: 'kakao';
     code?: string;
@@ -35,7 +34,6 @@ declare module 'next-auth/jwt' {
     teamId?: string | null;
     accessToken?: string;
 
-    // ↓↓↓ 추가
     needsOnboarding?: boolean;
     provider?: 'kakao';
     oauthProviderToken?: string;

@@ -35,7 +35,7 @@ export default function CustomKakaoProvider<P extends KakaoProfile>(
       },
     },
 
-    // ✅ token 엔드포인트는 반드시 정의 필요
+    // token 엔드포인트는 반드시 정의 필요
     token: {
       url: 'https://kauth.kakao.com/oauth/token',
       async request(context: { params: Record<string, string | undefined> }) {
@@ -43,7 +43,7 @@ export default function CustomKakaoProvider<P extends KakaoProfile>(
         const code = context.params?.code as string | undefined;
         return {
           tokens: {
-            code, // ✅ 우리가 필요한 건 access_token이 아니라 인가코드
+            code, // 우리가 필요한 건 access_token이 아니라 인가코드
           },
         };
       },
