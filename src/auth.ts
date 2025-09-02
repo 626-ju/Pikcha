@@ -4,7 +4,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import CustomKakaoProvider from './auth/CustomKakaoProvider';
 
 import type { Session, User } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
 
 // --- 환경 변수/상수 ---
 const BASE = process.env.API_BASE_URL!;
@@ -116,26 +115,23 @@ const config: NextAuthConfig = {
   ],
 
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      console.log('🔀 [redirect] url:', url, 'baseUrl:', baseUrl);
-      if (url.startsWith('/')) return `${baseUrl}${url}`;
-      if (new URL(url).origin === baseUrl) return url;
-      return baseUrl;
-    },
-
-    async jwt({ token, user, account, trigger, session }): Promise<JWT> {
-      console.log('🟣 [jwt] start:', { token, user, account, trigger, session });
-
+    async jwt({ token, user, account, trigger, session }) {
+      // 세션 수동 업데이트 반영 (온보딩 완료 시)
       if (trigger === 'update' && session) {
-        console.log('🟣 [jwt] update trigger with session:', session);
-        const s = session as Session & { accessToken?: string; code?: string };
+        const s = session as Session & {
+          accessToken?: string;
+          needsOnboarding?: boolean;
+          providerToken?: string;
+        };
         if (s.accessToken) token.accessToken = s.accessToken;
-        if (s.code) token.code = s.code;
+        // 온보딩 완료 후 false로 덮어쓰기
+        if (typeof s.needsOnboarding === 'boolean') token.needsOnboarding = s.needsOnboarding;
+        if (s.providerToken) token.providerAccessToken = s.providerToken;
         return token;
       }
 
+      // 최초 로그인 시 User → JWT 반영 (기존 코드 유지)
       if (user) {
-        console.log('🟣 [jwt] mapping user → token:', user);
         token.id = 'id' in user ? String(user.id) : token.id;
         token.email = 'email' in user ? (user.email as string) : token.email;
         token.image = 'image' in user ? (user.image as string) : token.image;
@@ -144,28 +140,33 @@ const config: NextAuthConfig = {
         if (user.accessToken) token.accessToken = user.accessToken;
       }
 
+      // ✅ 카카오 OAuth 로그인 진입 시
       if (account?.provider === 'kakao') {
-        console.log('🟠 [jwt] kakao account flow, account:', account);
         token.provider = 'kakao';
 
-        const code = account.code;
-        if (code) {
-          console.log('🟠 [jwt] saving kakao code:', code);
-          token.code = code;
+        // 카카오 access_token 보관 (백엔드로 넘길 값)
+        const kakaoAccessToken = account.access_token as string | undefined;
+        if (kakaoAccessToken) token.providerAccessToken = kakaoAccessToken;
+
+        // ✅ 백엔드 토큰이 아직 없으면 온보딩 필요로 간주
+        if (!token.accessToken) {
           token.needsOnboarding = true;
         }
       }
 
-      console.log('🔵 [jwt] final token:', token);
       return token;
     },
 
-    async session({ session, token }): Promise<Session> {
-      console.log('🟢 [session] start, token:', token);
+    async session({ session, token }) {
+      // 백엔드 토큰 보유 여부로 온보딩 필요 판정(안정적)
+      session.needsOnboarding = token.provider === 'kakao' && !token.accessToken;
+
+      // 온보딩에 쓸 카카오 access_token 내려주기
+      session.providerToken =
+        typeof token.providerAccessToken === 'string' ? token.providerAccessToken : undefined;
 
       session.accessToken = typeof token.accessToken === 'string' ? token.accessToken : undefined;
-      session.code = typeof token.code === 'string' ? token.code : undefined;
-      session.needsOnboarding = !!token.needsOnboarding;
+
       session.provider = token.provider === 'kakao' ? 'kakao' : undefined;
 
       session.user = {
@@ -177,7 +178,6 @@ const config: NextAuthConfig = {
         description: typeof token.description === 'string' ? token.description : null,
       };
 
-      console.log('🔵 [session] final session:', session);
       return session;
     },
   },

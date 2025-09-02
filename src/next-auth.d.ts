@@ -12,6 +12,7 @@ declare module 'next-auth' {
     } & DefaultSession['user'];
     accessToken?: string;
     code?: string;
+    providerToken?: string;
 
     needsOnboarding?: boolean;
     provider?: 'kakao';

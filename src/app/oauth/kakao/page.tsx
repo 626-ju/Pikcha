@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
@@ -20,7 +20,6 @@ export default function OauthSignupPage() {
   const { data: session, update, status } = useSession();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const {
     register,
@@ -33,61 +32,59 @@ export default function OauthSignupPage() {
 
   useEffect(() => {
     if (status === 'loading') return;
-    if (session && !session.needsOnboarding) {
-      router.replace('/'); // 이미 가입된 경우 홈으로 이동
+    // 카카오 로그인 사용자인데 온보딩 필요가 없으면 홈으로
+    if (session?.provider === 'kakao' && session.needsOnboarding === false) {
+      router.replace('/');
     }
   }, [session, status, router]);
 
   const onSubmit = async (data: OauthSignupValues) => {
     setErrorMessage(null);
 
-    try {
-      const providerToken = session?.code ?? searchParams.get('code') ?? undefined; // 카카오 토큰 확인
-      if (!providerToken) {
-        setErrorMessage('카카오 인증 값이 없습니다.');
-        return;
-      }
-
-      const requestBody = {
-        nickname: data.nickname,
-        redirectUri: BACKEND_REDIRECT_URI,
-        token: providerToken,
-      };
-
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/${process.env.NEXT_PUBLIC_TEAM_ID}/auth/signUp/kakao`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody),
-        },
-      );
-
-      const text = await res.text();
-      const json = text ? JSON.parse(text) : null;
-
-      if (!res.ok) {
-        setErrorMessage(json?.message ?? text ?? '회원가입에 실패했습니다.'); // 서버 에러 처리
-        return;
-      }
-
-      await update({
-        accessToken: json.accessToken,
-        needsOnboarding: false,
-        user: {
-          id: String(json.user.id),
-          email: json.user.email,
-          nickname: json.user.nickname,
-          image: json.user.image,
-          description: json.user.description,
-        },
-      });
-
-      router.replace('/'); // 가입 완료 후 홈 이동
-    } catch (err) {
-      console.error(err);
-      setErrorMessage('알 수 없는 오류가 발생했습니다.'); // 네트워크 등 예외 처리
+    // ✅ 세션에서 카카오 access_token 사용
+    const providerToken = session?.providerToken as string | undefined;
+    if (!providerToken) {
+      setErrorMessage('카카오 인증 값이 없습니다.');
+      return;
     }
+
+    const requestBody = {
+      nickname: data.nickname,
+      redirectUri: BACKEND_REDIRECT_URI,
+      token: providerToken, // ← 이제 access_token을 넘김
+    };
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/${process.env.NEXT_PUBLIC_TEAM_ID}/auth/signUp/kakao`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+      },
+    );
+
+    const text = await res.text();
+    const json = text ? JSON.parse(text) : null;
+
+    if (!res.ok) {
+      setErrorMessage(json?.message ?? text ?? '회원가입에 실패했습니다.');
+      return;
+    }
+
+    // ✅ 백엔드 토큰을 세션에 반영 → needsOnboarding 자동 false
+    await update({
+      accessToken: json.accessToken,
+      needsOnboarding: false,
+      user: {
+        id: String(json.user.id),
+        email: json.user.email,
+        nickname: json.user.nickname,
+        image: json.user.image,
+        description: json.user.description,
+      },
+    });
+
+    router.replace('/');
   };
 
   return (
