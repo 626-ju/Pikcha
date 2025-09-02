@@ -4,7 +4,6 @@ import { getProductDetail } from '@/actions/productDetail';
 import { getProductReviews } from '@/actions/review/review';
 import CategoryChip from '@/components/ui/chips/CategoryChip';
 
-import AddToCompareButton from './components/AddToCompareButton';
 import FavoriteButton from './components/FavoriteButton';
 import MetricCard from './components/MetricCard';
 import ProductTriggers from './components/ProductTriggers';
