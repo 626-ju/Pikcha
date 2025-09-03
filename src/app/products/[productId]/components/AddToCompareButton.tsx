@@ -3,7 +3,9 @@
 import { toast } from 'sonner';
 
 import CompareConfirmModal from '@/app/compare/components/CompareConfirmModal';
+import CompareOverflowModal from '@/app/compare/components/CompareOverflowModal';
 import Button from '@/components/ui/Buttons';
+import { MAX_COMPARE_ITEMS } from '@/constants/compareNumber';
 import { useCompareStore } from '@/store/compareStore';
 import { useModalStore } from '@/store/modalStore';
 import { Product } from '@/types/product/productType';
@@ -14,7 +16,7 @@ interface AddToCompareButtonProps {
 }
 
 const AddToCompareButton = ({ product, className }: AddToCompareButtonProps) => {
-  const { compareList, addProduct, undoRemove } = useCompareStore();
+  const { compareList, addProduct } = useCompareStore();
   const { openModal } = useModalStore();
 
   const handleAddToCompare = () => {
@@ -27,40 +29,24 @@ const AddToCompareButton = ({ product, className }: AddToCompareButtonProps) => 
     }
 
     if (currentCount === 0) {
+      // 첫 번째 담기: 바로 추가 + 안내 토스트
       addProduct(product);
       toast.info('비교대상을 추가해주세요');
-      return;
-    }
-
-    if (currentCount >= 4) {
+    } else if (currentCount >= MAX_COMPARE_ITEMS) {
+      // 최대 개수 도달 시: 추가하면서 제거된 항목 안내 모달
       const result = addProduct(product);
       if (result.removedProduct) {
-        toast.warning(
-          `비교하기는 최대 4개까지 저장. "${result.removedProduct.name}"이(가) 삭제되었습니다.`,
-          {
-            action: {
-              label: 'Undo',
-              onClick: () => undoRemove(result.removedProduct!, product),
-            },
-            actionButtonStyle: {
-              backgroundColor: '#3b82f6',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              padding: '4px 8px',
-              fontSize: '12px',
-              fontWeight: '500',
-            },
+        openModal({
+          component: CompareOverflowModal,
+          props: {
+            removedProduct: result.removedProduct,
+            newProduct: product,
           },
-        );
+        });
       }
-      return;
-    }
-
-    addProduct(product);
-
-    if (currentCount >= 1) {
-      // 2개 이상일 때 확인 모달
+    } else {
+      // 1개 이상이면서 최대 미만: 추가 + 확인 모달
+      addProduct(product);
       openModal({
         component: CompareConfirmModal,
         props: {},
