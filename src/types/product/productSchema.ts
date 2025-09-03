@@ -1,6 +1,7 @@
 import z from 'zod';
 
 export const productSchema = z.object({
+  productId: z.number().optional(),
   name: z
     .string()
     .nonempty('작품 제목은 필수 입력입니다.')

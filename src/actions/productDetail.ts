@@ -42,3 +42,31 @@ export const postProduct = async ({ categoryId, image, description, name }: Prod
 
   return res;
 };
+
+export const patchProduct = async ({
+  productId,
+  data,
+}: {
+  productId: number;
+  data: ProductFormValue;
+}) => {
+  const newProduct = {
+    categoryId: data.categoryId,
+    image: data.image?.[0],
+    description: data.description,
+    name: data.name,
+  };
+
+  const res = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${productId}`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newProduct),
+  });
+
+  revalidateTag(`products-${productId}`);
+
+  return res;
+};

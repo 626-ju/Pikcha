@@ -7,14 +7,24 @@ import DropupIcon from '@/assets/icon/Icon-dropup.svg';
 import { Category } from '@/constants/ProductsConst';
 import useDropdown from '@/hooks/useDropdown';
 import { cn } from '@/lib/utils';
-import { categoryArray } from '@/lib/utils/categoryNameMap';
+import { categoryArray, getCategoryName } from '@/lib/utils/categoryNameMap';
 
-export const CategoryDropdown = ({ onChange }: { onChange?: (id: number) => void }) => {
+export const CategoryDropdown = ({
+  onChange,
+  currentValue,
+}: {
+  onChange?: (id: number) => void;
+  currentValue: number | undefined;
+}) => {
   // onChange = 프롭을 number로 받는 함수
   const [value, setValue] = useState<string | null>(null);
   const { isOpen, toggleDropdown, dropdownRef } = useDropdown();
 
-  const initialValue = value ? value : '카테고리 선택';
+  const initialValue = () => {
+    if (currentValue) return getCategoryName(currentValue);
+    if (value) return value;
+    return '카테고리 선택';
+  };
 
   const handleSelectValue = (ca: Category) => {
     setValue(ca.name);
@@ -35,7 +45,7 @@ export const CategoryDropdown = ({ onChange }: { onChange?: (id: number) => void
           isOpen ? 'text-white-f1f1f5' : 'text-black-6e6e82',
         )}
       >
-        {initialValue}
+        {initialValue()}
         {isOpen ? <DropupIcon /> : <DropdownIcon />}
       </div>
       {isOpen && (

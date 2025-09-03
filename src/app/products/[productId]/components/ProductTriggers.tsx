@@ -1,5 +1,6 @@
 'use client';
 
+import ProductModal from '@/app/_components/ProductPost/ProductModal';
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
 import { ProductDetail } from '@/types/product/productType';
@@ -14,6 +15,10 @@ const ProductTriggers = ({ product }: { product: ProductDetail }) => {
     return openModal({ component: ReviewPostModal, props: product });
   };
 
+  const handleClickPatchProductModal = () => {
+    return openModal({ component: ProductModal, props: { product: product, mode: 'edit' } });
+  };
+
   return (
     <div className='flex w-full flex-col gap-[15px] md:flex-row'>
       <Button
@@ -25,8 +30,13 @@ const ProductTriggers = ({ product }: { product: ProductDetail }) => {
         리뷰 작성하기
       </Button>
       <AddToCompareButton product={product} className='md:flex-1' />
-      {product.writerId === 835 && (
-        <Button variant='tertiary' type='button' className='md:flex-1'>
+      {product.writerId === 909 && (
+        <Button
+          variant='tertiary'
+          type='button'
+          className='md:flex-1'
+          onClick={handleClickPatchProductModal}
+        >
           편집하기
         </Button>
       )}

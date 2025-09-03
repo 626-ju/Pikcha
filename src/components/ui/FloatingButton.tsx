@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-import ProductPostModal from '@/app/_components/ProductPost/ProductPostModal';
+import ProductModal from '@/app/_components/ProductPost/ProductModal';
 import AddIcon from '@/assets/icon/Icon-floating.svg';
 import { useModalStore } from '@/store/modalStore';
 
@@ -9,7 +9,7 @@ const FloatingButton = () => {
   const openModal = useModalStore((state) => state.openModal);
 
   const handleClickModal = () => {
-    return openModal({ component: ProductPostModal });
+    return openModal({ component: ProductModal, props: 'create' });
   };
   return (
     <button
