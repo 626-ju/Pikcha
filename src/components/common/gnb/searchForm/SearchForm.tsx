@@ -6,9 +6,9 @@ import { Search } from 'lucide-react';
 import { CircleX } from 'lucide-react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
-import { useSuggestions } from '@/hooks/useSuggestions';
-
 import SearchSuggestions from './SearchSuggestions';
+
+import { useSuggestions } from '@/hooks/useSuggestions';
 
 interface SearchFormProps {
   onSearchExecute?: () => void;
