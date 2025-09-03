@@ -25,7 +25,7 @@ const ProductTriggers = ({ product }: { product: ProductDetail }) => {
         리뷰 작성하기
       </Button>
       <AddToCompareButton product={product} className='md:flex-1' />
-      {product.writerId === 1 && (
+      {product.writerId === 835 && (
         <Button variant='tertiary' type='button' className='md:flex-1'>
           편집하기
         </Button>
