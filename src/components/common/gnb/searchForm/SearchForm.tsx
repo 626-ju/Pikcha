@@ -6,7 +6,9 @@ import { Search } from 'lucide-react';
 import { CircleX } from 'lucide-react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
-import { useSuggestions } from '@/hooks/useSuggestions';
+import { suggestProducts } from '@/actions/productList';
+
+type SuggestionProduct = { id: number; name: string; categoryId: number };
 
 import SearchSuggestions from './SearchSuggestions';
 
@@ -22,9 +24,8 @@ const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
   // url에 q가 이미 있다면 초기 렌더부터 인풋에 반영
   const initial = sp.get('q') ?? '';
   const [query, setQuery] = useState(initial);
+  const [sugs, setSugs] = useState<SuggestionProduct[]>([]);
   const [open, setOpen] = useState(false);
-
-  const sugs = useSuggestions(query);
 
   // 쿼리값이 서치박스가 아닌 url로 변환될 경우 쿼리에 업데이트
   // ex) 에어팟 검색 -> /?q=에어팟 -> 뒤로가기 -> 이전에 검색했던 /?q=맥북이 url에 노출 -> 에어팟에서 맥북으로 쿼리 업데이트
@@ -50,11 +51,27 @@ const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
     [sp, router, onSearchExecute],
   );
 
-  // URL 초기화 처리
+  // 디바운스 및 추천 불러오기
+  // 디바운스로 불필요하게 잦은 api 호출 방지
+  // alive는 사용자가 검색 결과가 돌아오기 전에 누적해서 검색할 경우 이전 값으로 덮는 경우 방지
   useEffect(() => {
-    if (!query && sp.get('q')) {
-      goHomeWithQ('');
-    }
+    let alive = true;
+    const id = setTimeout(async () => {
+      if (!query) {
+        setSugs([]);
+        // 쿼리가 비어있고 현재 URL에 쿼리가 있다면 홈으로 이동하여 초기화
+        if (sp.get('q')) {
+          goHomeWithQ('');
+        }
+        return;
+      }
+      const list = await suggestProducts(query);
+      if (alive) setSugs(list);
+    }, 250);
+    return () => {
+      alive = false;
+      clearTimeout(id);
+    };
   }, [query, sp, goHomeWithQ]);
 
   return (
@@ -82,6 +99,7 @@ const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
           className='text-gray-9fa6b2 absolute top-1/2 right-6 -translate-y-1/2 cursor-pointer'
           onClick={() => {
             setQuery('');
+            setSugs([]);
             goHomeWithQ('');
           }}
         >
