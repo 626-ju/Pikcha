@@ -27,8 +27,6 @@ const FollowInfoList = ({ type }: Props) => {
 
   useIntersectionObserver(loadMoreRef, cursor, onIntersect);
 
-  if (!userList) return <h1>로딩 중...</h1>; //서스펜스나 스트리밍 쓰고 싶었는데 클라컴포에서 방법 없을까요?
-
   return (
     <ul className='scrollbar-hide flex h-[456px] flex-col gap-5 overflow-y-scroll xl:h-[514px]'>
       {userList?.length === 0 && <div>팔로워가 없어요 😥</div>}
