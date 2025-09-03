@@ -3,12 +3,13 @@
 import { toast } from 'sonner';
 
 import CompareConfirmModal from '@/app/compare/components/CompareConfirmModal';
-import CompareOverflowModal from '@/app/compare/components/CompareOverflowModal';
 import Button from '@/components/ui/Buttons';
-import { MAX_COMPARE_ITEMS } from '@/constants/compareNumber';
 import { useCompareStore } from '@/store/compareStore';
 import { useModalStore } from '@/store/modalStore';
 import { Product } from '@/types/product/productType';
+
+import CompareOverflowModal from '@/app/compare/components/CompareOverflowModal';
+import { MAX_COMPARE_ITEMS } from '@/constants/compareNumber';
 
 interface AddToCompareButtonProps {
   product: Product;
