@@ -13,7 +13,7 @@ const CompareChip = ({ variant, productName, onClick }: CompareChipProps) => {
       )}
       onClick={onClick}
     >
-      <span className='max-w-[150px] truncate'>{productName}</span>
+      {productName}
       <button
         className={cn(
           'flex h-[19px] w-[19px] cursor-pointer items-center justify-center rounded-[6px]',
