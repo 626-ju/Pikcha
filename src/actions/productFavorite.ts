@@ -1,3 +1,7 @@
+'use server';
+
+import { revalidateTag } from 'next/cache';
+
 import fetcher from '@/lib/utils/fetcher';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -13,8 +17,11 @@ export const postProductFavorite = async (productId: number, isCurrentlyFavorite
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
-    next: { revalidate: 300, tags: [`product-${productId}`] },
+    next: { revalidate: 300, tags: [`products-${productId}`] },
   });
+
+  revalidateTag(`products-${productId}`);
+  // 일단 구현 후 리팩토링 다시 생각해보자
 
   return res;
 };
