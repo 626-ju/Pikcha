@@ -1,8 +1,10 @@
 import type { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
 
+// NextAuth 카카오 콜백 URI
 const KAKAO_REDIRECT_URI =
   process.env.AUTH_KAKAO_REDIRECT_URI ?? 'http://localhost:3000/api/auth/callback/kakao';
 
+// 카카오 프로필 응답에서 사용하는 최소 필드
 interface KakaoProfile {
   id: number;
   kakao_account?: {
@@ -22,13 +24,14 @@ export default function CustomKakaoProvider<P extends KakaoProfile>(
     name: 'Kakao',
     type: 'oauth',
 
-    // 환경변수 그대로 사용
+    // 카카오 앱 키/시크릿(환경변수)
     clientId: process.env.AUTH_KAKAO_ID!,
     clientSecret: process.env.AUTH_KAKAO_SECRET ?? '',
 
-    // ★ 핵심 한 줄: 카카오는 POST 방식만 인정
+    // 카카오는 토큰 인증 방식으로 client_secret_post 사용
     client: { token_endpoint_auth_method: 'client_secret_post' },
 
+    // 인가 요청 설정
     authorization: {
       url: 'https://kauth.kakao.com/oauth/authorize',
       params: {
@@ -38,11 +41,11 @@ export default function CustomKakaoProvider<P extends KakaoProfile>(
       },
     },
 
-    // 기본 토큰 엔드포인트만 지정(오버라이드 하지 않음)
+    // 토큰/유저 정보 엔드포인트
     token: { url: 'https://kauth.kakao.com/oauth/token' },
-
     userinfo: { url: 'https://kapi.kakao.com/v2/user/me' },
 
+    // 카카오 프로필을 NextAuth 표준 사용자로 매핑
     profile(profile: P) {
       const acc = profile.kakao_account;
       const p = acc?.profile;
