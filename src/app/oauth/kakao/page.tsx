@@ -12,37 +12,23 @@ import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
 import { oauthSignupSchema, OauthSignupValues } from '@/lib/validations/auth';
 
-// ── 환경값
 const BACKEND_REDIRECT_URI =
   process.env.NEXT_PUBLIC_BACKEND_KAKAO_REDIRECT_URI ??
   (typeof window !== 'undefined' ? `${window.location.origin}/oauth/kakao` : '/oauth/kakao');
 
 const KAKAO_AUTHORIZE_URL = 'https://kauth.kakao.com/oauth/authorize';
-const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!; // 공개 가능
+const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
 
-// ── API helpers
-async function postJSON(url: string, body: unknown) {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    cache: 'no-store',
-    body: JSON.stringify(body),
-  });
-  const text = await res.text();
-  let json = null;
-  try {
-    json = text ? JSON.parse(text) : null;
-  } catch {}
-  return { ok: res.ok, status: res.status, json, text };
-}
+type Phase = 'probing' | 'form' | 'redirecting';
 
 export default function OauthSignupPage() {
   const { data: session, update, status } = useSession();
+  const [phase, setPhase] = useState<Phase>('probing'); // ← 최초엔 항상 “확인 중”
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectedOnce = useRef(false);
+  const preflightOnce = useRef(false);
 
   const {
     register,
@@ -53,77 +39,7 @@ export default function OauthSignupPage() {
     mode: 'onBlur',
   });
 
-  // ✅ 이미 온보딩 끝났으면 홈으로
-  useEffect(() => {
-    if (status !== 'authenticated') return;
-    if (session?.provider === 'kakao') {
-      if (session?.accessToken || session?.needsOnboarding === false || session?.user?.nickname) {
-        router.replace('/');
-      }
-    }
-  }, [session, status, router]);
-
-  // ✅ code가 있으면 백엔드 signIn/kakao로 "닉네임 존재/매핑 확인" → 있으면 자동 완료
-  useEffect(() => {
-    const code = searchParams.get('code');
-    if (!code) return;
-    if (busy) return;
-    if (status !== 'authenticated') return;
-
-    (async () => {
-      setBusy(true);
-      setErrorMessage(null);
-
-      // 스웨거: POST /{teamId}/auth/signIn/kakao  body: { redirectUri, token }
-      const {
-        ok,
-        json,
-        status: s,
-      } = await postJSON(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/${process.env.NEXT_PUBLIC_TEAM_ID}/auth/signIn/kakao`,
-        { redirectUri: BACKEND_REDIRECT_URI, token: code },
-      );
-
-      if (ok && json?.user) {
-        const hasNickname = !!json.user.nickname;
-        // 세션 채우기
-        await update({
-          accessToken: json.accessToken,
-          needsOnboarding: !hasNickname,
-          user: {
-            id: String(json.user.id),
-            email: json.user.email,
-            nickname: json.user.nickname ?? null,
-            image: json.user.image ?? null,
-            description: json.user.description ?? null,
-          },
-        });
-
-        // URL 정리
-        if (typeof window !== 'undefined') {
-          window.history.replaceState(null, '', '/oauth/kakao');
-        }
-
-        // 닉네임 있으면 바로 홈
-        if (hasNickname) {
-          router.replace('/');
-        }
-      } else {
-        // 실패면 폼 유지(닉네임 입력 진행)
-        if (s === 400 && json?.message) setErrorMessage(json.message);
-      }
-
-      setBusy(false);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams, status]);
-
-  // ── fresh code 받으러 카카오로 이동
-  const getFreshAuthorizationCode = (nickname: string) => {
-    if (redirectedOnce.current) return;
-    redirectedOnce.current = true;
-
-    sessionStorage.setItem('pendingNickname', nickname);
+  const beginAuthorize = () => {
     const params = new URLSearchParams({
       response_type: 'code',
       client_id: KAKAO_CLIENT_ID,
@@ -133,6 +49,86 @@ export default function OauthSignupPage() {
     window.location.href = `${KAKAO_AUTHORIZE_URL}?${params.toString()}`;
   };
 
+  // ✅ 진입 즉시: 기존 사용자면 스킵, 신규면 폼. UI는 끝날 때까지 “확인 중” 유지
+  useEffect(() => {
+    if (preflightOnce.current) return;
+    if (status === 'loading') return;
+    if (session?.provider !== 'kakao') return; // 카카오 플로우가 아니면 건너뜀
+
+    // 이미 온보딩이 끝났거나 accessToken 있으면 즉시 홈
+    if (session?.needsOnboarding === false || session?.accessToken) {
+      preflightOnce.current = true;
+      setPhase('redirecting');
+      router.replace('/');
+      setTimeout(() => {
+        if (location.pathname !== '/') window.location.assign('/');
+      }, 100);
+      return;
+    }
+
+    // 새로 preflight 실행
+    preflightOnce.current = true;
+    setPhase('probing');
+
+    (async () => {
+      try {
+        const code = searchParams.get('code');
+        if (!code) {
+          // fresh code 필요 → 바로 카카오로 이동
+          beginAuthorize();
+          return;
+        }
+
+        // 간편 로그인으로 “기존 가입자 여부” 판별
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${process.env.NEXT_PUBLIC_TEAM_ID}/auth/signIn/kakao`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ redirectUri: BACKEND_REDIRECT_URI, token: code }),
+          },
+        );
+
+        const text = await res.text();
+        const json = text ? JSON.parse(text) : null;
+
+        // URL 정리 (루프 방지)
+        if (typeof window !== 'undefined') {
+          window.history.replaceState(null, '', '/oauth/kakao');
+        }
+
+        if (res.ok && json?.user?.nickname) {
+          // 기존 사용자 → 세션 업데이트 후 홈
+          await update({
+            accessToken: json.accessToken,
+            needsOnboarding: false,
+            user: {
+              id: String(json.user.id),
+              email: json.user.email,
+              nickname: json.user.nickname,
+              image: json.user.image,
+              description: json.user.description,
+            },
+          });
+          setPhase('redirecting');
+          router.replace('/');
+          setTimeout(() => {
+            if (location.pathname !== '/') window.location.assign('/');
+          }, 100);
+          return;
+        }
+
+        // 신규 사용자 → 폼 오픈
+        setPhase('form');
+      } catch (e) {
+        console.error('[preflight] error', e);
+        // 실패해도 폼은 오픈해서 진행 가능
+        setPhase('form');
+      }
+    })();
+  }, [status, session, searchParams, router, update]);
+
+  // 신규 가입 제출
   const onSubmit = async (data: OauthSignupValues) => {
     if (busy) return;
     setBusy(true);
@@ -141,76 +137,53 @@ export default function OauthSignupPage() {
     try {
       const code = searchParams.get('code');
       if (!code) {
-        getFreshAuthorizationCode(data.nickname);
+        beginAuthorize();
         return;
       }
 
-      const nickname = data.nickname || sessionStorage.getItem('pendingNickname') || '';
-
+      const nickname = data.nickname?.trim();
       if (!nickname) {
-        setErrorMessage('닉네임이 없습니다. 다시 입력해 주세요.');
+        setErrorMessage('닉네임을 입력해 주세요.');
         return;
       }
 
-      // 1) signUp/kakao 시도
-      const signUpRes = await postJSON(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/${process.env.NEXT_PUBLIC_TEAM_ID}/auth/signUp/kakao`,
-        { nickname, redirectUri: BACKEND_REDIRECT_URI, token: code },
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nickname, redirectUri: BACKEND_REDIRECT_URI, token: code }),
+        },
       );
 
-      // 1-1) 성공 → 세션 업데이트 후 홈
-      if (signUpRes.ok && signUpRes.json?.user) {
-        await update({
-          accessToken: signUpRes.json.accessToken,
-          needsOnboarding: false,
-          user: {
-            id: String(signUpRes.json.user.id),
-            email: signUpRes.json.user.email,
-            nickname: signUpRes.json.user.nickname ?? null,
-            image: signUpRes.json.user.image ?? null,
-            description: signUpRes.json.user.description ?? null,
-          },
-        });
+      const text = await res.text();
+      const json = text ? JSON.parse(text) : null;
 
-        sessionStorage.removeItem('pendingNickname');
+      if (!res.ok) {
+        setErrorMessage(json?.message ?? text ?? '회원가입에 실패했습니다.');
+        return;
+      }
+
+      await update({
+        accessToken: json.accessToken,
+        needsOnboarding: false,
+        user: {
+          id: String(json.user.id),
+          email: json.user.email,
+          nickname: json.user.nickname,
+          image: json.user.image,
+          description: json.user.description,
+        },
+      });
+
+      if (typeof window !== 'undefined') {
         window.history.replaceState(null, '', '/oauth/kakao');
-        router.replace('/');
-        return;
       }
-
-      // 1-2) 400 & “이미 사용중인 닉네임” 등 → 2) signIn/kakao로 조회해서 닉네임 있으면 바로 완료
-      if (signUpRes.status === 400 && typeof signUpRes.json?.message === 'string') {
-        const signInRes = await postJSON(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${process.env.NEXT_PUBLIC_TEAM_ID}/auth/signIn/kakao`,
-          { redirectUri: BACKEND_REDIRECT_URI, token: code },
-        );
-
-        if (signInRes.ok && signInRes.json?.user?.nickname) {
-          await update({
-            accessToken: signInRes.json.accessToken,
-            needsOnboarding: false,
-            user: {
-              id: String(signInRes.json.user.id),
-              email: signInRes.json.user.email,
-              nickname: signInRes.json.user.nickname ?? null,
-              image: signInRes.json.user.image ?? null,
-              description: signInRes.json.user.description ?? null,
-            },
-          });
-
-          sessionStorage.removeItem('pendingNickname');
-          window.history.replaceState(null, '', '/oauth/kakao');
-          router.replace('/');
-          return;
-        }
-
-        // 그래도 닉네임이 없다면 메시지만 보여주고 폼 유지
-        setErrorMessage(signUpRes.json.message);
-        return;
-      }
-
-      // 기타 실패
-      setErrorMessage(signUpRes.json?.message ?? signUpRes.text ?? '회원가입에 실패했습니다.');
+      setPhase('redirecting');
+      router.replace('/');
+      setTimeout(() => {
+        if (location.pathname !== '/') window.location.assign('/');
+      }, 100);
     } catch (e) {
       console.error(e);
       setErrorMessage('알 수 없는 오류가 발생했습니다.');
@@ -230,21 +203,28 @@ export default function OauthSignupPage() {
         'gap-[60px]',
       )}
     >
-      <Input
-        type='text'
-        label='닉네임'
-        placeholder='닉네임을 입력해 주세요'
-        errorMessage={errors.nickname?.message}
-        {...register('nickname')}
-        hintMessage='최대 10자 가능'
-      />
-
-      <div>
-        <Button type='submit' className='shrink-0' disabled={isSubmitting || busy}>
-          {isSubmitting || busy ? '가입 중...' : '가입하기'}
-        </Button>
-        {errorMessage && <p className='my-5 text-center text-sm text-red-500'>{errorMessage}</p>}
-      </div>
+      {phase !== 'form' ? (
+        <p className='text-center text-sm text-gray-500'>카카오 계정 확인 중…</p>
+      ) : (
+        <>
+          <Input
+            type='text'
+            label='닉네임'
+            placeholder='닉네임을 입력해 주세요'
+            errorMessage={errors.nickname?.message}
+            {...register('nickname')}
+            hintMessage='최대 10자 가능'
+          />
+          <div>
+            <Button type='submit' className='shrink-0' disabled={isSubmitting || busy}>
+              {isSubmitting || busy ? '가입 중...' : '가입하기'}
+            </Button>
+            {errorMessage && (
+              <p className='my-5 text-center text-sm text-red-500'>{errorMessage}</p>
+            )}
+          </div>
+        </>
+      )}
     </form>
   );
 }
