@@ -76,7 +76,7 @@ const FileInput = ({ maxFiles = 1, value, onChange }: FileInputProps) => {
         type='file'
         ref={fileInputRef}
         className='hidden'
-        accept='image/*'
+        accept='.png, .jpg, .jpeg'
         onChange={handleFileChange}
       />
     </div>
