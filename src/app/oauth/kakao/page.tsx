@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
+import { assertBackendMapping } from '@/actions/debug';
 import Input from '@/components/common/Input';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
@@ -17,13 +18,15 @@ const BACKEND_REDIRECT_URI =
   (typeof window !== 'undefined' ? `${window.location.origin}/oauth/kakao` : '/oauth/kakao');
 
 const KAKAO_AUTHORIZE_URL = 'https://kauth.kakao.com/oauth/authorize';
-const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!; // 공개 가능
+const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
 
 export default function OauthSignupPage() {
   const { data: session, update, status } = useSession();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const redirectedOnce = useRef(false);
 
   const {
     register,
@@ -34,59 +37,86 @@ export default function OauthSignupPage() {
     mode: 'onBlur',
   });
 
-  // 새로고침/재방문 시에도: 백엔드 토큰이 이미 있으면 홈으로
+  // 이미 온보딩 끝났으면 즉시 홈으로
   useEffect(() => {
-    if (status === 'loading') return;
-    if (session?.provider === 'kakao' && session.needsOnboarding === false) {
-      router.replace('/');
+    if (status !== 'authenticated') return;
+    if (session?.provider === 'kakao') {
+      const hasBackendToken = Boolean(session?.accessToken);
+      const onboardDone = session?.needsOnboarding === false;
+      if (hasBackendToken || onboardDone) {
+        console.log('🔁 [guard] already onboarded → /');
+        router.replace('/');
+      }
     }
   }, [session, status, router]);
 
-  // authorize 후 돌아왔을 때 자동 제출하고 싶으면 여기에 세션스토리지 값 체크해서 실행해도 됨
-  useEffect(() => {
-    const returnedCode = searchParams.get('code');
-    const pendingNickname = sessionStorage.getItem('pendingNickname');
-    if (returnedCode && pendingNickname) {
-      // 자동 제출 트리거를 걸고 싶으면 여기서 호출 가능
-      // 다만 예제에선 명시적 onSubmit에서 처리하도록 둠
-    }
-  }, [searchParams]);
-
   const getFreshAuthorizationCode = (nickname: string) => {
-    // 닉네임을 리다이렉트 왕복 동안 보존
+    if (redirectedOnce.current) return;
+    redirectedOnce.current = true;
+
     sessionStorage.setItem('pendingNickname', nickname);
+    sessionStorage.setItem('oauthRedirecting', '1');
 
     const params = new URLSearchParams({
       response_type: 'code',
       client_id: KAKAO_CLIENT_ID,
       redirect_uri: BACKEND_REDIRECT_URI,
       scope: 'account_email profile_nickname',
-      // state: 필요하면 사용 (복구 정보 등)
     });
 
-    // 현재 페이지를 카카오로 보냈다가 다시 /oauth/kakao 로 돌아오게 함
-    window.location.href = `${KAKAO_AUTHORIZE_URL}?${params.toString()}`;
+    const url = `${KAKAO_AUTHORIZE_URL}?${params.toString()}`;
+    console.log('➡️ [authorize] go:', url);
+    window.location.href = url;
   };
 
   const onSubmit = async (data: OauthSignupValues) => {
+    if (busy) return;
+    setBusy(true);
     setErrorMessage(null);
 
-    // 1) fresh code가 없으면 먼저 받아오러 간다.
-    const code = searchParams.get('code');
-    if (!code) {
-      getFreshAuthorizationCode(data.nickname);
-      return; // 이후 흐름은 콜백으로 되돌아와서 계속됨
-    }
-
-    // 2) 돌아왔으면 닉네임 복구
-    const nickname = data.nickname || sessionStorage.getItem('pendingNickname') || '';
-    if (!nickname) {
-      setErrorMessage('닉네임이 없습니다. 다시 입력해 주세요.');
-      return;
-    }
-
-    // 3) 백엔드로 가입 요청 (백엔드는 "토큰" 자리에 인가코드만 받음)
     try {
+      console.log('▶️ [submit] start');
+
+      // 카카오가 반환한 에러 쿼리
+      const kakaoErr = searchParams.get('error');
+      const kakaoDesc = searchParams.get('error_description');
+      if (kakaoErr) {
+        console.log('⛔ [submit] kakao error:', kakaoErr, kakaoDesc);
+        setErrorMessage(`카카오 인증 오류: ${kakaoDesc ?? kakaoErr}`);
+        return;
+      }
+
+      // fresh code 필요 시 먼저 받으러 감
+      const code = searchParams.get('code');
+      if (!code) {
+        console.log('ℹ️ [submit] no code → authorize');
+        getFreshAuthorizationCode(data.nickname);
+        return;
+      }
+
+      // 중복 코드 사용 방지
+      const codeConsumedKey = `kakao_code_consumed:${code}`;
+      if (sessionStorage.getItem(codeConsumedKey) === '1') {
+        console.log('ℹ️ [submit] code already consumed → cleanup & go home');
+        window.history.replaceState(null, '', '/oauth/kakao');
+        window.location.replace('/');
+        return;
+      }
+
+      // 닉네임
+      const nickname = data.nickname || sessionStorage.getItem('pendingNickname') || '';
+      if (!nickname) {
+        console.log('⛔ [submit] no nickname');
+        setErrorMessage('닉네임이 없습니다. 다시 입력해 주세요.');
+        return;
+      }
+
+      console.log('🌐 [submit] call backend signUp/kakao', {
+        nickname,
+        redirectUri: BACKEND_REDIRECT_URI,
+        code,
+      });
+
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/${process.env.NEXT_PUBLIC_TEAM_ID}/auth/signUp/kakao`,
         {
@@ -94,22 +124,34 @@ export default function OauthSignupPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             nickname,
-            redirectUri: BACKEND_REDIRECT_URI, // 반드시 authorize 때 사용한 redirect_uri와 동일
-            token: code, // ← fresh code 사용
+            redirectUri: BACKEND_REDIRECT_URI,
+            token: code, // fresh code
           }),
         },
       );
 
       const text = await res.text();
-      const json = text ? JSON.parse(text) : null;
+      let json = null;
+      try {
+        json = text ? JSON.parse(text) : null;
+      } catch {
+        // 빈 본문/비 JSON 방어
+      }
+      console.log('🌐 [submit] backend res:', res.status, json);
 
       if (!res.ok) {
         setErrorMessage(json?.message ?? text ?? '회원가입에 실패했습니다.');
         return;
       }
 
-      // 4) 백엔드 토큰/유저정보 세션에 반영 → 온보딩 종료
-      await update({
+      if (!json?.accessToken || !json?.user) {
+        setErrorMessage('가입은 되었지만 토큰 또는 사용자 정보가 누락되었습니다.');
+        return;
+      }
+
+      // 세션 업데이트
+      console.log('🟢 [submit] update() with user/token');
+      const updated = await update({
         accessToken: json.accessToken,
         needsOnboarding: false,
         user: {
@@ -120,14 +162,27 @@ export default function OauthSignupPage() {
           description: json.user.description,
         },
       });
+      console.log('🟢 [submit] update() done:', updated);
 
-      // 5) 사용한 임시 데이터 정리
+      // 디버그/검증은 비동기로 날리고 기다리지 않음 (리다이렉트 블락 방지)
+      // 실패해도 무시
+      void assertBackendMapping('after-update').catch(() => {});
+
+      // 코드/임시값 정리
+      sessionStorage.setItem(codeConsumedKey, '1');
       sessionStorage.removeItem('pendingNickname');
+      sessionStorage.removeItem('oauthRedirecting');
+      window.history.replaceState(null, '', '/oauth/kakao');
 
+      // 리다이렉트 (SSR 헤더 최신 세션 반영 위해 하드 리로드까지)
+      console.log('➡️ [submit] redirect to /');
       router.replace('/');
+      window.location.replace('/'); // 폴백/보장
     } catch (err) {
-      console.error(err);
+      console.error('❌ [submit] unexpected error', err);
       setErrorMessage('알 수 없는 오류가 발생했습니다.');
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -152,8 +207,8 @@ export default function OauthSignupPage() {
       />
 
       <div>
-        <Button type='submit' className='shrink-0' disabled={isSubmitting}>
-          {isSubmitting ? '가입 중...' : '가입하기'}
+        <Button type='submit' className='shrink-0' disabled={isSubmitting || busy}>
+          {isSubmitting || busy ? '가입 중...' : '가입하기'}
         </Button>
         {errorMessage && <p className='my-5 text-center text-sm text-red-500'>{errorMessage}</p>}
       </div>
