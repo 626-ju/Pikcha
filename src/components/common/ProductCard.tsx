@@ -21,7 +21,7 @@ const ProductCard = ({ movie }: Props) => {
     >
       {/* 약 5:7 */}
       {/* mb-2.5 md:mb-5  xl:mb-[25px] -> 기존 mb 임시 보관용-> 픽스나면 추후 삭제*/}
-      <div className='group relative mb-1 h-[196px] w-[140px] overflow-hidden md:h-[320px] md:w-[227px] xl:h-[354px] xl:w-[260px]'>
+      <div className='group relative mb-1 aspect-[5/7]'>
         <Image
           src={imgUrl ?? '/images/profile-overay.jpg'}
           alt={`${movie.name} 사진`}

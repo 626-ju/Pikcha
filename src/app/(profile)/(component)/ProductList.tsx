@@ -60,7 +60,7 @@ const ProductList = ({ userid, initialData }: Props) => {
         />
       </div>
       {/* 940->820 */}
-      <ul className='flex max-w-[840px] flex-wrap gap-4 xl:gap-5'>
+      <ul className='grid grid-cols-2 flex-wrap gap-4 md:grid-cols-3 xl:gap-5'>
         {productList?.length !== 0 ? (
           productList?.map((movie) => {
             return (
