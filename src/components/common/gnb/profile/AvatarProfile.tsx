@@ -12,13 +12,9 @@ interface AvatarProfileProps {
 const AvatarProfile = ({ profileImg = null, userName }: AvatarProfileProps) => {
   return (
     <div className='flex items-center gap-4 whitespace-nowrap md:gap-2'>
-      <Avatar
-        className={`h-10 w-10 md:h-7 md:w-7 xl:w-8 ${
-          profileImg ? 'border-white-f1f1f5 border-2 border-solid' : ''
-        }`}
-      >
-        <AvatarImage src={profileImg ?? '/icon/GuestProfile.svg'} alt='프로필 이미지' />
-        <AvatarFallback>게스트</AvatarFallback>
+      <Avatar className='border-white-f1f1f5 h-10 w-10 border-2 border-solid md:h-7 md:w-7 xl:w-8'>
+        <AvatarImage src={profileImg ?? 'icon/GuestProfile.svg'} alt='프로필 이미지' />
+        <AvatarFallback>GU</AvatarFallback>
       </Avatar>
       <span
         className='text-mogazoa-18px-400 md:text-mogazoa-14px-400 xl:text-mogazoa-16px-400 max-w-45 truncate md:max-w-16 xl:max-w-23' // 모바일은 사실상 truncate 없음. -> 테스트필요
