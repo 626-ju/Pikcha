@@ -28,7 +28,6 @@ export interface ReviewCardProps {
 }
 
 export interface ReviewFormValue {
-  productId?: number;
   images?: string[];
   content: string;
   rating: number;

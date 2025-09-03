@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { getProductReviews } from '@/actions/review/review';
 import NoReview from '@/assets/icon/ReviewState.svg';
 import SortDropdown from '@/components/common/dropdowns/SortDropdown';
+import { triggerStore } from '@/store/triggerStore';
 import { ReviewDetail } from '@/types/review/review';
 
 import ReviewCard from './ReviewCard';
@@ -19,6 +20,7 @@ const ReviewSection = ({
   const [option, setOption] = useState<string>('recent');
   const [productReviews, setProductReviews] = useState<ReviewDetail[]>(initialReviews);
   const [isLoading, setIsLoading] = useState(true);
+  const { trigger } = triggerStore();
 
   const handleChangeOption = (value: string) => {
     setOption(value);
@@ -39,7 +41,7 @@ const ReviewSection = ({
     };
 
     fetchReviews();
-  }, [productId, option, initialReviews]);
+  }, [productId, option, trigger]);
 
   return (
     <section>

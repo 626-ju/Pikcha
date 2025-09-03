@@ -5,19 +5,6 @@ import { ReviewCardProps } from '@/types/review/review';
 
 import ReviewAvatar from './ReviewAvatar';
 
-async function randomPromise(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const isSuccess = Math.random() > 0.5;
-      if (isSuccess) {
-        resolve();
-      } else {
-        reject(new Error(`Error! Rejected after 1000ms`));
-      }
-    }, 1000);
-  });
-}
-
 const isValidUrl = (url: string) => {
   if (!url) return false;
   try {
@@ -58,7 +45,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
           <ThumbChip
             initialCount={review.likeCount}
             initialState={review.isLiked}
-            asyncAction={randomPromise}
+            reviewId={review.id}
           />
         </div>
       </div>
