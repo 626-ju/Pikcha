@@ -43,7 +43,7 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
         render={({ field }) => <StarRating value={field.value} onChange={field.onChange} />}
       />
       <Textbox placeholder='리뷰를 작성해 주세요.' {...register('content')} maxLength={500} />
-      <div className='w-[295px] md:w-[510px] xl:w-[540px]'>
+      <div className='my-scrollbar w-[295px] overflow-x-scroll md:w-[510px] xl:w-[540px]'>
         <Controller
           name='images'
           control={control}

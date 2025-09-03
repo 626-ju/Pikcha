@@ -51,13 +51,7 @@ const FileInput = ({ maxFiles = 1, value, onChange }: FileInputProps) => {
 
   return (
     <div
-      className={cn(
-        'flex shrink-0 items-center',
-        'gap-[10px]',
-        'md:gap-[15px]',
-        'xl:gap-[20px]',
-        'my-scrollbar overflow-x-scroll',
-      )}
+      className={cn('flex shrink-0 items-center', 'gap-[10px]', 'md:gap-[15px]', 'xl:gap-[20px]')}
     >
       {/* 업로드 버튼 */}
       {files.length < maxFiles && (
