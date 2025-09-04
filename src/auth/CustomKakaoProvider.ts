@@ -1,8 +1,7 @@
 import type { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
 
 // NextAuth 카카오 콜백 URI
-const KAKAO_REDIRECT_URI =
-  process.env.AUTH_KAKAO_REDIRECT_URI ?? 'http://localhost:3000/api/auth/callback/kakao';
+const KAKAO_REDIRECT_URI = process.env.AUTH_KAKAO_REDIRECT_URI;
 
 // 카카오 프로필 응답에서 사용하는 최소 필드
 interface KakaoProfile {

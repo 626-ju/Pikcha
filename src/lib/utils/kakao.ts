@@ -11,7 +11,11 @@ export const getBackendKakaoRedirectUri = () => {
 
 /** 카카오 인가 URL 생성 */
 export const buildKakaoAuthorizeUrl = () => {
-  const clientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
+  const clientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+  if (!clientId) {
+    throw new Error('NEXT_PUBLIC_KAKAO_CLIENT_ID 환경변수가 설정되지 않았습니다.');
+  }
+
   const redirectUri = getBackendKakaoRedirectUri();
   const params = new URLSearchParams({
     response_type: 'code',
