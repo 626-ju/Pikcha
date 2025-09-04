@@ -4,21 +4,10 @@ import React from 'react';
 
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
-import { useUserInfoStore } from '@/store/userInfoStore';
 
 import ProfileUpdateModal from './(modal)/ProfileUpdateModal';
 
-interface Props {
-  nickname: string;
-  description: string;
-  image: string;
-}
-
-const UpdateTrigger = ({ nickname, description, image }: Props) => {
-  const setUserInfo = useUserInfoStore((state) => state.setUserInfo);
-
-  setUserInfo({ nickname, description, image });
-
+const UpdateTrigger = () => {
   const openModal = useModalStore((state) => state.openModal);
 
   return (

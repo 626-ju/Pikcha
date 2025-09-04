@@ -2,6 +2,7 @@
 
 import { deleteFollow, postFollow } from '@/actions/profile/handleFollow';
 import useOptimisticToggle from '@/hooks/useOptimisticToggle';
+import { useUserInfoStore } from '@/store/userInfoStore';
 import { fetchUserRes } from '@/types/profile/fetchUserRes';
 
 import FollowerModalTrigger from './FollowModalTrigger';
@@ -18,6 +19,10 @@ interface Props {
 }
 
 const FollowSection = ({ myPage, username, description, data }: Props) => {
+  const setUserInfo = useUserInfoStore((state) => state.setUserInfo);
+
+  setUserInfo({ nickname: username, description, image: data.image, userid: data.id });
+
   const {
     isToggled: optimisticFollowing,
     optimisticCount,
@@ -42,7 +47,7 @@ const FollowSection = ({ myPage, username, description, data }: Props) => {
         username={username}
       />
       {myPage ? (
-        <UpdateTrigger nickname={username} description={description} image={data.image} />
+        <UpdateTrigger />
       ) : (
         <FollowTrigger isFollowing={optimisticFollowing} onToggle={handleToggle} />
       )}

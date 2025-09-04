@@ -8,6 +8,7 @@ import Link from 'next/link';
 import useFetchUserList from '@/hooks/useFetchUserList';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useModalStore } from '@/store/modalStore';
+import { useUserInfoStore } from '@/store/userInfoStore';
 import { FollowType, FollowUserInfo } from '@/types/profile/follow';
 
 interface Props {
@@ -17,8 +18,9 @@ interface Props {
 const FollowInfoList = ({ type }: Props) => {
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const closeModal = useModalStore((state) => state.closeModal);
+  const userid = useUserInfoStore((state) => state.userid);
 
-  const { userList, isFetching, fetchFollowInfo, cursor } = useFetchUserList(type);
+  const { userList, isFetching, fetchFollowInfo, cursor } = useFetchUserList(type, userid);
 
   const onIntersect = useCallback(() => {
     if (!isFetching && cursor !== null) fetchFollowInfo();
@@ -36,11 +38,12 @@ const FollowInfoList = ({ type }: Props) => {
           <li key={id}>
             <Link href={`/user/${id}`} className='flex items-center gap-5' onClick={closeModal}>
               {/*추후 이미지로 변경*/}
-              <div className='bg-gray-9fa6b2 relative h-12 w-12 rounded-full md:h-13 md:w-13'>
+              <div className='bg-gray-9fa6b2 relative h-12 w-12 overflow-hidden rounded-full md:h-13 md:w-13'>
                 <Image
                   src={image ?? '/images/default-profile.png'}
                   alt='프로필 이미지'
-                  className='object-cover'
+                  className='rounded-full'
+                  sizes='(max-width: 768px) 48px, 52px'
                   fill
                 />
               </div>

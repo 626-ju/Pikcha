@@ -2,13 +2,15 @@
 
 import { revalidateTag } from 'next/cache';
 
+import { auth } from '@/auth';
 import { MY_INFO } from '@/constants/cacheTags';
 import fetcher from '@/lib/utils/fetcher';
 import { ProfileFormValues } from '@/types/profile/profileUpdateSchema';
 
-const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
-
 export const patchProfileInfo = async ({ nickname, description, image }: ProfileFormValues) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const payload = {
     nickname,
     description,
