@@ -16,6 +16,9 @@ const Page = () => {
   useEffect(() => {
     const getLinks = async () => {
       const providers = await getHtmlJustWatch('라퓨타');
+
+      if (providers.length === 0) return; //프로바이더 없으면 토스트 호출 x
+
       toast(<StreamingIcon providers={providers} />, {
         duration: 999999,
         position: 'bottom-right',
