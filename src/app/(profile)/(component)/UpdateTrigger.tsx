@@ -8,7 +8,6 @@ import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
 
 import ProfileUpdateModal from './(modal)/ProfileUpdateModal';
-//auth의 signOut은 에러나더라구요>?
 
 const UpdateTrigger = () => {
   const openModal = useModalStore((state) => state.openModal);
