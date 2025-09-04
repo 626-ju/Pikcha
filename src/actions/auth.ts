@@ -11,7 +11,7 @@ export async function signUp(formData: FormData): Promise<Result> {
   const password = formData.get('password');
   const passwordConfirmation = formData.get('passwordConfirmation');
 
-  const res = await fetch(`${process.env.API_BASE_URL}/${process.env.TEAM_ID}/auth/signUp`, {
+  const res = await fetch(`${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/auth/signUp`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
