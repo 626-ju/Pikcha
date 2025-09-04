@@ -16,9 +16,9 @@ const Page = async ({ params }: Props) => {
   const initialMoiveList = productData.list;
 
   return (
-    <div className='mx-auto mt-15 flex w-[335px] min-w-[335px] flex-col md:w-[510px] xl:w-full xl:max-w-[1340px] xl:flex-row xl:justify-between'>
+    <div className='mx-auto mt-15 flex min-w-[296px] flex-col px-5 md:max-w-[1000px] md:px-10 xl:w-full xl:max-w-[1240px] xl:flex-row xl:justify-between'>
       <ProfileCard userid={parsedId} myPage={false} />
-      <div className='flex flex-col'>
+      <div className='flex w-full min-w-[296px] flex-col'>
         <Activities userid={parsedId} />
         <ProductList userid={parsedId} initialData={initialMoiveList} />
       </div>
