@@ -17,7 +17,7 @@ const SonnerToast = () => {
       richColors
       expand={false}
       duration={1500}
-      toastOptions={{ className: 'z-50' }}
+      toastOptions={{ style: { zIndex: 50 } }}
     />
   );
 };
