@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import { MAX_COMPARE_ITEMS } from '@/constants/compareNumber';
 import { Product } from '@/types/product/productType';
 
 interface CompareState {
@@ -28,8 +29,8 @@ export const useCompareStore = create<CompareState>()(
         let newList = [...compareList, product];
         let removedProduct: Product | undefined;
 
-        // 최대 4개 제한, FIFO(가장 앞의 상품부터 제거) 방식
-        if (newList.length > 4) {
+        // 최대 8개 제한, FIFO(가장 앞의 상품부터 제거) 방식 -> 모달 내에서 선택하게 수정
+        if (newList.length > MAX_COMPARE_ITEMS) {
           removedProduct = newList[0];
           newList = newList.slice(1);
         }
