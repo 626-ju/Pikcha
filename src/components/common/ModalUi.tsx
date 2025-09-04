@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import { cn } from '@/lib/utils';
 import { useModalStore } from '@/store/modalStore';
@@ -25,18 +25,18 @@ const contentStyle = {
 const Modal = ({ showCloseButton = true, variant = 'basic', className, children }: Props) => {
   const closeModal = useModalStore((state) => state.closeModal);
 
-  //스크롤바 거터 때문에 오히려 모달에서는 레이아웃 쉬프트 발생하는 상황.
-  const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
 
-  document.body.style.overflow = 'hidden';
-  document.body.style.paddingRight = `${scrollBarWidth}px`;
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   return (
     <Dialog
       open={true}
       onOpenChange={() => {
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
         closeModal();
       }}
     >
