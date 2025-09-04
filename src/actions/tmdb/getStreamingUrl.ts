@@ -1,5 +1,7 @@
 'use server';
 
+import * as cheerio from 'cheerio';
+
 import fetcher from '@/lib/utils/fetcher';
 
 export const getMovieId = async (moviename: string) => {
@@ -21,7 +23,6 @@ export const getStreamingUrl = async (moviename: string) => {
   const providers = await fetcher(
     `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${process.env.TMDB_API_KEY}`,
   );
-
   console.log(providers.results.KR);
 };
 
@@ -43,28 +44,34 @@ export const getTrailer = async (moviename: string) => {
   return trailers[2].key;
 };
 
-// 아 TMDB가 내부적으로 저스트 와치 쓰네....
+export interface ProviderInfo {
+  url: string;
+  logo?: string;
+}
+
 export const getHtmlJustWatch = async (moviename: string) => {
-  const url = 'https://apis.justwatch.com/content/titles/ko_KR/popular';
-  // const encodeString = encodeURIComponent(moviename);
-
-  const body = {
-    query: moviename,
-    page_size: 5, // 가져올 결과 개수
-    page: 1,
-    content_types: ['movie', 'show'],
-  };
-
-  const results = await fetch(url, {
-    method: 'POST',
+  const encode = encodeURIComponent(moviename);
+  const res = await fetch(`https://www.justwatch.com/kr/검색?q=${encode}`, {
+    cache: 'force-cache',
     headers: {
-      'Content-Type': 'application/json',
-      'User-Agent': 'Mozilla/5.0',
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
     },
-    body: JSON.stringify(body),
   });
-  // const regex = `/herf="(\/[a-zA-Z0-9\-\/]+)"/g`;
-  // const links = [];
 
-  console.log(results);
+  const html = await res.text();
+  const $ = cheerio.load(html);
+
+  const providers: ProviderInfo[] = [];
+  $('.buybox-row a').each((_, el) => {
+    const $el = $(el);
+    const url = $el.attr('href') || '';
+    const logo = $el.find('img').attr('src');
+
+    if (url.startsWith('http') && !providers.some((p) => p.logo === logo)) {
+      providers.push({ url, logo });
+    }
+  });
+
+  return providers;
 };
