@@ -1,5 +1,6 @@
 'use client';
 
+import { useCompareController } from '@/hooks/useCompareController';
 import { useCompareStore } from '@/store/compareStore';
 import { type Product } from '@/types/product/productType';
 
@@ -8,8 +9,6 @@ import CompareInput from './components/CompareInput';
 import CompareResult from './components/CompareResult';
 import CompareToolbar from './components/CompareToolbar';
 import NoList from './components/NoList';
-
-import { useCompareController } from '@/hooks/useCompareController';
 
 const ComparePage = () => {
   const { compareList, removeProduct, clearCompareList } = useCompareStore();
