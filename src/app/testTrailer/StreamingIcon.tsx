@@ -4,22 +4,26 @@ import { X } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from 'sonner';
 
-import { ProviderInfo } from '@/actions/tmdb/getStreamingUrl';
+import { ProviderInfo } from '@/types/justwatch/providers';
 
-export const StreamingIcon = ({ providers }: { providers: ProviderInfo[] }) => {
+interface Props {
+  providers: ProviderInfo[];
+}
+
+export const StreamingIcon = ({ providers }: Props) => {
   return (
     <div className='relative inline-block'>
       <h3 className='text-mogazoa-16px-600 text-gray-6e6e82 mb-5'>감상하기</h3>
       <div className='inline-flex items-center'>
-        {providers.map((el) => (
+        {providers.map((item) => (
           <a
             target='_blank'
             rel='noopener noreferrer'
-            href={el.url}
-            key={el.url}
+            href={item.url}
+            key={item.url}
             className='mr-10 duration-300 last:mr-0 hover:scale-110'
           >
-            <Image src={el.logo ?? ''} alt='프로바이더 로고' width={40} height={40} />
+            <Image src={item.logo ?? ''} alt='프로바이더 로고' width={40} height={40} />
           </a>
         ))}
       </div>
@@ -32,5 +36,3 @@ export const StreamingIcon = ({ providers }: { providers: ProviderInfo[] }) => {
     </div>
   );
 };
-
-//트랜지션-노말

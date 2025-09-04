@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useErrorBoundary } from 'react-error-boundary';
 
-import { getTrailer } from '@/actions/tmdb/getStreamingUrl';
+import { getYoutubeTrailer } from '@/actions/external/getYoutubeTrailer';
 
 const TrailerContents = ({ title }: { title: string }) => {
   const { showBoundary } = useErrorBoundary();
@@ -11,7 +11,7 @@ const TrailerContents = ({ title }: { title: string }) => {
   useEffect(() => {
     const getTrailerInfo = async (title: string) => {
       try {
-        const data = await getTrailer(title);
+        const data = await getYoutubeTrailer(title);
         setVideoKey(data);
       } catch (err) {
         showBoundary(err);

@@ -11,7 +11,15 @@ import { Toaster } from 'sonner';
 */
 
 const SonnerToast = () => {
-  return <Toaster position='bottom-center' richColors expand={false} duration={1500} />;
+  return (
+    <Toaster
+      position='bottom-center'
+      richColors
+      expand={false}
+      duration={1500}
+      toastOptions={{ className: 'z-50' }}
+    />
+  );
 };
 
 export default SonnerToast;
