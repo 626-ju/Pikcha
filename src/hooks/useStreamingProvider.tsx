@@ -15,9 +15,9 @@ export const useStreamingProvider = (title: string) => {
       if (providers.length === 0) return; //프로바이더 없으면 토스트 호출 x
 
       toast(<StreamingIcon providers={providers} />, {
-        duration: 60_000,
+        duration: 30 * 1000,
         position: 'bottom-right',
-        style: { minWidth: 0, width: 'auto', zIndex: 50 },
+        style: { minWidth: 0, width: 'auto' },
       });
     };
 

@@ -11,10 +11,10 @@ export const getYoutubeTrailer = async (moviename: string) => {
 
   const results = await data;
 
-  // if (!results.items[0].id.videoId) {
-  //   const err = new Error('예고편이 존재하지 않습니다');
-  //   throw err;
-  // }
+  if (!results.items[0].id.videoId) {
+    const err = new Error('예고편이 존재하지 않습니다');
+    throw err;
+  }
 
   return results.items[0].id.videoId;
 };
