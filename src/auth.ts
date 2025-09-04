@@ -55,12 +55,19 @@ const config: NextAuthConfig = {
         if (!res.ok || !data?.user) {
           throw new Error(data?.message ?? '로그인 실패');
         }
+        console.log('[authorize] backend user:', data.user); // 여기에 nickname 뭐 오는지 확인
+
+        const nickname =
+          typeof data?.user?.nickname === 'string' && data.user.nickname.trim() !== ''
+            ? data.user.nickname.trim()
+            : undefined;
 
         // 세션 수화를 위한 최소 사용자/토큰 정보 반환
         return {
           id: String(data.user.id),
           email: data.user.email,
-          nickname: data.user.nickname ?? undefined,
+          name: nickname ?? data.user.email,
+          nickname,
           image: data.user.image ?? undefined,
           description: data.user.description ?? undefined,
           accessToken: data.accessToken ?? data.token ?? data.jwt ?? undefined,
@@ -72,6 +79,40 @@ const config: NextAuthConfig = {
   callbacks: {
     // JWT 콜백: 로그인/세션 업데이트 시 토큰 값을 최신 상태로 반영
     async jwt({ token, user, account, trigger, session }) {
+      const isCredentials =
+        !account ||
+        account.provider === 'credentials' ||
+        (account as { type?: string }).type === 'credentials';
+
+      if (user && isCredentials) {
+        // 닉네임 우선순위: user.nickname → user.name → 기존 token.nickname
+        const nick =
+          pickString(user, 'nickname') ??
+          pickString(user, 'name') ??
+          (typeof token.nickname === 'string' ? token.nickname : undefined);
+        if (nick) token.nickname = nick;
+
+        // 나머지 필드도 안전하게 싱크
+        const id = pickString(user, 'id');
+        if (id) token.id = id;
+        const email = pickString(user, 'email');
+        if (email) token.email = email;
+        const image = pickString(user, 'image');
+        if (image) token.image = image;
+        const desc = pickString(user, 'description');
+        if (desc) token.description = desc;
+
+        const access = pickString(user, 'accessToken');
+        if (access) token.accessToken = access;
+      }
+
+      // 파일 상단 혹은 jwt 콜백 위쪽에 작은 유틸 추가
+      function pickString(obj: unknown, key: string): string | undefined {
+        if (typeof obj !== 'object' || obj === null) return undefined;
+        const v = (obj as Record<string, unknown>)[key];
+        return typeof v === 'string' ? v : undefined;
+      }
+
       // 세션 업데이트 트리거 시(온보딩 완료 등) 전달된 값으로 토큰 동기화
       if (trigger === 'update' && session) {
         const s = session as Session & {
@@ -156,7 +197,8 @@ const config: NextAuthConfig = {
         nickname: typeof token.nickname === 'string' ? token.nickname : null,
         description: typeof token.description === 'string' ? token.description : null,
       };
-
+      // session 콜백 디버깅용
+      // console.log('[SESSION] user.nickname:', session.user.nickname);
       return session;
     },
   },
