@@ -20,7 +20,7 @@ const TrailerModal = ({ title }: Props) => {
         <DialogDescription aria-labelledby={`${title} 예고편`} />
       </DialogHeader>
 
-      <div className='flex aspect-video min-w-[296px] items-center justify-center md:min-w-160 xl:min-w-260'>
+      <div className='mt-[-20px] mb-5 flex aspect-video min-w-[296px] items-center justify-center md:min-w-160 xl:min-w-260'>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <TrailerContents title={title} />
         </ErrorBoundary>
