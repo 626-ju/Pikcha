@@ -37,7 +37,6 @@ const FollowInfoList = ({ type }: Props) => {
         return (
           <li key={id}>
             <Link href={`/user/${id}`} className='flex items-center gap-5' onClick={closeModal}>
-              {/*추후 이미지로 변경*/}
               <div className='bg-gray-9fa6b2 relative h-12 w-12 overflow-hidden rounded-full md:h-13 md:w-13'>
                 <Image
                   src={image ?? '/images/default-profile.png'}
