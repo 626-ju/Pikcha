@@ -1,5 +1,6 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SessionProvider } from 'next-auth/react';
+import { ThemeProvider } from 'next-themes';
 
 import { auth } from '@/auth'; // NextAuth의 서버 함수 임포트
 import GlobalNav from '@/components/common/gnb/GlobalNav';
@@ -27,15 +28,21 @@ export default async function RootLayout({
   return (
     <html lang='ko'>
       <body className={pretendard.variable}>
-        <SessionProvider session={session}>
-          {/* 서버 컴포넌트에서 세션 정보를 가져와 클라이언트 컴포넌트에 전달 */}
-          <GlobalNav />
-          {children}
-          <FloatingButton />
-          <SonnerToast />
-          <SpeedInsights />
-          <ModalContainer />
-        </SessionProvider>
+        <ThemeProvider
+          attribute='class' // html 태그에 className 추가 (ex. class="dark")
+          defaultTheme='system' // 기본값: OS 설정 따름
+          enableSystem={true} // 시스템 다크모드 자동 감지
+        >
+          <SessionProvider session={session}>
+            {/* 서버 컴포넌트에서 세션 정보를 가져와 클라이언트 컴포넌트에 전달 */}
+            <GlobalNav />
+            {children}
+            <FloatingButton />
+            <SonnerToast />
+            <SpeedInsights />
+            <ModalContainer />
+          </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

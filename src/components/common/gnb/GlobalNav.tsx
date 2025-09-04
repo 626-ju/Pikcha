@@ -1,3 +1,4 @@
+import ThemeToggle from '../ThemeToggle';
 import DesktopNav from './DesktopNav';
 import MobileNav from './MobileNav';
 import DesktopCenter from './section/DesktopCenter';
@@ -13,6 +14,7 @@ const GlobalNav = () => {
       <div className='mx-auto flex h-full items-center gap-4 px-5'>
         <MobileNav left={<MobileLeft />} center={<MobileCenter />} right={<MobileRight />} />
         <DesktopNav left={<DesktopLeft />} center={<DesktopCenter />} right={<DesktopRight />} />
+        <ThemeToggle />
       </div>
     </header>
   );
