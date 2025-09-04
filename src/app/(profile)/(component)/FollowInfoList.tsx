@@ -31,7 +31,6 @@ const FollowInfoList = ({ type }: Props) => {
     <ul className='scrollbar-hide flex h-[456px] flex-col gap-5 overflow-y-scroll xl:h-[514px]'>
       {userList?.length === 0 && <div>팔로워가 없어요 😥</div>}
 
-      {/* <SuspenseLike isLoading={isFetching}> */}
       {userList?.map(({ id, nickname, image }: FollowUserInfo) => {
         return (
           <li key={id}>
@@ -50,7 +49,6 @@ const FollowInfoList = ({ type }: Props) => {
           </li>
         );
       })}
-      {/* </SuspenseLike> */}
 
       {cursor !== null && <div key={'observerRef'} ref={loadMoreRef} className='h-[5px] w-4' />}
     </ul>

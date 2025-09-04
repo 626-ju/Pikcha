@@ -77,11 +77,9 @@ const ProductList = ({ userid, initialData }: Props) => {
             </p>
           </div>
         )}
-        {/* </SuspenseLike> */}
+
         {cursor !== null && errOccur === false && (
-          <>
-            <div ref={loadMoreRef} className='h-[5px] w-4'></div>
-          </>
+          <div ref={loadMoreRef} className='h-[5px] w-4'></div>
         )}
       </ul>
     </div>
