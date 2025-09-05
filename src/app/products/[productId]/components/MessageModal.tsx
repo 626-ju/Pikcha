@@ -27,7 +27,7 @@ const DeleteMessageModal = ({ reviewId }: { reviewId: number }) => {
   };
 
   return (
-    <Modal className='px-7 pb-7'>
+    <Modal showCloseButton={false} className='px-7 pb-7'>
       <DialogTitle></DialogTitle>
       <div className='text-mogazoa-18px-600 md:text-mogazoa-24px-600 flex justify-center'>
         {'리뷰를 정말 삭제하시겠습니까?'}
