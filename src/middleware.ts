@@ -4,16 +4,25 @@ import { auth } from './auth';
 
 import type { NextRequest } from 'next/server';
 
-const protectedRoutes = ['/mypage', '/compare', '/product/{productId}', '/user/{userId}'];
+const protectedRoutes = ['/mypage', '/compare', '/product', '/user'];
 
 export default async function middleware(req: NextRequest) {
   const session = await auth();
   const pathname = req.nextUrl.pathname;
-
-  const isProtected = protectedRoutes.some((route) => pathname.startsWith(route));
+  const isProtected = protectedRoutes.some((r) => pathname.startsWith(r));
 
   if (isProtected && !session) {
     return NextResponse.redirect(new URL('/signin', req.url));
+  }
+
+  //로그인한 유저가 user/자기 자신 아이디 들어가려고 할 때
+  const match = pathname.match(/^\/user\/([^/]+)/);
+  if (match && session) {
+    const useridFromUrl = match[1];
+
+    if (session.user.id === useridFromUrl) {
+      return NextResponse.redirect(new URL('/mypage', req.url));
+    }
   }
 
   return NextResponse.next();

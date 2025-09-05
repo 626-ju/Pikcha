@@ -2,26 +2,35 @@
 
 import { revalidateTag } from 'next/cache';
 
+import { auth } from '@/auth';
 import fetcher from '@/lib/utils/fetcher';
 import { ProductFormValue } from '@/types/product/productSchema';
 import { ProductDetail } from '@/types/product/productType';
 
 const BASE_URL = process.env.API_BASE_URL;
 const TEAM_ID = process.env.TEST_TEAM_ID;
-const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 
 export const getProductDetail = async (productId: number): Promise<ProductDetail> => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const productDetail = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${productId}`, {
     method: 'GET',
-    next: { revalidate: 300, tags: [`${productId}`] },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    next: { revalidate: 300, tags: [`products-${productId}`] },
   });
   return productDetail;
 };
 
 export const postProduct = async ({ categoryId, image, description, name }: ProductFormValue) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const newProduct = {
     categoryId,
-    image: image ?? image[0],
+    image: image?.[0],
     description,
     name,
   };
@@ -35,7 +44,38 @@ export const postProduct = async ({ categoryId, image, description, name }: Prod
     body: JSON.stringify(newProduct),
   });
 
-  revalidateTag('products');
+  revalidateTag(`products`);
+
+  return res;
+};
+
+export const patchProduct = async ({
+  productId,
+  data,
+}: {
+  productId: number;
+  data: ProductFormValue;
+}) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
+  const newProduct = {
+    categoryId: data.categoryId,
+    image: data.image?.[0],
+    description: data.description,
+    name: data.name,
+  };
+
+  const res = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${productId}`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newProduct),
+  });
+
+  revalidateTag(`products-${productId}`);
 
   return res;
 };

@@ -35,7 +35,6 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
   useEffect(() => {
     const fetchOptionChange = async () => {
       setIsFetching(true);
-
       try {
         const data = await getUserProducts(userid, option, 0);
         setProductList(data.list);

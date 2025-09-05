@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 
 interface UserInfoType {
+  userid: number;
   nickname: string;
   description: string;
   image?: string;
@@ -14,6 +15,7 @@ interface UserInfoStore extends UserInfoType {
 }
 
 export const useUserInfoStore = create<UserInfoStore>((set) => ({
+  userid: 0,
   nickname: '',
   description: '',
   image: '',
