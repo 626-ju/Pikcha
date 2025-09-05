@@ -24,7 +24,7 @@ const ProductTriggers = ({ product }: { product: ProductDetail }) => {
   };
 
   const handleClickPatchProductModal = () => {
-    return openModal({ component: ProductModal, props: { product: product } });
+    return openModal({ component: ProductModal, props: { product: product, mode: 'edit' } });
   };
 
   return (
