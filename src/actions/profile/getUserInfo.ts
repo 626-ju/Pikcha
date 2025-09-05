@@ -1,12 +1,14 @@
 'use server';
 
+import { auth } from '@/auth';
 import { MY_INFO } from '@/constants/cacheTags';
 import fetcher from '@/lib/utils/fetcher';
 
-const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
+export const getMyInfo = async () => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
 
-export const getMyInfo = async () =>
-  await fetcher(`${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/users/me`, {
+  return await fetcher(`${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/users/me`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -14,9 +16,12 @@ export const getMyInfo = async () =>
     },
     next: { revalidate: 300, tags: [MY_INFO] },
   });
+};
+export const getUserInfo = async (userid: number) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
 
-export const getUserInfo = async (userid: number) =>
-  await fetcher(`${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/users/${userid}`, {
+  return await fetcher(`${process.env.API_BASE_URL}/${process.env.TEST_TEAM_ID}/users/${userid}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -24,3 +29,4 @@ export const getUserInfo = async (userid: number) =>
     },
     cache: 'no-store',
   });
+};

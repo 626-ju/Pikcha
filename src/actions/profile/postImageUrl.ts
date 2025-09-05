@@ -1,10 +1,12 @@
 'use server';
 
+import { auth } from '@/auth';
 import fetcher from '@/lib/utils/fetcher';
 
-const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
-
 export const postImageUrl = async (file: File) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const formData = new FormData();
   formData.append('image', file);
 
