@@ -3,7 +3,7 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 
 import fetcher from '@/lib/utils/fetcher';
-import { ReviewDetail, ReviewFormValue } from '@/types/review/review';
+import { ReviewDetail, ReviewFormValue, ReviewPatchFormValue } from '@/types/review/review';
 
 const BASE_URL = process.env.API_BASE_URL;
 const TEAM_ID = process.env.TEST_TEAM_ID;
@@ -58,6 +58,44 @@ export const postReview = async ({
   });
 
   revalidatePath(`/products/${productId}`);
+
+  return res;
+};
+
+export const patchReview = async ({ rating, content, images, reviewId }: ReviewPatchFormValue) => {
+  const newReview = {
+    images,
+    content,
+    rating,
+  };
+
+  const res = await fetcher(`${BASE_URL}/${TEAM_ID}/reviews/${reviewId}`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newReview),
+    cache: 'no-store',
+  });
+
+  revalidateTag('reviews');
+
+  return res;
+};
+
+export const deleteReview = async (reviewId: number) => {
+  console.log('reviewId: ', reviewId);
+  const res = await fetcher(`${BASE_URL}/${TEAM_ID}/reviews/${reviewId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${NEXT_PUBLIC_accessToken}`,
+      'Content-Type': 'application/json',
+      cache: 'no-store',
+    },
+  });
+
+  revalidateTag('reviews');
 
   return res;
 };

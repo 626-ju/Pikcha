@@ -1,19 +1,21 @@
+import { useEffect } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useErrorBoundary } from 'react-error-boundary';
 import { Controller, useForm } from 'react-hook-form';
 
-import { postReview } from '@/actions/review/review';
+import { patchReview } from '@/actions/review/review';
 import FileInput from '@/components/common/FileInput';
 import Textbox from '@/components/common/Textbox';
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
 import { triggerStore } from '@/store/triggerStore';
-import { ReviewFormValue } from '@/types/review/review';
-import { postReviewSchema } from '@/types/review/reviewSchema';
+import { ReviewDetail, ReviewFormValue } from '@/types/review/review';
+import { patchReviewSchema } from '@/types/review/reviewSchema';
 
 import StarRating from './StarRating';
 
-const ReviewPostForm = ({ productId }: { productId: number }) => {
+const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
   const { showBoundary } = useErrorBoundary();
   const closeModal = useModalStore((state) => state.closeModal);
   const { setTrigger } = triggerStore();
@@ -22,15 +24,37 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
     register,
     handleSubmit,
     control,
-    formState: { isValid, isSubmitting },
+    formState: { isValid, isSubmitting, isDirty },
   } = useForm<ReviewFormValue>({
-    resolver: zodResolver(postReviewSchema),
+    resolver: zodResolver(patchReviewSchema),
     mode: 'all',
+    defaultValues: {
+      rating: review.rating,
+      content: review.content,
+      images: review.reviewImages?.map((re) => re.source) ?? [],
+    },
+  });
+
+  useEffect(() => {
+    console.log(
+      'defaultValues.images: ',
+      review.reviewImages.map((re) => re.source),
+    );
   });
 
   const onSubmit = async (data: ReviewFormValue) => {
+    console.log('images:', data.images);
+    const transformedImages =
+      data.images?.map(
+        (img) => ({ source: img as string }), // 새 이미지 → source만
+      ) ?? [];
     try {
-      await postReview({ data, productId });
+      await patchReview({
+        rating: data.rating,
+        content: data.content,
+        images: transformedImages,
+        reviewId: review.id,
+      });
       setTrigger();
       closeModal();
     } catch (err) {
@@ -58,7 +82,7 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
       <Button
         variant='primary'
         type='submit'
-        disabled={!isValid || isSubmitting}
+        disabled={!isValid || isSubmitting || !isDirty}
         className='mt-[15px]'
       >
         작성하기
@@ -67,4 +91,4 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
   );
 };
 
-export default ReviewPostForm;
+export default ReviewPatchForm;

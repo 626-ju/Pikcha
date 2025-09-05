@@ -3,20 +3,24 @@
 import ProductModal from '@/app/_components/ProductPost/ProductModal';
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
+import { useCurrentProductStore } from '@/store/productsStore';
 import { ProductDetail } from '@/types/product/productType';
 
 import AddToCompareButton from './AddToCompareButton';
-import ReviewPostModal from './ReviewPostModal';
+import ReviewPostModal from './ReviewModal';
 
 const ProductTriggers = ({ product }: { product: ProductDetail }) => {
   const openModal = useModalStore((state) => state.openModal);
+  const setProduct = useCurrentProductStore((state) => state.setProduct);
+
+  setProduct(product);
 
   const handleClickPostReviewModal = () => {
-    return openModal({ component: ReviewPostModal, props: product });
+    return openModal({ component: ReviewPostModal, props: { product: product } });
   };
 
   const handleClickPatchProductModal = () => {
-    return openModal({ component: ProductModal, props: { product: product, mode: 'edit' } });
+    return openModal({ component: ProductModal, props: { product: product } });
   };
 
   return (

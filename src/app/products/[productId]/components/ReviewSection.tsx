@@ -59,7 +59,7 @@ const ReviewSection = ({
         (productReviews?.length > 0 ? (
           <div className='flex flex-col gap-3'>
             {productReviews?.map((rev) => (
-              <ReviewCard review={rev} key={rev.id} />
+              <ReviewCard review={rev} productId={productId} key={rev.id} />
             ))}
           </div>
         ) : (
