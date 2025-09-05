@@ -45,6 +45,18 @@
   scrollbar-width: none;
 }
 
+.my-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.my-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 9999px;
+}
+.my-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
 /* --- font --- */
 
 @utility text-mogazoa-10px-300 {
@@ -275,4 +287,8 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: #f1f1f5 !important;
   color: #f1f1f5 !important;
   caret-color: #f1f1f5;
+}
+
+[data-sonner-toaster] {
+  z-index: 50 !important;
 }

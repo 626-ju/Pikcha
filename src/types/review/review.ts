@@ -25,11 +25,20 @@ export interface ReviewDetail {
 
 export interface ReviewCardProps {
   review: ReviewDetail;
+  productId: number;
 }
 
 export interface ReviewFormValue {
-  productId?: number;
   images?: string[];
   content: string;
   rating: number;
+}
+
+type ReviewPatchImage = { id: number } | { source: string };
+
+export interface ReviewPatchFormValue {
+  rating: number;
+  content: string;
+  images: ReviewPatchImage[] | [];
+  reviewId: number;
 }

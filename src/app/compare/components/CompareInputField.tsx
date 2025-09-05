@@ -7,9 +7,8 @@ import { toast } from 'sonner';
 import { getProductDetail } from '@/actions/productDetail';
 import SearchSuggestions from '@/components/common/gnb/searchForm/SearchSuggestions';
 import CompareChip from '@/components/ui/chips/CompareChip';
-import { type Product } from '@/types/product/productType';
-
 import { useSuggestions } from '@/hooks/useSuggestions';
+import { type Product } from '@/types/product/productType';
 
 type SuggestionProduct = { id: number; name: string; categoryId: number };
 
