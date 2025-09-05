@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 import ThumbChip from '@/components/ui/chips/ThumbChip';
 import { useModalStore } from '@/store/modalStore';
@@ -22,6 +23,8 @@ const isValidUrl = (url: string) => {
 
 const ReviewCard = ({ review }: ReviewCardProps) => {
   const openModal = useModalStore((state) => state.openModal);
+  const { data } = useSession();
+  const userId = Number(data?.user.id);
 
   const formattedDate = review.createdAt.split('T')[0];
   const filteredImages = review.reviewImages.filter(
@@ -58,20 +61,25 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
             <div className='text-mogazoa-12px-400 text-gray-6e6e82 xl:text-mogazoa-14px-400'>
               {formattedDate}
             </div>
-            <button
-              type='button'
-              onClick={handleClickPatchModal}
-              className='text-mogazoa-12px-300 xl:text-mogazoa-14px-300 text-gray-9fa6b2 hover:underline'
-            >
-              수정
-            </button>
-            <button
-              type='button'
-              onClick={handleClickDeleteModal}
-              className='text-mogazoa-12px-300 xl:text-mogazoa-14px-300 text-gray-9fa6b2 hover:underline'
-            >
-              삭제
-            </button>
+            {review.userId === userId && (
+              <>
+                {' '}
+                <button
+                  type='button'
+                  onClick={handleClickPatchModal}
+                  className='text-mogazoa-12px-300 xl:text-mogazoa-14px-300 text-gray-9fa6b2 hover:underline'
+                >
+                  수정
+                </button>
+                <button
+                  type='button'
+                  onClick={handleClickDeleteModal}
+                  className='text-mogazoa-12px-300 xl:text-mogazoa-14px-300 text-gray-9fa6b2 hover:underline'
+                >
+                  삭제
+                </button>
+              </>
+            )}
           </div>
           <ThumbChip
             initialCount={review.likeCount}

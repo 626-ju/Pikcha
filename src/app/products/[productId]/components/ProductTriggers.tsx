@@ -1,5 +1,7 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
+
 import ProductModal from '@/app/_components/ProductPost/ProductModal';
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
@@ -12,6 +14,8 @@ import ReviewPostModal from './ReviewModal';
 const ProductTriggers = ({ product }: { product: ProductDetail }) => {
   const openModal = useModalStore((state) => state.openModal);
   const setProduct = useCurrentProductStore((state) => state.setProduct);
+  const { data } = useSession();
+  const userId = Number(data?.user.id);
 
   setProduct(product);
 
@@ -34,7 +38,7 @@ const ProductTriggers = ({ product }: { product: ProductDetail }) => {
         리뷰 작성하기
       </Button>
       <AddToCompareButton product={product} className='md:flex-1' />
-      {product.writerId === 909 && (
+      {product.writerId === userId && (
         <Button
           variant='tertiary'
           type='button'

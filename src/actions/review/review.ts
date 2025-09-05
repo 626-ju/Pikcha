@@ -2,21 +2,23 @@
 
 import { revalidatePath, revalidateTag } from 'next/cache';
 
+import { auth } from '@/auth';
 import fetcher from '@/lib/utils/fetcher';
 import { ReviewDetail, ReviewFormValue, ReviewPatchFormValue } from '@/types/review/review';
 
 const BASE_URL = process.env.API_BASE_URL;
 const TEAM_ID = process.env.TEST_TEAM_ID;
-const accessToken = process.env.SERVER_TEMP_ACCESSTOKEN;
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const NEXT_PUBLIC_TEAM_ID = process.env.NEXT_PUBLIC_TEST_TEAM_ID;
-const NEXT_PUBLIC_accessToken = process.env.NEXT_PUBLIC_SERVER_TEMP_ACCESSTOKEN;
 
 export const getProductReviews = async (
   productId: number,
   option: string = 'recent',
 ): Promise<ReviewDetail[]> => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const productReviews = await fetcher(
     `${BASE_URL}/${TEAM_ID}/products/${productId}/reviews?order=${option}`,
     {
@@ -40,6 +42,9 @@ export const postReview = async ({
   data: ReviewFormValue;
   productId: number;
 }) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const newReview = {
     productId,
     images: data.images ?? [],
@@ -63,6 +68,9 @@ export const postReview = async ({
 };
 
 export const patchReview = async ({ rating, content, images, reviewId }: ReviewPatchFormValue) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const newReview = {
     images,
     content,
@@ -85,11 +93,13 @@ export const patchReview = async ({ rating, content, images, reviewId }: ReviewP
 };
 
 export const deleteReview = async (reviewId: number) => {
-  console.log('reviewId: ', reviewId);
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const res = await fetcher(`${BASE_URL}/${TEAM_ID}/reviews/${reviewId}`, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${NEXT_PUBLIC_accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
       cache: 'no-store',
     },
@@ -101,6 +111,9 @@ export const deleteReview = async (reviewId: number) => {
 };
 
 export const toggleReviewLike = async (reviewId: number, isCurrentlyLike: boolean) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const method = isCurrentlyLike ? 'DELETE' : 'POST';
   console.log('method:', method);
   const res = await fetcher(
@@ -108,7 +121,7 @@ export const toggleReviewLike = async (reviewId: number, isCurrentlyLike: boolea
     {
       method: method,
       headers: {
-        Authorization: `Bearer ${NEXT_PUBLIC_accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
       next: { revalidate: 300, tags: [`reviews`] },
