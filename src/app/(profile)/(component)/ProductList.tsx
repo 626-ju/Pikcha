@@ -53,13 +53,14 @@ const ProductList = ({ userid, initialData }: Props) => {
         </div>
         <SortDropdown
           variant={'user'}
-          menuPosition='right'
-          className='xl:hidden'
+          menuPosition='left'
+          className='text-white-f1f1f5 xl:hidden'
           onChange={onValueChange}
           option={option}
         />
       </div>
-      <ul className='flex max-w-[940px] flex-wrap gap-[15px] xl:gap-5'>
+      {/* 940->820 */}
+      <ul className='grid grid-cols-2 flex-wrap gap-4 md:grid-cols-3 xl:gap-5'>
         {productList?.length !== 0 ? (
           productList?.map((movie) => {
             return (
@@ -69,13 +70,14 @@ const ProductList = ({ userid, initialData }: Props) => {
             );
           })
         ) : (
-          <div className='m-auto mt-15 h-60 w-60'>
+          <div className='col-start-2 m-auto mt-15 h-60 w-60'>
             <Empty />
             <p className='text-mogazoa-24px-400 mt-6 text-center'>
               {errOccur ? '잠시 후에 시도해주세요' : '목록이 없습니다'}
             </p>
           </div>
         )}
+
         {cursor !== null && errOccur === false && (
           <div ref={loadMoreRef} className='h-[5px] w-4'></div>
         )}

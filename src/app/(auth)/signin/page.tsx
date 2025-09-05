@@ -1,106 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import React from 'react';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { signIn as nextAuthSignIn } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
-
-import { signIn } from '@/actions/auth';
-import GithubIcon from '@/assets/icon/status=github.svg';
-import GoogleIcon from '@/assets/icon/status=google.svg';
-import KakaoIcon from '@/assets/icon/status=kakao.svg';
-import Input from '@/components/common/Input';
-import Button from '@/components/ui/Buttons';
+import SigninForm from '@/components/auth/SigninForm';
+import SignupCTA from '@/components/auth/SignupCTA';
+import SnsSignin from '@/components/auth/SnsSignin';
 import { cn } from '@/lib/utils';
-import { LoginFormValues, signinSchema } from '@/lib/validations/auth';
 
+/** 로그인 페이지 */
 const SigninPage = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const router = useRouter();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(signinSchema),
-    mode: 'onBlur',
-  });
-
-  const onSubmit = async (data: LoginFormValues) => {
-    // 이전 에러 메시지 초기화
-    setErrorMessage(null);
-
-    // FormData 객체 생성
-    const formData = new FormData();
-    formData.append('email', data.email);
-    formData.append('password', data.password);
-
-    const result = await signIn(formData);
-
-    if (result.success) {
-      // 헤더 내 로그인 정보 반영 위한 NextAuth session 갱신
-      await nextAuthSignIn('credentials', {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      });
-      router.replace(result.redirectTo);
-      return;
-    }
-
-    setErrorMessage(result.error);
-    reset();
-  };
-
   return (
     <>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={cn(
-          'm-auto flex h-full flex-col justify-center gap-[60px]',
-          'w-[335px] pt-[108px] pb-5',
-          'md:w-[440px] md:pt-[181px]',
-          'xl:w-[640px] xl:pt-[90px]',
-        )}
-      >
-        <div className='flex flex-col gap-[30px] md:gap-10'>
-          <Input
-            type='email'
-            label='이메일'
-            placeholder='이메일을 입력해주세요'
-            errorMessage={errors.email?.message}
-            {...register('email')}
-          />
-
-          <Input
-            type='password'
-            label='비밀번호'
-            placeholder='비밀번호를 입력해주세요'
-            errorMessage={errors.password?.message}
-            {...register('password')}
-          />
-        </div>
-        <Button type='submit' disabled={isSubmitting}>
-          {isSubmitting ? '로그인 중...' : '로그인'}
-        </Button>
-        {/* 로그인 실패 시 에러 메시지 표시 */}
-        {errorMessage && <p className='text-center text-sm text-red-500'>{errorMessage}</p>}
-      </form>
-
-      <div className='text-gray-6e6e82 my-5 text-center'>
-        <p>
-          아직 회원이 아니신가요?{' '}
-          <Link href='/signup' className='underline'>
-            지금 바로 가입해 보세요!
-          </Link>
-        </p>
-      </div>
-
+      <SigninForm />
+      <SignupCTA />
       <hr
         className={cn(
           'mx-auto',
@@ -111,33 +23,7 @@ const SigninPage = () => {
           'opacity-20',
         )}
       />
-
-      <div className='my-5 flex flex-col gap-5'>
-        <p className='text-gray-6e6e82 text-center'>SNS로 바로 시작히기</p>
-        <div className='flex items-center justify-center gap-5'>
-          <button
-            type='button'
-            onClick={() => nextAuthSignIn('google')}
-            className='border-black-353542 rounded-full border p-[14px]'
-          >
-            <GoogleIcon className='h-full w-full' />
-          </button>
-          <button
-            type='button'
-            onClick={() => nextAuthSignIn('kakao')}
-            className='border-black-353542 rounded-full border p-[14px]'
-          >
-            <KakaoIcon className='h-full w-full' />
-          </button>
-          <button
-            type='button'
-            onClick={() => nextAuthSignIn('github')}
-            className='border-black-353542 rounded-full border p-[14px]'
-          >
-            <GithubIcon className='h-[24px] w-[24px] text-[#6e6e82]' />
-          </button>
-        </div>
-      </div>
+      <SnsSignin />
     </>
   );
 };

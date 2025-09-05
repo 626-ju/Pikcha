@@ -22,6 +22,12 @@ const signupSchema = z
     path: ['confirmPassword'],
   });
 
+// 닉네임 수집 스키마
+export const oauthSignupSchema = z.object({
+  nickname: z.string().min(1, '닉네임을 입력해주세요').max(10, '닉네임은 최대 10자입니다.'),
+});
+export type OauthSignupValues = z.infer<typeof oauthSignupSchema>;
+
 type LoginFormValues = z.infer<typeof signinSchema>;
 type SignupFormValues = z.infer<typeof signupSchema>;
 
