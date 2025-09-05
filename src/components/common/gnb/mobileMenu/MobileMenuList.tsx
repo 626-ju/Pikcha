@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
+import { useCompareStore } from '@/store/compareStore';
+
 import AvatarProfile from '../profile/AvatarProfile';
 
 const MobileMenuList = ({
@@ -16,6 +18,9 @@ const MobileMenuList = ({
   profileUrl?: string | null;
   onClose: () => void;
 }) => {
+  const { compareList } = useCompareStore();
+  const count = compareList.length;
+
   return (
     <div className='flex h-full flex-col'>
       {/* guest */}
@@ -54,13 +59,20 @@ const MobileMenuList = ({
         <div className='flex-1 pt-5'>
           <h2 className='text-white-f1f1f5 text-mogazoa-20px-600 mb-6'>메뉴</h2>
           <ul className='pt-3'>
-            <li>
+            <li className='flex gap-2'>
               <Link
                 href='/compare'
                 onClick={onClose}
                 className='hover:bg-black-353542 text-white-f1f1f5 text-mogazoa-18px-400 block rounded-lg px-4 py-3 transition-colors'
               >
-                비교하기
+                <span className='flex items-center gap-2'>
+                  비교하기
+                  {count > 0 && (
+                    <span className='bg-main-gradation text-white-f1f1f5 text-mogazoa-12px-300 flex h-4 w-4 min-w-4 items-center justify-center rounded-full'>
+                      {count}
+                    </span>
+                  )}
+                </span>
               </Link>
             </li>
             <li>
