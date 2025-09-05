@@ -4,11 +4,12 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import Modal from '@/components/common/ModalUi';
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ProductDetail } from '@/types/product/productType';
 
-import ProductPostForm from './ProductPostForm';
+import ProductForm from './ProductForm';
 import ErrorFallback from '../../error';
 
-const ProductPostModal = () => {
+const ProductModal = ({ product, mode }: { product?: ProductDetail; mode: 'create' | 'edit' }) => {
   const title = '상품 추가';
 
   return (
@@ -17,10 +18,10 @@ const ProductPostModal = () => {
         <DialogTitle>{title}</DialogTitle>
       </DialogHeader>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <ProductPostForm />
+        <ProductForm mode={mode} product={product} />
       </ErrorBoundary>
     </Modal>
   );
 };
 
-export default ProductPostModal;
+export default ProductModal;

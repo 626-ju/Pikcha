@@ -7,14 +7,24 @@ import DropupIcon from '@/assets/icon/Icon-dropup.svg';
 import { Category } from '@/constants/ProductsConst';
 import useDropdown from '@/hooks/useDropdown';
 import { cn } from '@/lib/utils';
-import { categoryArray } from '@/lib/utils/categoryNameMap';
+import { categoryArray, getCategoryName } from '@/lib/utils/categoryNameMap';
 
-export const CategoryDropdown = ({ onChange }: { onChange?: (id: number) => void }) => {
+export const CategoryDropdown = ({
+  onChange,
+  currentValue,
+}: {
+  onChange?: (id: number) => void;
+  currentValue: number | undefined;
+}) => {
   // onChange = 프롭을 number로 받는 함수
   const [value, setValue] = useState<string | null>(null);
   const { isOpen, toggleDropdown, dropdownRef } = useDropdown();
 
-  const initialValue = value ? value : '카테고리 선택';
+  const initialValue = () => {
+    if (currentValue) return getCategoryName(currentValue);
+    if (value) return value;
+    return '카테고리 선택';
+  };
 
   const handleSelectValue = (ca: Category) => {
     setValue(ca.name);
@@ -35,21 +45,21 @@ export const CategoryDropdown = ({ onChange }: { onChange?: (id: number) => void
           isOpen ? 'text-white-f1f1f5' : 'text-black-6e6e82',
         )}
       >
-        {initialValue}
+        {initialValue()}
         {isOpen ? <DropupIcon /> : <DropdownIcon />}
       </div>
       {isOpen && (
         <div className='bg-black-252530 no-scrollbar border-black-353542 absolute top-[60px] left-0 z-50 flex max-h-[250px] w-full flex-col gap-2 overflow-y-auto rounded-lg border-1 p-[10px] md:top-[65px] xl:top-[75px]'>
           {categoryArray.map((ca) => (
-            <button
+            <div
               key={ca.id}
-              value={ca.id}
+              role='button'
               tabIndex={0}
               className='hover:bg-black-353542 text-mogazoa-14px-400 text-gray-6e6e82 hover:text-white-f1f1f5 xl:text-mogazoa-16px-400 flex w-full justify-start rounded-[6px] px-5 py-[6px]'
               onClick={() => handleSelectValue(ca)}
             >
               {ca.name}
-            </button>
+            </div>
           ))}
         </div>
       )}

@@ -26,5 +26,5 @@ export interface RankingChipProps {
 export interface ThumbChipProps {
   initialCount: number; //likeCount
   initialState: boolean; // isLiked 주세여
-  asyncAction: () => Promise<void>; // /reviews/{reviewId}/like
+  reviewId: number;
 }

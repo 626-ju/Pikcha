@@ -13,6 +13,7 @@ const FilePreview = ({ url, index, onRemove }: FilePreviewProps) => {
   return (
     <div
       className={cn(
+        'flex shrink-0',
         'relative overflow-hidden',
         'aspect-square w-[140px] rounded-[8px]',
         'md:w-[135px]',
