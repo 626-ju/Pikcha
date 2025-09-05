@@ -1,16 +1,19 @@
 'use client';
 
+import { toggleReviewLike } from '@/actions/review/review';
 import ThumbsDownIcon from '@/assets/icon/Icon-thumbsdown.svg';
 import ThumbsUpIcon from '@/assets/icon/Icon-thumbsup.svg';
 import useOptimisticToggle from '@/hooks/useOptimisticToggle';
 import { cn } from '@/lib/utils';
 import { ThumbChipProps } from '@/types/chips';
 
-const ThumbChip = ({ initialCount, initialState, asyncAction }: ThumbChipProps) => {
+const ThumbChip = ({ initialCount, initialState, reviewId }: ThumbChipProps) => {
   const { isToggled, optimisticCount, handleToggle } = useOptimisticToggle({
     initialCount,
     initialState,
-    asyncAction,
+    asyncAction: async () => {
+      await toggleReviewLike(reviewId, isToggled);
+    },
   });
 
   return (
