@@ -20,9 +20,13 @@ const ProfileCard = async ({ userid, myPage }: Props) => {
     // 335->296
     <div className='border-black-353542 bg-black-252530 relative flex min-w-[296px] flex-col items-center gap-7.5 rounded-[12px] px-5 py-7.5 md:px-7.5 xl:mr-[60px] xl:h-fit xl:max-w-[340px] xl:gap-10 xl:px-5 xl:py-10'>
       {/* 오버레이 */}
-      <div className='pointer-events-none absolute inset-0 h-full w-full bg-center opacity-20 blur-2xl'>
-        <Image src={data.image ?? '/images/default-profile.png'} fill alt='오버레이용 이미지' />
-      </div>
+      <div
+        className='pointer-events-none absolute inset-0 h-full w-full bg-center opacity-20 blur-2xl'
+        style={{
+          backgroundImage: `url(${data.image ?? '/images/default-profile.png'})`,
+          backgroundSize: 'cover',
+        }}
+      />
 
       <div className='bg-gray-9fa6b2 relative aspect-square h-30 w-30 overflow-hidden rounded-full xl:h-45 xl:w-45'>
         <Image
