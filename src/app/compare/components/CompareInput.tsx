@@ -19,7 +19,7 @@ const CompareInput = ({
   onCompare,
 }: CompareInputProps) => {
   return (
-    <div className='bg-black-252530 mb-8 rounded-lg p-6'>
+    <div className='mb-3'>
       <div className='items-start justify-center gap-10 md:flex'>
         <CompareInputField
           index={0}
