@@ -26,7 +26,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
   return (
     <div className='mx-auto max-w-250 px-5 py-10'>
       <header className='flex w-full flex-col md:max-h-[300px] md:flex-row'>
-        <div className='relative aspect-[27/40] h-60 shrink-0 transition-normal duration-300 md:max-h-[300px] xl:h-[300px]'>
+        <div className='relative aspect-[5/7] h-60 shrink-0 transition-normal duration-300 md:max-h-[300px] xl:h-[300px]'>
           <Image src={product.image} alt='영화 포스터' fill className='object-cover' />
         </div>
         <div className='mt-5 flex w-full flex-col gap-[10px] md:mt-0 md:pl-5'>
