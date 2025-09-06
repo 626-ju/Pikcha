@@ -35,17 +35,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             <FloatingButton />
           </Suspense>
 
-          <Suspense fallback={null}>
-            <SonnerToast />
-          </Suspense>
-
-          <Suspense fallback={null}>
-            <SpeedInsights />
-          </Suspense>
-
-          <Suspense fallback={null}>
-            <ModalContainer />
-          </Suspense>
+          <SonnerToast />
+          <SpeedInsights />
+          <ModalContainer />
         </SessionProvider>
       </body>
     </html>

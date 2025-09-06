@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Buttons';
 import { cn } from '@/lib/utils';
 
-const ErrorFallback = ({}) => {
+const Page = ({}) => {
   const router = useRouter();
 
   return (
@@ -21,4 +21,4 @@ const ErrorFallback = ({}) => {
   );
 };
 
-export default ErrorFallback;
+export default Page;
