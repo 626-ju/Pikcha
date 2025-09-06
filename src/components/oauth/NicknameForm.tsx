@@ -35,6 +35,7 @@ export const NicknameForm = ({ onSubmit, isBusy, errorMessage }: Props) => {
         errorMessage={errors.nickname?.message}
         {...register('nickname')}
         hintMessage='최대 10자 가능'
+        maxLength={10}
       />
       <div>
         <Button type='submit' className='shrink-0' disabled={isSubmitting || isBusy}>

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
 import { signUp } from '@/actions/auth';
@@ -38,6 +39,11 @@ const SignupForm = () => {
     try {
       const result = await signUp(formData);
       if (result.success) {
+        await nextAuthSignIn('credentials', {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        });
         router.replace(result.redirectTo);
         return;
       }
