@@ -10,7 +10,7 @@ import { useModalStore } from '@/store/modalStore';
 import { useCurrentProductStore } from '@/store/productsStore';
 import { triggerStore } from '@/store/triggerStore';
 
-const DeleteMessageModal = ({ reviewId }: { reviewId: number }) => {
+const ReviewDeleteMessageModal = ({ reviewId }: { reviewId: number }) => {
   const closeModal = useModalStore((state) => state.closeModal);
   const [isPending, startTransition] = useTransition();
   const { product } = useCurrentProductStore();
@@ -46,4 +46,4 @@ const DeleteMessageModal = ({ reviewId }: { reviewId: number }) => {
   );
 };
 
-export default DeleteMessageModal;
+export default ReviewDeleteMessageModal;
