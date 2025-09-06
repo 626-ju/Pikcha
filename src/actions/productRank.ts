@@ -26,7 +26,7 @@ export async function getTopReviewedProducts() {
   const url = `products?${sp.toString()}`;
   const data = await api<ProductListRes>(url);
 
-  return data.list.slice(0, 6);
+  return data.list.slice(0, 8);
 }
 
 // 별점이 높은 순 (기본 6개)
@@ -36,5 +36,5 @@ export async function getTopRatingProducts() {
   const url = `products?${sp.toString()}`;
   const data = await api<ProductListRes>(url);
 
-  return data.list.slice(0, 6);
+  return data.list.slice(0, 8);
 }
