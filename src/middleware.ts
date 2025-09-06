@@ -4,7 +4,7 @@ import { auth } from './auth';
 
 import type { NextRequest } from 'next/server';
 
-const protectedRoutes = ['/mypage', '/compare', '/product', '/user'];
+const protectedRoutes = ['/mypage', '/compare', '/user'];
 const authRoutes = ['/signin', '/signup', '/oauth/kakao'];
 
 export default async function middleware(req: NextRequest) {
