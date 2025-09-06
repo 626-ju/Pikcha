@@ -24,7 +24,7 @@ const ProfileDropdown = ({ session }: ProfileDropdownProps) => {
   });
 
   return (
-    <div className='relative'>
+    <div className='relative flex h-[70px] items-center px-2 md:h-[80px] xl:h-[100px]'>
       <button
         type='button'
         aria-haspopup='menu'
