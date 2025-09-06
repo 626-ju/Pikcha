@@ -105,10 +105,7 @@ export const deleteReview = async (reviewId: number, productId: number) => {
     },
   });
 
-  const tags = ['review', `products-${productId}`];
-
-  tags.forEach((tag) => revalidateTag(tag));
-
+  revalidatePath(`/products/${productId}`);
   return res;
 };
 

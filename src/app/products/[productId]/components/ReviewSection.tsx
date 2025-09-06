@@ -80,7 +80,9 @@ const ReviewSection = ({
       )} */}
       <div ref={triggerRef} className='h-20'></div>
 
-      {!hasMore && <p className='text-gray-9fa6b2 mt-4 text-center'>모든 리뷰를 불러왔습니다.</p>}
+      {!hasMore && reviews.length > 0 && (
+        <p className='text-gray-9fa6b2 mb-10 text-center'>모든 리뷰를 불러왔습니다.</p>
+      )}
     </section>
   );
 };
