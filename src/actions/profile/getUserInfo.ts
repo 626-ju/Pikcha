@@ -17,6 +17,7 @@ export const getMyInfo = async () => {
     next: { revalidate: 300, tags: [MY_INFO] },
   });
 };
+
 export const getUserInfo = async (userid: number) => {
   const session = await auth();
   const accessToken = session?.accessToken;
