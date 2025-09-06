@@ -20,7 +20,7 @@ const ProductTriggers = ({ product }: { product: ProductDetail }) => {
   setProduct(product);
 
   const handleClickPostReviewModal = () => {
-    return openModal({ component: ReviewPostModal, props: { product: product } });
+    return openModal({ component: ReviewPostModal, props: { mode: 'create' } });
   };
 
   const handleClickPatchProductModal = () => {
