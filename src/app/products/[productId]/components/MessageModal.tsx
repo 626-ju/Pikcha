@@ -7,16 +7,18 @@ import Modal from '@/components/common/ModalUi';
 import Button from '@/components/ui/Buttons';
 import { DialogTitle } from '@/components/ui/dialog';
 import { useModalStore } from '@/store/modalStore';
+import { useCurrentProductStore } from '@/store/productsStore';
 import { triggerStore } from '@/store/triggerStore';
 
 const DeleteMessageModal = ({ reviewId }: { reviewId: number }) => {
   const closeModal = useModalStore((state) => state.closeModal);
   const [isPending, startTransition] = useTransition();
+  const { product } = useCurrentProductStore();
   const { setTrigger } = triggerStore();
 
   const handleClickDelete = () => {
     startTransition(async () => {
-      await deleteReview(reviewId);
+      await deleteReview(reviewId, product.id);
       closeModal();
       setTrigger();
     });

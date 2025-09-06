@@ -92,7 +92,7 @@ export const patchReview = async ({ rating, content, images, reviewId }: ReviewP
   return res;
 };
 
-export const deleteReview = async (reviewId: number) => {
+export const deleteReview = async (reviewId: number, productId: number) => {
   const session = await auth();
   const accessToken = session?.accessToken;
 
@@ -105,7 +105,9 @@ export const deleteReview = async (reviewId: number) => {
     },
   });
 
-  revalidateTag('reviews');
+  const tags = ['review', `products-${productId}`];
+
+  tags.forEach((tag) => revalidateTag(tag));
 
   return res;
 };
