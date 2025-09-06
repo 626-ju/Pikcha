@@ -31,7 +31,11 @@ const FollowInfoList = ({ type }: Props) => {
 
   return (
     <ul className='scrollbar-hide flex h-[456px] flex-col gap-5 overflow-y-scroll xl:h-[514px]'>
-      {userList?.length === 0 && <div>팔로워가 없어요 😥</div>}
+      {userList?.length === 0 && type === 'followers' ? (
+        <li>팔로워가 없어요 😥</li>
+      ) : (
+        <li>팔로우 해보세요! 😘</li>
+      )}
 
       {userList?.map(({ id, nickname, image }: FollowUserInfo) => {
         return (
