@@ -3,7 +3,6 @@
 import Image from 'next/image';
 
 import { getProductDetail } from '@/actions/productDetail';
-import { getProductReviews } from '@/actions/review/review';
 import CategoryChip from '@/components/ui/chips/CategoryChip';
 
 import FavoriteButton from './components/FavoriteButton';
@@ -21,7 +20,6 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
   const currentProductId = Number(productId);
 
   const product = await getProductDetail(currentProductId);
-  const reviews = await getProductReviews(currentProductId);
 
   return (
     <div className='mx-auto max-w-250 px-5 py-10'>
@@ -53,7 +51,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
           <MetricCard variant='review' product={product} />
         </div>
       </section>
-      <ReviewSection productId={currentProductId} initialReviews={reviews} />
+      <ReviewSection productId={currentProductId} />
     </div>
   );
 };

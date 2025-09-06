@@ -10,15 +10,9 @@ import { ReviewDetail } from '@/types/review/review';
 
 import ReviewCard from './ReviewCard';
 
-const ReviewSection = ({
-  productId,
-  initialReviews,
-}: {
-  productId: number;
-  initialReviews: ReviewDetail[];
-}) => {
+const ReviewSection = ({ productId }: { productId: number }) => {
   const [option, setOption] = useState<string>('recent');
-  const [productReviews, setProductReviews] = useState<ReviewDetail[]>(initialReviews);
+  const [productReviews, setProductReviews] = useState<ReviewDetail[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { trigger } = triggerStore();
 
