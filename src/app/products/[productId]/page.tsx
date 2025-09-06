@@ -3,6 +3,7 @@
 import Image from 'next/image';
 
 import { getProductDetail } from '@/actions/productDetail';
+import { getProductReviews } from '@/actions/review/review';
 import CategoryChip from '@/components/ui/chips/CategoryChip';
 
 import FavoriteButton from './components/FavoriteButton';
@@ -20,6 +21,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
   const currentProductId = Number(productId);
 
   const product = await getProductDetail(currentProductId);
+  const { list: reviews, nextCursor } = await getProductReviews(currentProductId);
 
   return (
     <div className='mx-auto max-w-250 px-5 py-10'>
@@ -43,7 +45,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
           <ProductTriggers product={product} />
         </div>
       </header>
-      <section className='my-20'>
+      <section className='mt-20 mb-15'>
         <h2 className='text-mogazoa-18px-600 xl:text-mogazoa-20px-600 my-9'>상품통계</h2>
         <div className='flex flex-col gap-[15px] md:flex-row'>
           <MetricCard variant='rating' product={product} />
@@ -51,7 +53,11 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
           <MetricCard variant='review' product={product} />
         </div>
       </section>
-      <ReviewSection productId={currentProductId} />
+      <ReviewSection
+        productId={currentProductId}
+        initialReviews={reviews}
+        initialCursor={nextCursor}
+      />
     </div>
   );
 };
