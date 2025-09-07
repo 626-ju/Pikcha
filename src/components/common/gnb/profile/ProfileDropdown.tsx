@@ -3,20 +3,15 @@
 import { useRef, useState } from 'react';
 
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { useCompareStore } from '@/store/compareStore';
 
 import AvatarProfile from './AvatarProfile';
 
-import type { Session } from 'next-auth';
-
-interface ProfileDropdownProps {
-  session: Session | null;
-}
-
-const ProfileDropdown = ({ session }: ProfileDropdownProps) => {
+const ProfileDropdown = () => {
+  const { data: session } = useSession();
   const [listOpen, setListOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const compareList = useCompareStore();

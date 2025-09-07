@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
 import { useErrorBoundary } from 'react-error-boundary';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -17,6 +18,7 @@ import { profileSchema, type ProfileFormValues } from '@/types/profile/profileUp
 
 const ProfileUpdateForm = () => {
   const { showBoundary } = useErrorBoundary();
+  const { update } = useSession();
   const closeModal = useModalStore((state) => state.closeModal);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,6 +52,15 @@ const ProfileUpdateForm = () => {
         description: data.description,
         image: data.image,
       });
+
+      // 세션 업데이트하여 헤더 프로필에 즉시 반영
+      await update({
+        user: {
+          nickname: data.nickname,
+          image: data.image?.[0] || null,
+        },
+      });
+
       closeModal();
     } catch (err) {
       showBoundary(err);
