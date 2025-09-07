@@ -5,17 +5,26 @@ import React from 'react';
 import { signOut } from 'next-auth/react';
 
 import Button from '@/components/ui/Buttons';
+import { useCompareStore } from '@/store/compareStore';
 import { useModalStore } from '@/store/modalStore';
 
 import ProfileUpdateModal from './(modal)/ProfileUpdateModal';
 
 const UpdateTrigger = () => {
   const openModal = useModalStore((state) => state.openModal);
+  const { clearCompareList } = useCompareStore();
 
   return (
     <div className='w-full'>
       <Button onClick={() => openModal({ component: ProfileUpdateModal })}>프로필 편집</Button>
-      <Button variant='tertiary' onClick={() => signOut()} className='mt-2.5 md:mt-[15px] xl:mt-5'>
+      <Button
+        variant='tertiary'
+        onClick={() => {
+          clearCompareList();
+          signOut();
+        }}
+        className='mt-2.5 md:mt-[15px] xl:mt-5'
+      >
         로그아웃
       </Button>
     </div>

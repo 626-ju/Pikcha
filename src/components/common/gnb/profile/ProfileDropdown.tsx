@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { useCompareStore } from '@/store/compareStore';
 
 import AvatarProfile from './AvatarProfile';
 
@@ -18,6 +19,8 @@ interface ProfileDropdownProps {
 const ProfileDropdown = ({ session }: ProfileDropdownProps) => {
   const [listOpen, setListOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
+  const compareList = useCompareStore();
+  const clearCompareList = compareList.clearCompareList;
 
   useOnClickOutside(ref, () => {
     setListOpen(false);
@@ -50,6 +53,7 @@ const ProfileDropdown = ({ session }: ProfileDropdownProps) => {
               <button
                 onClick={() => {
                   setListOpen(false);
+                  clearCompareList();
                   signOut();
                 }}
               >

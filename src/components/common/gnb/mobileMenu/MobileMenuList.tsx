@@ -18,7 +18,7 @@ const MobileMenuList = ({
   profileUrl?: string | null;
   onClose: () => void;
 }) => {
-  const { compareList } = useCompareStore();
+  const { compareList, clearCompareList } = useCompareStore();
   const count = compareList.length;
 
   return (
@@ -88,6 +88,7 @@ const MobileMenuList = ({
               <button
                 onClick={() => {
                   onClose();
+                  clearCompareList();
                   signOut();
                 }}
                 className='hover:bg-black-353542 text-white-f1f1f5 text-mogazoa-18px-400 w-full rounded-lg px-4 py-3 text-left transition-colors'
