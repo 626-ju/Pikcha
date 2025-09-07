@@ -37,7 +37,7 @@ const DesktopRight = () => {
           <CompareButton />
         </div>
         <div className='flex flex-1 justify-center'>
-          <ProfileDropdown session={session} />
+          <ProfileDropdown />
         </div>
       </div>
     </div>
