@@ -22,7 +22,6 @@ const CompareMovieCards = ({ products }: CompareMovieCardsProps) => {
             sizes='(max-width: 768px) 140px, (max-width: 1280px) 227px, 260px'
           />
         </div>
-        <h3 className='text-mogazoa-14px-300 text-white-f1f1f5'>{product1.name}</h3>
       </div>
 
       <div className='w-[140px] text-center md:w-[227px] xl:w-[260px]'>
@@ -35,7 +34,6 @@ const CompareMovieCards = ({ products }: CompareMovieCardsProps) => {
             sizes='(max-width: 768px) 140px, (max-width: 1280px) 227px, 260px'
           />
         </div>
-        <h3 className='text-mogazoa-14px-300 text-white-f1f1f5'>{product2.name}</h3>
       </div>
     </div>
   );
