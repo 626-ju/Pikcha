@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
 import { Search } from 'lucide-react';
 
@@ -34,7 +34,9 @@ const MobileSearch = () => {
             onClick={(e) => e.stopPropagation()} // 내부 클릭 시 오버레이 닫힘 방지
           >
             {/* 검색 진입 시 검색창, 오버레이 제거 */}
-            <SearchForm onSearchExecute={() => setSearchOpen(false)} />
+            <Suspense>
+              <SearchForm onSearchExecute={() => setSearchOpen(false)} />
+            </Suspense>
           </div>
         </>
       )}

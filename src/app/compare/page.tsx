@@ -27,9 +27,11 @@ const ComparePage = () => {
     clearAll,
   } = useCompareController({ compareList, removeProduct, clearCompareList });
 
-  // 선택된 상품들을 배열로 변환
-  const selectedProducts = compareList.filter((p) => selectedIds.has(p.id));
-  const selectedDeleteProducts = compareList.filter((p) => selectedDeleteIds.has(p.id));
+  // 선택된 상품들을 배열로 변환 (선택 순서 유지)
+  const selectedProducts = selectedIds
+    .map((id) => compareList.find((p) => p.id === id))
+    .filter(Boolean) as Product[];
+  const selectedDeleteProducts = compareList.filter((p) => selectedDeleteIds.includes(p.id));
 
   // 비교목록이 비어있을 때
   if (compareList.length === 0) {
@@ -77,7 +79,9 @@ const ComparePage = () => {
         <CompareGrid
           list={compareList}
           isSelected={(product) =>
-            mode === 'delete' ? selectedDeleteIds.has(product.id) : selectedIds.has(product.id)
+            mode === 'delete'
+              ? selectedDeleteIds.includes(product.id)
+              : selectedIds.includes(product.id)
           }
           onSelect={handleCardSelect}
         />
