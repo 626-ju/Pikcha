@@ -37,7 +37,10 @@ const Home = async ({
       <div className='flex items-start gap-6'>
         <Sidebar selected={category} q={q} />
         <section className='min-w-0 flex-1 overflow-hidden px-[20px]'>
-          <ReviewerRank users={users} className='mb-6 pt-[40px] pb-3 xl:hidden' />
+          <ReviewerRank
+            users={users}
+            className='mb-6 pt-[30px] pb-3 md:pt-[60px] xl:hidden xl:pt-[40px]'
+          />
           <MobileCategoryFilter className='mb-3 md:hidden' />
           {q === '' && category === null ? (
             <div className='flex flex-col gap-[80px]'>
