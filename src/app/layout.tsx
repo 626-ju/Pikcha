@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SessionProvider } from 'next-auth/react';
 
+import Footer from '@/components/common/Footer/Footer';
 import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 import SonnerToast from '@/components/common/SonnerToast';
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <SonnerToast />
           <SpeedInsights />
           <ModalContainer />
+          <Footer />
         </SessionProvider>
       </body>
     </html>
