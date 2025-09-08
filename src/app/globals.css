@@ -2,7 +2,6 @@
 @import 'tw-animate-css';
 @import 'tailwind-scrollbar-hide/v4';
 
-/*---break---*/
 @custom-variant light (&:is(.light *));
 
 @theme {
@@ -139,8 +138,6 @@
   @apply text-2xl font-semibold;
 }
 
-/*---break---*/
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -179,7 +176,6 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/*---break---*/
 :root {
   --radius: 0.625rem;
   --background: #f3f4f6;
@@ -215,7 +211,6 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/*---break---*/
 .dark {
   --radius: 0.625rem;
   --background: #1c1c22;
@@ -258,8 +253,6 @@ html {
 body {
   font-family: var(--font-pretendard);
 }
-
-/*---break---*/
 
 @layer base {
   * {
