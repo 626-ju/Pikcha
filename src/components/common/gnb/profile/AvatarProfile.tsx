@@ -15,11 +15,11 @@ const AvatarProfile = ({ profileImg = null, userName }: AvatarProfileProps) => {
           profileImg ? 'border-white-f1f1f5 border-2 border-solid' : ''
         }`}
       >
-        <AvatarImage src={profileImg ?? '/icon/GuestProfile.svg'} alt='프로필 이미지' />
+        <AvatarImage src={profileImg ?? '/images/guestProfile.png'} alt='프로필 이미지' />
         <AvatarFallback>게스트</AvatarFallback>
       </Avatar>
       <span
-        className='text-mogazoa-18px-400 md:text-mogazoa-14px-400 xl:text-mogazoa-16px-400 max-w-45 truncate md:max-w-24 xl:max-w-26'
+        className='text-mogazoa-18px-400 md:text-mogazoa-14px-400 xl:text-mogazoa-16px-400 max-w-45 truncate md:max-w-22'
         title={userName ?? '게스트'}
       >
         {userName ?? '게스트'}
