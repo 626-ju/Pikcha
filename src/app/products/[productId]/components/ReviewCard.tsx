@@ -1,22 +1,15 @@
+'use client';
+
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 import ThumbChip from '@/components/ui/chips/ThumbChip';
+import { useModalStore } from '@/store/modalStore';
 import { ReviewCardProps } from '@/types/review/review';
 
+import DeleteMessageModal from './MessageModal';
 import ReviewAvatar from './ReviewAvatar';
-
-async function randomPromise(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const isSuccess = Math.random() > 0.5;
-      if (isSuccess) {
-        resolve();
-      } else {
-        reject(new Error(`Error! Rejected after 1000ms`));
-      }
-    }, 1000);
-  });
-}
+import ReviewModal from './ReviewModal';
 
 const isValidUrl = (url: string) => {
   if (!url) return false;
@@ -29,10 +22,22 @@ const isValidUrl = (url: string) => {
 };
 
 const ReviewCard = ({ review }: ReviewCardProps) => {
+  const openModal = useModalStore((state) => state.openModal);
+  const { data } = useSession();
+  const userId = Number(data?.user.id);
+
   const formattedDate = review.createdAt.split('T')[0];
   const filteredImages = review.reviewImages.filter(
     (ri) => ri.source && isValidUrl(ri.source) && !ri.source.includes('https://example.com/...'),
   );
+
+  const handleClickPatchModal = () => {
+    return openModal({ component: ReviewModal, props: { review, mode: 'edit' } });
+  };
+
+  const handleClickDeleteModal = () => {
+    return openModal({ component: DeleteMessageModal, props: { reviewId: review.id } });
+  };
 
   return (
     <div className='bg-black-252530 border-black-353542 flex w-full flex-col gap-5 rounded-[8px] border-[1px] p-5 transition-normal duration-300 md:flex-row'>
@@ -52,13 +57,34 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
           </div>
         )}
         <div className='flex items-end justify-between'>
-          <div className='text-mogazoa-12px-400 text-gray-6e6e82 xl:text-mogazoa-14px-400'>
-            {formattedDate}
+          <div className='flex items-center gap-[10px]'>
+            <div className='text-mogazoa-12px-400 text-gray-6e6e82 xl:text-mogazoa-14px-400'>
+              {formattedDate}
+            </div>
+            {review.userId === userId && (
+              <>
+                {' '}
+                <button
+                  type='button'
+                  onClick={handleClickPatchModal}
+                  className='text-mogazoa-12px-300 xl:text-mogazoa-14px-300 text-gray-9fa6b2 hover:underline'
+                >
+                  수정
+                </button>
+                <button
+                  type='button'
+                  onClick={handleClickDeleteModal}
+                  className='text-mogazoa-12px-300 xl:text-mogazoa-14px-300 text-gray-9fa6b2 hover:underline'
+                >
+                  삭제
+                </button>
+              </>
+            )}
           </div>
           <ThumbChip
             initialCount={review.likeCount}
             initialState={review.isLiked}
-            asyncAction={randomPromise}
+            reviewId={review.id}
           />
         </div>
       </div>

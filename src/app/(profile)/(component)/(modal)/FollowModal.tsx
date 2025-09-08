@@ -14,6 +14,7 @@ interface Props {
   username: string;
   type: FollowType;
 }
+
 const FollowModalContent = ({ username, type }: Props) => {
   const title = `${username}님을 ${type === 'followers' ? '팔로우' : '팔로잉'} 하는 유저`;
 

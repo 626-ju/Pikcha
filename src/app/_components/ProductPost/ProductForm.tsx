@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useErrorBoundary } from 'react-error-boundary';
 import { Controller, useForm } from 'react-hook-form';
 
-import { postProduct } from '@/actions/productDetail';
+import { patchProduct, postProduct } from '@/actions/productDetail';
 import CategoryDropdown from '@/components/common/dropdowns/CategoryDropdown';
 import FileInput from '@/components/common/FileInput';
 import Input from '@/components/common/Input';
@@ -10,9 +10,9 @@ import Textbox from '@/components/common/Textbox';
 import Button from '@/components/ui/Buttons';
 import { useModalStore } from '@/store/modalStore';
 import { productSchema } from '@/types/product/productSchema';
-import { ProductFormValue } from '@/types/product/productType';
+import { ProductDetail, ProductFormValue } from '@/types/product/productType';
 
-const ProductPostForm = () => {
+const ProductForm = ({ product, mode }: { product?: ProductDetail; mode: 'create' | 'edit' }) => {
   const { showBoundary } = useErrorBoundary();
   const closeModal = useModalStore((state) => state.closeModal);
 
@@ -20,15 +20,34 @@ const ProductPostForm = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting, isDirty },
   } = useForm<ProductFormValue>({
     resolver: zodResolver(productSchema),
     mode: 'all',
+    defaultValues:
+      mode === 'edit'
+        ? {
+            name: product?.name,
+            image: product?.image ? [product.image] : [],
+            categoryId: product?.categoryId,
+            description: product?.description,
+          }
+        : {
+            name: '',
+            image: [],
+            categoryId: undefined,
+            description: '',
+          },
   });
 
   const onSubmit = async (data: ProductFormValue) => {
     try {
-      await postProduct(data);
+      if (mode === 'create') {
+        await postProduct(data);
+      } else {
+        if (!product) throw new Error('수정할 상품 정보가 없습니다.');
+        await patchProduct({ productId: product.id, data });
+      }
       closeModal();
     } catch (err) {
       showBoundary(err);
@@ -54,7 +73,9 @@ const ProductPostForm = () => {
           <Controller
             name='categoryId'
             control={control}
-            render={({ field }) => <CategoryDropdown onChange={field.onChange} />}
+            render={({ field }) => (
+              <CategoryDropdown currentValue={field.value} onChange={field.onChange} />
+            )}
           />
         </div>
       </div>
@@ -63,11 +84,15 @@ const ProductPostForm = () => {
         {...register('description')}
         maxLength={500}
       />
-      <Button variant='primary' className='mt-6'>
-        추가하기
+      <Button
+        variant='primary'
+        className='mt-6'
+        disabled={!isValid || isSubmitting || (mode === 'edit' && !isDirty)}
+      >
+        {mode === 'create' ? '추가하기' : '수정하기'}
       </Button>
     </form>
   );
 };
 
-export default ProductPostForm;
+export default ProductForm;

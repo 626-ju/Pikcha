@@ -29,6 +29,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.justwatch.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
     domains: ['mogazoa-api.vercel.app', 'example.com'],
   },
