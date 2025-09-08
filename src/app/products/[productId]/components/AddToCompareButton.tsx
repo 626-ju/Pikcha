@@ -31,7 +31,7 @@ const AddToCompareButton = ({ product, className }: AddToCompareButtonProps) => 
     if (currentCount === 0) {
       // 첫 번째 담기: 바로 추가 + 안내 토스트
       addProduct(product);
-      toast.info('비교대상을 추가해주세요');
+      toast.info('첫 영화가 담겼습니다. 비교할 다른 영화를 추가해주세요');
     } else if (currentCount >= MAX_COMPARE_ITEMS) {
       // 최대 개수 도달 시: 추가하면서 제거된 항목 안내 모달
       const result = addProduct(product);
