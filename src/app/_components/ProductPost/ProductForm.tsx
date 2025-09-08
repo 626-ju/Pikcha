@@ -90,7 +90,7 @@ const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create'
       <Textbox
         placeholder='작품에 대해 설명해주세요!'
         {...register('description')}
-        maxLength={500}
+        maxLength={300}
       />
       <Button
         variant='primary'
