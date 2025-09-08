@@ -1,12 +1,18 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import Link from 'next/link';
 
 import { useCompareStore } from '@/store/compareStore';
 
 const CompareButton = () => {
   const { compareList } = useCompareStore();
-  const count = compareList.length;
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    setCount(compareList.length);
+  }, [compareList]);
 
   return (
     <Link
