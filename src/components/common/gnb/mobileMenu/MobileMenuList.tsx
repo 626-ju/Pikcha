@@ -56,23 +56,21 @@ const MobileMenuList = ({
           <AvatarProfile profileImg={profileUrl} userName={name} />
         </div>
         {/* 메뉴 섹션 */}
-        <div className='flex-1 pt-5'>
-          <h2 className='text-white-f1f1f5 text-mogazoa-20px-600 mb-6'>메뉴</h2>
-          <ul className='pt-3'>
-            <li className='flex gap-2'>
+        <div className='flex-1 pt-1 pl-1'>
+          <h2 className='text-white-f1f1f5 text-mogazoa-20px-600 mb-2'>메뉴</h2>
+          <ul>
+            <li>
               <Link
                 href='/compare'
                 onClick={onClose}
-                className='hover:bg-black-353542 text-white-f1f1f5 text-mogazoa-18px-400 block rounded-lg px-4 py-3 transition-colors'
+                className='hover:bg-black-353542 text-white-f1f1f5 text-mogazoa-18px-400 flex items-center gap-2 rounded-lg px-4 py-3 transition-colors'
               >
-                <span className='flex items-center gap-2'>
-                  비교하기
-                  {count > 0 && (
-                    <span className='bg-main-gradation text-white-f1f1f5 text-mogazoa-12px-300 flex h-4 w-4 min-w-4 items-center justify-center rounded-full'>
-                      {count}
-                    </span>
-                  )}
-                </span>
+                비교하기
+                {count > 0 && (
+                  <span className='bg-main-gradation text-white-f1f1f5 text-mogazoa-12px-300 flex h-4 w-4 min-w-4 items-center justify-center rounded-full'>
+                    {count}
+                  </span>
+                )}
               </Link>
             </li>
             <li>
