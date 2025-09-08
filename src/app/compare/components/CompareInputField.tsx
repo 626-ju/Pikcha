@@ -48,7 +48,7 @@ const CompareInputField = ({
       <div className='relative'>
         <h2 className='text-mogazoa-16px-400 text-white-f1f1f5 pb-2.5'>영화 {index + 1}</h2>
         <div
-          className={`bg-black-252530 border-black-353542 text-white-f1f1f5 flex w-full items-center rounded-lg border px-5 py-3 transition-all md:h-[55px] xl:h-[70px] ${
+          className={`bg-black-252530 light:bg-white border-black-353542 text-white-f1f1f5 flex w-full items-center rounded-lg border px-5 py-3 transition-all md:h-[55px] xl:h-[70px] ${
             isFocused && !selectedProduct ? 'ring-main-indigo ring-2' : ''
           }`}
         >

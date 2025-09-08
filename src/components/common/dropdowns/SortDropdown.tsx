@@ -67,7 +67,7 @@ const SortDropdown = ({
       {isOpen && (
         <div
           className={cn(
-            'bg-black-252530 border-black-353542 absolute top-10 z-50 flex w-[150px] flex-col gap-[10px] rounded-lg border-1 p-[10px] md:w-[200px]',
+            'bg-black-252530 light:bg-white border-black-353542 absolute top-10 z-50 flex w-[150px] flex-col gap-[10px] rounded-lg border-1 p-[10px] md:w-[200px]',
             menuPosition === 'right' ? 'right-0' : 'left-0',
           )}
         >

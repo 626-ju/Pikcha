@@ -68,7 +68,7 @@ const SearchSuggestions = ({
     <ul
       ref={ref}
       role='listbox'
-      className='bg-black-252530 border-black-353542 absolute z-50 mt-1 w-full rounded-md border'
+      className='bg-black-252530 light:bg-white border-black-353542 absolute z-50 mt-1 w-full rounded-md border'
     >
       {suggestions.slice(0, 8).map((p, index) => (
         <li key={p.id}>

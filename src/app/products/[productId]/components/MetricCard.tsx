@@ -29,7 +29,7 @@ const MetricCard = ({ variant, product }: MetricCardProps) => {
   const comparisonResult = `${comparisonCount && Math.abs(comparisonCount)}${unit}`;
 
   return (
-    <div className='bg-black-252530 border-black-353542 flex h-[82px] w-full flex-col gap-[5px] rounded-[12px] border-[1px] p-5 transition-normal duration-300 md:h-[169px] md:items-center md:justify-center md:gap-[15px] xl:h-[190px]'>
+    <div className='bg-black-252530 light:bg-white border-black-353542 flex h-[82px] w-full flex-col gap-[5px] rounded-[12px] border-[1px] p-5 transition-normal duration-300 md:h-[169px] md:items-center md:justify-center md:gap-[15px] xl:h-[190px]'>
       <div className='flex gap-[10px] md:flex-col md:items-center'>
         <h3 className='text-mogazoa-14px-500 md:text-mogazoa-16px-500 xl:text-mogazoa-18px-500'>
           {title}
