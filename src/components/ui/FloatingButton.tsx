@@ -25,6 +25,7 @@ const FloatingButton = () => {
       </div>
       <button
         type='button'
+        aria-label='영화 추가하기'
         className='to-main-indigo hover:indigo-300 mr-[-20px] flex h-15 w-15 cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-sky-500 via-blue-500 text-8xl hover:bg-gradient-to-r hover:from-sky-400 hover:via-blue-400'
         onClick={handleClickModal}
       >

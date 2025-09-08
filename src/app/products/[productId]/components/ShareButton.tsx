@@ -40,12 +40,18 @@ const ShareButton = ({
   return (
     <>
       {variant === 'primary' ? (
-        <button type='button' className={cn(baseClassName, className)} onClick={handleClickCopyUrl}>
+        <button
+          type='button'
+          aria-label='URL 복사'
+          className={cn(baseClassName, className)}
+          onClick={handleClickCopyUrl}
+        >
           <ShareIcon className='h-[14px] w-[14px] md:h-[18px] md:w-[18px] xl:h-[22px] xl:w-[22px]' />
         </button>
       ) : (
         <button
           type='button'
+          aria-label='카카오톡 공유'
           className={cn(baseClassName, className)}
           onClick={handleClickShareKakao}
         >
