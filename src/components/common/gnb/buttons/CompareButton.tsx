@@ -17,7 +17,7 @@ const CompareButton = () => {
   return (
     <Link
       href='/compare'
-      className='md:text-mogazoa-14px-400 xl:text-mogazoa-16px-400 text-white-f1f1f5 flex h-[70px] items-center px-2 whitespace-nowrap md:h-[80px] xl:h-[100px]'
+      className='md:text-mogazoa-14px-400 xl:text-mogazoa-16px-400 text-white-f1f1f5 flex h-[70px] w-[80px] items-center justify-center px-1 whitespace-nowrap md:h-[80px] xl:h-[120px] xl:w-[90px]'
     >
       비교하기
       {count > 0 && (
