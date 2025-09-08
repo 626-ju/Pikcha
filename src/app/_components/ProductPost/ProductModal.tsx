@@ -4,12 +4,13 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import Modal from '@/components/common/ModalUi';
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ProductDetail } from '@/types/product/productType';
+import { useCurrentProductStore } from '@/store/productsStore';
 
 import ProductForm from './ProductForm';
 import ErrorFallback from '../../error';
 
-const ProductModal = ({ product, mode }: { product?: ProductDetail; mode: 'create' | 'edit' }) => {
+const ProductModal = ({ mode }: { mode: 'create' | 'edit' }) => {
+  const { product } = useCurrentProductStore();
   const title = mode === 'create' ? '작품 추가' : '작품 수정';
 
   return (
