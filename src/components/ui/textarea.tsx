@@ -2,13 +2,17 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-function Textarea({ ...props }: React.ComponentProps<'textarea'>) {
+interface TextareaProps extends React.ComponentProps<'textarea'> {
+  hasError?: boolean;
+}
+
+function Textarea({ hasError, ...props }: TextareaProps) {
   return (
     <div
       className={cn(
         'relative rounded-[8px] p-[1px]',
-        'focus-within:border-transparent focus-within:bg-gradient-to-r',
         'focus-within:bg-main-gradation',
+        hasError ? 'bg-red-ff0000 focus-within:bg-red-ff0000' : '',
         'transition-all duration-300',
         'w-[295px] md:w-[510px] xl:w-[540px]',
       )}

@@ -4,23 +4,21 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { auth } from '@/auth';
 import fetcher from '@/lib/utils/fetcher';
-import { ReviewDetail, ReviewFormValue, ReviewPatchFormValue } from '@/types/review/review';
+import { ReviewFormValue, ReviewPatchFormValue, ReviewResponse } from '@/types/review/review';
 
 const BASE_URL = process.env.API_BASE_URL;
 const TEAM_ID = process.env.TEST_TEAM_ID;
 
-const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const NEXT_PUBLIC_TEAM_ID = process.env.NEXT_PUBLIC_TEST_TEAM_ID;
-
 export const getProductReviews = async (
   productId: number,
   option: string = 'recent',
-): Promise<ReviewDetail[]> => {
+  cursorId: number = 0,
+): Promise<ReviewResponse> => {
   const session = await auth();
   const accessToken = session?.accessToken;
 
-  const productReviews = await fetcher(
-    `${BASE_URL}/${TEAM_ID}/products/${productId}/reviews?order=${option}`,
+  const productReviews: ReviewResponse = await fetcher(
+    `${BASE_URL}/${TEAM_ID}/products/${productId}/reviews?order=${option}&cursor=${cursorId}`,
     {
       method: 'GET',
       headers: {
@@ -31,8 +29,10 @@ export const getProductReviews = async (
       cache: 'force-cache',
     },
   );
+  const list = productReviews.list;
+  const nextCursor = productReviews.nextCursor;
 
-  return productReviews.list;
+  return { list, nextCursor };
 };
 
 export const postReview = async ({
@@ -92,7 +92,7 @@ export const patchReview = async ({ rating, content, images, reviewId }: ReviewP
   return res;
 };
 
-export const deleteReview = async (reviewId: number) => {
+export const deleteReview = async (reviewId: number, productId: number) => {
   const session = await auth();
   const accessToken = session?.accessToken;
 
@@ -105,8 +105,7 @@ export const deleteReview = async (reviewId: number) => {
     },
   });
 
-  revalidateTag('reviews');
-
+  revalidatePath(`/products/${productId}`);
   return res;
 };
 
@@ -116,17 +115,14 @@ export const toggleReviewLike = async (reviewId: number, isCurrentlyLike: boolea
 
   const method = isCurrentlyLike ? 'DELETE' : 'POST';
   console.log('method:', method);
-  const res = await fetcher(
-    `${NEXT_PUBLIC_BASE_URL}/${NEXT_PUBLIC_TEAM_ID}/reviews/${reviewId}/like`,
-    {
-      method: method,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 300, tags: [`reviews`] },
+  const res = await fetcher(`${BASE_URL}/${TEAM_ID}/reviews/${reviewId}/like`, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     },
-  );
+    next: { revalidate: 300, tags: [`reviews`] },
+  });
 
   revalidateTag('reviews');
   //여기도...고민 좀 해보자
