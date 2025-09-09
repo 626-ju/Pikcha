@@ -35,7 +35,7 @@ const ShareButton = ({
   };
 
   const baseClassName =
-    'bg-black-252530 flex h-6 w-6 items-center justify-center rounded-[6px] md:h-7 md:w-7 xl:h-8 xl:w-8';
+    'bg-black-252530 light:bg-white flex h-6 w-6 items-center justify-center rounded-[6px] md:h-7 md:w-7 xl:h-8 xl:w-8';
 
   return (
     <>

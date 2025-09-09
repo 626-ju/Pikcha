@@ -40,7 +40,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
   };
 
   return (
-    <div className='bg-black-252530 border-black-353542 flex w-full flex-col gap-5 rounded-[8px] border-[1px] p-5 transition-normal duration-300 md:flex-row'>
+    <div className='bg-black-252530 light:bg-white border-black-353542 flex w-full flex-col gap-5 rounded-[8px] border-[1px] p-5 transition-normal duration-300 md:flex-row'>
       <ReviewAvatar user={review.user} rating={review.rating} />
       <div className='flex w-full flex-col gap-5'>
         <div className='text-mogazoa-12px-400'>{review.content}</div>
