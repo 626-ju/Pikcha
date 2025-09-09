@@ -1,12 +1,12 @@
-import { Suspense } from 'react';
-
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SessionProvider } from 'next-auth/react';
+import { ThemeProvider } from 'next-themes';
 
 import FooterLazy from '@/components/common/Footer/FooterLazy';
 import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 import SonnerToast from '@/components/common/SonnerToast';
+import ThemeToggle from '@/components/common/ThemeToggle';
 import FloatingButton from '@/components/ui/FloatingButton';
 
 import pretendard from '../lib/utils/fonts/pretendard';
@@ -23,24 +23,25 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang='ko'>
       <body className={pretendard.variable}>
-        <SessionProvider>
-          {/* 라우터 훅(useSearchParams, usePathname 등)을 쓸 수 있는 컴포넌트는 모두 Suspense로 감싸기 */}
-          <Suspense fallback={null}>
+        <ThemeProvider
+          attribute='class' // Tailwind v4 class 전략
+          defaultTheme='dark' // 기본 테마
+          enableSystem={false} // 시스템 모드 비활성화
+          themes={['light', 'dark']} // 사용 테마 제한
+          storageKey='pickcha-theme' // 로컬스토리지 키
+        >
+          <SessionProvider>
+            {/* 서버 컴포넌트에서 세션 정보를 가져와 클라이언트 컴포넌트에 전달 */}
             <GlobalNav />
-          </Suspense>
-
-          {/* children도 한 겹 감싸두면 /signin, /signup 같은 페이지에서 남은 훅 호출을 광역 방어 가능 */}
-          <Suspense fallback={null}>{children}</Suspense>
-
-          <Suspense fallback={null}>
+            {children}
+            <FooterLazy />
+            <ThemeToggle />
             <FloatingButton />
-          </Suspense>
-
-          <SonnerToast />
-          <SpeedInsights />
-          <ModalContainer />
-          <FooterLazy />
-        </SessionProvider>
+            <SonnerToast />
+            <SpeedInsights />
+            <ModalContainer />
+          </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
