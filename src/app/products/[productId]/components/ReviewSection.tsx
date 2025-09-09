@@ -41,6 +41,10 @@ const ReviewSection = ({
   };
 
   useEffect(() => {
+    reset();
+  }, [productId, trigger]);
+
+  useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -52,7 +56,7 @@ const ReviewSection = ({
     const y = sectionRef.current!.getBoundingClientRect().top + window.pageYOffset - topOffset;
 
     window.scrollTo({ top: y, behavior: 'smooth' });
-  }, [productId, option, trigger]);
+  }, [option]);
 
   return (
     <section ref={sectionRef}>

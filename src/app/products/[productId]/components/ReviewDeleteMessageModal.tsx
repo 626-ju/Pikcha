@@ -1,7 +1,5 @@
 'use client';
 
-import { useTransition } from 'react';
-
 import { deleteReview } from '@/actions/review/review';
 import Modal from '@/components/common/ModalUi';
 import Button from '@/components/ui/Buttons';
@@ -12,16 +10,13 @@ import { triggerStore } from '@/store/triggerStore';
 
 const ReviewDeleteMessageModal = ({ reviewId }: { reviewId: number }) => {
   const closeModal = useModalStore((state) => state.closeModal);
-  const [isPending, startTransition] = useTransition();
   const { product } = useCurrentProductStore();
   const { setTrigger } = triggerStore();
 
-  const handleClickDelete = () => {
-    startTransition(async () => {
-      await deleteReview(reviewId, product.id);
-      closeModal();
-      setTrigger();
-    });
+  const handleClickDelete = async () => {
+    await deleteReview(reviewId, product.id);
+    closeModal();
+    setTrigger();
   };
 
   const handleClickCancel = () => {
@@ -35,7 +30,7 @@ const ReviewDeleteMessageModal = ({ reviewId }: { reviewId: number }) => {
         {'리뷰를 정말 삭제하시겠습니까?'}
       </div>
       <div className='flex gap-[10px]'>
-        <Button type='button' variant='primary' disabled={isPending} onClick={handleClickDelete}>
+        <Button type='button' variant='primary' onClick={handleClickDelete}>
           예
         </Button>
         <Button type='button' variant='tertiary' onClick={handleClickCancel}>
