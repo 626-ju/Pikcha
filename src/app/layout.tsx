@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes';
 import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 import SonnerToast from '@/components/common/SonnerToast';
+import ThemeToggle from '@/components/common/ThemeToggle';
 import FloatingButton from '@/components/ui/FloatingButton';
 
 import pretendard from '../lib/utils/fonts/pretendard';
@@ -22,14 +23,17 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     <html lang='ko'>
       <body className={pretendard.variable}>
         <ThemeProvider
-          attribute='class' // html 태그에 className 추가 (ex. class="dark")
-          defaultTheme='system' // 기본값: OS 설정 따름
-          enableSystem={true} // 시스템 다크모드 자동 감지
+          attribute='class' // Tailwind v4 class 전략
+          defaultTheme='dark' // 기본 테마
+          enableSystem={false} // 시스템 모드 비활성화
+          themes={['light', 'dark']} // 사용 테마 제한
+          storageKey='pickcha-theme' // 로컬스토리지 키
         >
           <SessionProvider>
             {/* 서버 컴포넌트에서 세션 정보를 가져와 클라이언트 컴포넌트에 전달 */}
             <GlobalNav />
             {children}
+            <ThemeToggle />
             <FloatingButton />
             <SonnerToast />
             <SpeedInsights />

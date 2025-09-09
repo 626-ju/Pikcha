@@ -3,56 +3,49 @@
 
 import { useEffect, useState } from 'react';
 
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-/**
- * 라이트/다크/시스템 3단 토글
- * - Tailwind v4 + next-themes(class 전략) 조합
- * - 마운트 후에만 현재 테마 노출(SSR 깜빡임 방지)
- */
+import { cn } from '@/lib/utils'; // 클래스 머지 유틸
+
+/** 단일 버튼 라이트↔다크 토글(시스템 모드 제거) */
 export default function ThemeToggle() {
-  const { theme, resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme(); // enableSystem=false면 theme===resolvedTheme
+  const [mounted, setMounted] = useState(false); // SSR 깜빡임 방지
 
   useEffect(() => setMounted(true), []);
 
-  // 마운트 이전에는 UI만 보여주고 값 렌더링은 생략
   if (!mounted) {
     return (
-      <div className='inline-flex items-center gap-1 rounded-md border px-2 py-1 text-sm'>
-        테마
-        <span className='opacity-60'>(…)</span>
+      <div className='inline-flex h-9 w-9 items-center justify-center rounded-md border opacity-70'>
+        <span className='sr-only'>테마</span>
       </div>
     );
   }
 
+  const isDark = resolvedTheme === 'dark'; // 현재 적용 테마 판별
+
+  const position = 'fixed right-10 bottom-30';
+  const sizeShape = 'inline-flex h-15 w-15 items-center justify-center rounded-full';
+  const interaction = 'transition active:scale-95 focus:outline-none ';
+  const border = 'border border-transparent';
+  const color = 'text-white light:bg-orange-500 bg-indigo-800 dark:hover:bg-indigo-700';
+
   return (
-    <div className='inline-flex items-center gap-1 rounded-md border px-2 py-1 text-sm'>
-      <button
-        type='button'
-        onClick={() => setTheme('light')}
-        className={`rounded px-2 py-1 ${resolvedTheme === 'light' ? 'bg-secondary text-secondary-foreground' : ''}`}
-        aria-pressed={resolvedTheme === 'light'}
-      >
-        Light
-      </button>
-      <button
-        type='button'
-        onClick={() => setTheme('dark')}
-        className={`rounded px-2 py-1 ${resolvedTheme === 'dark' ? 'bg-secondary text-secondary-foreground' : ''}`}
-        aria-pressed={resolvedTheme === 'dark'}
-      >
-        Dark
-      </button>
-      <button
-        type='button'
-        onClick={() => setTheme('system')}
-        className={`rounded px-2 py-1 ${theme === 'system' ? 'bg-secondary text-secondary-foreground' : ''}`}
-        aria-pressed={theme === 'system'}
-        title='시스템 테마를 따릅니다'
-      >
-        System
-      </button>
-    </div>
+    <button
+      type='button'
+      onClick={() => setTheme(isDark ? 'light' : 'dark')} // 라이트↔다크 전환
+      aria-pressed={isDark}
+      title={isDark ? '다크 → 라이트' : '라이트 → 다크'} // 다음 상태 힌트
+      data-theme-applied={resolvedTheme} // 스타일 확장용 data-attr
+      className={cn(position, sizeShape, interaction, border, color)}
+    >
+      {isDark ? (
+        <Moon /> // 다크 아이콘
+      ) : (
+        <Sun /> // 라이트 아이콘
+      )}
+      <span className='sr-only'>{isDark ? '다크 → 라이트' : '라이트 → 다크'}</span>
+    </button>
   );
 }
