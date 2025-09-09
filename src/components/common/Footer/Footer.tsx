@@ -1,4 +1,8 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
+
+import { usePathname } from 'next/navigation';
 
 import FacebookIcon from '@/assets/icon/Icon-facebook.svg';
 import InstaIcon from '@/assets/icon/Icon-instagram.svg';
@@ -6,6 +10,20 @@ import TempLogo from '@/assets/icon/Icon-templogo.svg';
 import XIcon from '@/assets/icon/Icon-x.svg';
 
 const Footer = () => {
+  const pathname = usePathname();
+
+  const [hideFooter, setHideFooter] = useState(false);
+
+  useEffect(() => {
+    const hideFooterPaths = ['/signin', '/signup'];
+    const hideByPath = hideFooterPaths.includes(pathname);
+    const hideByClass = document.body.classList.contains('hide-footer');
+
+    setHideFooter(hideByPath || hideByClass);
+  }, [pathname]);
+
+  if (hideFooter) return null;
+
   return (
     <footer className='text-mogazoa-14px-400 bg-black-1c1c22 text-white-f1f1f5/60 border-black-2e2e3a relative flex flex-col justify-between border-t-2 px-5 py-10 shadow-[0_-1px_2px_0_rgba(0,0,0,1)] xl:px-[140px] 2xl:flex-row'>
       {/* shadow-[0_-1px_2px_0_rgba(0,0,0,1)] */}

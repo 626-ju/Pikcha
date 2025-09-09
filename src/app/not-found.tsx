@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import Button from '@/components/ui/Buttons';
@@ -7,6 +9,14 @@ import { cn } from '@/lib/utils';
 
 const Page = ({}) => {
   const router = useRouter();
+
+  useEffect(() => {
+    document.body.classList.add('hide-footer');
+
+    return () => {
+      document.body.classList.remove('hide-footer');
+    };
+  }, []);
 
   return (
     <div className='w-full'>
