@@ -21,13 +21,18 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
   const currentProductId = Number(productId);
 
   const product = await getProductDetail(currentProductId);
-  const reviews = await getProductReviews(currentProductId);
+  const { list: reviews, nextCursor } = await getProductReviews(currentProductId);
+
+  const posterImage =
+    product.image && product.image !== 'https://example.com'
+      ? product.image
+      : '/images/noImage.png';
 
   return (
     <div className='mx-auto max-w-250 px-5 py-10'>
-      <header className='flex w-full flex-col md:max-h-[300px] md:flex-row'>
-        <div className='relative aspect-[27/40] h-60 shrink-0 transition-normal duration-300 md:max-h-[300px] xl:h-[300px]'>
-          <Image src={product.image} alt='영화 포스터' fill className='object-cover' />
+      <header className='flex w-full flex-col md:max-h-[350px] md:flex-row'>
+        <div className='relative mx-auto aspect-[5/7] w-full shrink-0 transition-normal duration-300 md:max-w-[250px]'>
+          <Image src={posterImage} alt='영화 포스터' fill priority className='object-cover' />
         </div>
         <div className='mt-5 flex w-full flex-col gap-[10px] md:mt-0 md:pl-5'>
           <div className='flex justify-between'>
@@ -45,7 +50,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
           <ProductTriggers product={product} />
         </div>
       </header>
-      <section className='my-20'>
+      <section className='mt-20 mb-15'>
         <h2 className='text-mogazoa-18px-600 xl:text-mogazoa-20px-600 my-9'>상품통계</h2>
         <div className='flex flex-col gap-[15px] md:flex-row'>
           <MetricCard variant='rating' product={product} />
@@ -53,7 +58,11 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
           <MetricCard variant='review' product={product} />
         </div>
       </section>
-      <ReviewSection productId={currentProductId} initialReviews={reviews} />
+      <ReviewSection
+        productId={currentProductId}
+        initialReviews={reviews}
+        initialCursor={nextCursor}
+      />
     </div>
   );
 };

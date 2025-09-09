@@ -22,8 +22,8 @@ const CompareReviewRow = ({ products }: CompareReviewRowProps) => {
     const fetchReviews = async () => {
       try {
         const [reviewsData1, reviewsData2] = await Promise.all([
-          getProductReviews(product1.id, 'ratingDesc'),
-          getProductReviews(product2.id, 'ratingDesc'),
+          (await getProductReviews(product1.id, 'ratingDesc')).list,
+          (await getProductReviews(product2.id, 'ratingDesc')).list,
         ]);
         setReviews1(reviewsData1.slice(0, 2));
         setReviews2(reviewsData2.slice(0, 2));

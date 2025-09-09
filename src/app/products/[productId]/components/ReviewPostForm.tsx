@@ -22,10 +22,12 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
     register,
     handleSubmit,
     control,
-    formState: { isValid, isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<ReviewFormValue>({
     resolver: zodResolver(postReviewSchema),
-    mode: 'all',
+    mode: 'onChange',
+
+    defaultValues: { rating: 0 },
   });
 
   const onSubmit = async (data: ReviewFormValue) => {
@@ -43,9 +45,23 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
       <Controller
         name='rating'
         control={control}
-        render={({ field }) => <StarRating value={field.value} onChange={field.onChange} />}
+        render={({ field }) => (
+          <StarRating
+            value={field.value}
+            onChange={field.onChange}
+            className={errors.rating ? 'border-red-ff0000 animate-shake border-[1px]' : ''}
+          />
+        )}
       />
-      <Textbox placeholder='리뷰를 작성해 주세요.' {...register('content')} maxLength={500} />
+      <Textbox
+        placeholder='리뷰를 작성해 주세요.'
+        {...register('content')}
+        maxLength={500}
+        errorMessage={errors.content?.message}
+      />
+      {/* <p className={`text-red-ff0000 text-mogazoa-12px-300 h-3`}>
+        {errors && (errors.content?.message ?? errors.rating?.message)}
+      </p>  <- 최종 픽스되면 지우기 */}
       <div className='my-scrollbar w-[295px] overflow-x-scroll md:w-[510px] xl:w-[540px]'>
         <Controller
           name='images'
@@ -55,13 +71,8 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
           )}
         />
       </div>
-      <Button
-        variant='primary'
-        type='submit'
-        disabled={!isValid || isSubmitting}
-        className='mt-[15px]'
-      >
-        작성하기
+      <Button variant='primary' type='submit' disabled={isSubmitting} className='mt-[15px]'>
+        {(errors && (errors.content?.message ?? errors.rating?.message)) || '리뷰 등록하기'}
       </Button>
     </form>
   );
