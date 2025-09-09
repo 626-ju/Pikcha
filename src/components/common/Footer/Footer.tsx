@@ -7,33 +7,42 @@ import XIcon from '@/assets/icon/Icon-x.svg';
 
 const Footer = () => {
   return (
-    <footer className='text-mogazoa-14px-400 bg-black-1c1c22 text-white-f1f1f5/60 border-black-2e2e3a relative flex flex-col justify-between border-t-2 px-5 pt-10 pb-20 shadow-[0_-1px_2px_0_rgba(0,0,0,1)] md:flex-row xl:px-[140px]'>
+    <footer className='text-mogazoa-14px-400 bg-black-1c1c22 text-white-f1f1f5/60 border-black-2e2e3a relative flex flex-col justify-between border-t-2 px-5 py-10 shadow-[0_-1px_2px_0_rgba(0,0,0,1)] xl:px-[140px] 2xl:flex-row'>
       {/* shadow-[0_-1px_2px_0_rgba(0,0,0,1)] */}
       {/* gnb 그림자 -> 아래쪽에만 생김 shadow-sm shadow-black*/}
-      <div>
+      <div className='mr-20'>
         <ul className='mb-5 flex items-center gap-2.5'>
-          <li className='h-5 border-r-1 pr-2.5'>고객센터</li>
+          <li className='border-white-f1f1f5/60 h-5 border-r-1 pr-2.5'>문의</li>
           <li>pickcha@gmail.com ,</li>
-          <li>010-7753-2415</li>
+          <li>
+            <a
+              href='https://github.com/TEAM3-Mogazoa/Mogazoa'
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label='픽챠 깃허브로 이동'
+              className='hover:underline'
+            >
+              pickcha [github]
+            </a>
+          </li>
         </ul>
 
         <ul className='mb-5 flex items-center gap-2.5'>
-          <li className='border-r-1 pr-2.5'>(주) 픽챠 </li>
-          <li className='border-r-1 pr-2.5'>대표 강영훈 </li>
-          <li>서울특별시 중구 청계천로 100 시그니쳐타워 동관 10층</li>
-        </ul>
-
-        <ul className='mb-5 flex items-center gap-5'>
-          <li>
-            <TempLogo width={80} height={40} />
-          </li>
-          <li> &copy; 2025 by codeit, All rights reserved.</li>
+          <li className='border-white-f1f1f5/60 border-r-1 pr-2.5'> 픽챠 </li>
+          <li className='border-white-f1f1f5/60 border-r-1 pr-2.5'>김성주 나소연 남만재 배민지</li>
+          <li>코드잇 16기 파트4 3팀</li>
         </ul>
       </div>
 
-      {/* 너무 휑해서 여기에 뭐 좀 더 넣어야겠는데? */}
+      <ul className='mb-5 flex items-center gap-2.5 2xl:absolute 2xl:left-1/2 2xl:mt-[-8px] 2xl:-translate-x-1/2 2xl:flex-col'>
+        <li>
+          <TempLogo width={80} height={40} />
+        </li>
+        <li className='2xl:text-center'>&copy; 2025 by 3team All rights reserved.</li>
+      </ul>
 
-      <ul className='text-white-f1f1f5/60 relative flex items-end gap-5 md:absolute md:right-5 md:bottom-25 xl:right-30'>
+      <ul className='text-white-f1f1f5/60 relative flex items-end gap-5 md:absolute md:right-5 md:bottom-15 md:justify-end xl:right-30'>
+        {/* md:absolute md:right-5 md:bottom-15 xl:right-30  */}
         <li className='hover:text-white-f1f1f5'>
           <a
             href='https://www.instagram.com/'
