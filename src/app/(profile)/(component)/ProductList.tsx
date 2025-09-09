@@ -31,7 +31,7 @@ const ProductList = ({ userid, initialData }: Props) => {
   );
 
   const onIntersect = useCallback(() => {
-    if (!isFetching && cursor !== null) fetchProducts();
+    if (!isFetching && cursor !== null && cursor > 0) fetchProducts();
     // eslint-disable-next-line
   }, [cursor, isFetching]);
 
