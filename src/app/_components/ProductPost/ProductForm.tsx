@@ -1,8 +1,11 @@
+'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useErrorBoundary } from 'react-error-boundary';
 import { Controller, useForm } from 'react-hook-form';
 
 import { patchProduct, postProduct } from '@/actions/productDetail';
+import ProductDeleteMessageModal from '@/app/products/[productId]/components/ProductDeleteMessageModal';
 import CategoryDropdown from '@/components/common/dropdowns/CategoryDropdown';
 import FileInput from '@/components/common/FileInput';
 import Input from '@/components/common/Input';
@@ -12,9 +15,10 @@ import { useModalStore } from '@/store/modalStore';
 import { productSchema } from '@/types/product/productSchema';
 import { ProductDetail, ProductFormValue } from '@/types/product/productType';
 
-const ProductForm = ({ product, mode }: { product?: ProductDetail; mode: 'create' | 'edit' }) => {
+const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create' | 'edit' }) => {
   const { showBoundary } = useErrorBoundary();
   const closeModal = useModalStore((state) => state.closeModal);
+  const openModal = useModalStore((state) => state.openModal);
 
   const {
     register,
@@ -54,6 +58,10 @@ const ProductForm = ({ product, mode }: { product?: ProductDetail; mode: 'create
     }
   };
 
+  const handleClickDelete = async () => {
+    openModal({ component: ProductDeleteMessageModal });
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-[10px]'>
       <div className='flex flex-col gap-[10px] md:flex-row-reverse md:items-center md:gap-[15px]'>
@@ -82,7 +90,7 @@ const ProductForm = ({ product, mode }: { product?: ProductDetail; mode: 'create
       <Textbox
         placeholder='작품에 대해 설명해주세요!'
         {...register('description')}
-        maxLength={500}
+        maxLength={300}
       />
       <Button
         variant='primary'
@@ -91,6 +99,15 @@ const ProductForm = ({ product, mode }: { product?: ProductDetail; mode: 'create
       >
         {mode === 'create' ? '추가하기' : '수정하기'}
       </Button>
+      {mode === 'edit' && (
+        <Button
+          variant='tertiary'
+          className='border-red-ff0000/80 text-red-ff0000/80'
+          onClick={handleClickDelete}
+        >
+          삭제하기
+        </Button>
+      )}
     </form>
   );
 };

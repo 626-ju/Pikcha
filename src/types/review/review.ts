@@ -23,6 +23,11 @@ export interface ReviewDetail {
   id: number;
 }
 
+export interface ReviewResponse {
+  nextCursor: number;
+  list: ReviewDetail[];
+}
+
 export interface ReviewCardProps {
   review: ReviewDetail;
   productId: number;

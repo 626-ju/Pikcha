@@ -20,11 +20,11 @@ const ProductTriggers = ({ product }: { product: ProductDetail }) => {
   setProduct(product);
 
   const handleClickPostReviewModal = () => {
-    return openModal({ component: ReviewPostModal, props: { product: product } });
+    return openModal({ component: ReviewPostModal, props: { mode: 'create' } });
   };
 
   const handleClickPatchProductModal = () => {
-    return openModal({ component: ProductModal, props: { product: product, mode: 'edit' } });
+    return openModal({ component: ProductModal, props: { mode: 'edit' } });
   };
 
   return (
