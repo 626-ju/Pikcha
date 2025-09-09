@@ -79,3 +79,18 @@ export const patchProduct = async ({
 
   return res;
 };
+
+export const deleteProduct = async (productId: number) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
+  const res = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${productId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return res;
+};

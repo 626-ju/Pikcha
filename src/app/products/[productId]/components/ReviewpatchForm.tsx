@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useErrorBoundary } from 'react-error-boundary';
 import { Controller, useForm } from 'react-hook-form';
@@ -24,22 +22,15 @@ const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
     register,
     handleSubmit,
     control,
-    formState: { isValid, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm<ReviewFormValue>({
     resolver: zodResolver(patchReviewSchema),
-    mode: 'all',
+    mode: 'onChange',
     defaultValues: {
       rating: review.rating,
       content: review.content,
       images: review.reviewImages?.map((re) => re.source) ?? [],
     },
-  });
-
-  useEffect(() => {
-    console.log(
-      'defaultValues.images: ',
-      review.reviewImages.map((re) => re.source),
-    );
   });
 
   const onSubmit = async (data: ReviewFormValue) => {
@@ -69,7 +60,12 @@ const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
         control={control}
         render={({ field }) => <StarRating value={field.value} onChange={field.onChange} />}
       />
-      <Textbox placeholder='리뷰를 작성해 주세요.' {...register('content')} maxLength={500} />
+      <Textbox
+        placeholder='리뷰를 작성해 주세요.'
+        {...register('content')}
+        maxLength={500}
+        errorMessage={errors.content?.message}
+      />
       <div className='my-scrollbar w-[295px] overflow-x-scroll md:w-[510px] xl:w-[540px]'>
         <Controller
           name='images'
@@ -82,10 +78,10 @@ const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
       <Button
         variant='primary'
         type='submit'
-        disabled={!isValid || isSubmitting || !isDirty}
+        disabled={isSubmitting || !isDirty || !isValid}
         className='mt-[15px]'
       >
-        작성하기
+        {(errors && (errors.content?.message ?? errors.rating?.message)) || '리뷰 수정하기'}
       </Button>
     </form>
   );

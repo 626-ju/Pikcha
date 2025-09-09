@@ -7,8 +7,8 @@ import ThumbChip from '@/components/ui/chips/ThumbChip';
 import { useModalStore } from '@/store/modalStore';
 import { ReviewCardProps } from '@/types/review/review';
 
-import DeleteMessageModal from './MessageModal';
 import ReviewAvatar from './ReviewAvatar';
+import ReviewDeleteMessageModal from './ReviewDeleteMessageModal';
 import ReviewModal from './ReviewModal';
 
 const isValidUrl = (url: string) => {
@@ -36,7 +36,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
   };
 
   const handleClickDeleteModal = () => {
-    return openModal({ component: DeleteMessageModal, props: { reviewId: review.id } });
+    return openModal({ component: ReviewDeleteMessageModal, props: { reviewId: review.id } });
   };
 
   return (

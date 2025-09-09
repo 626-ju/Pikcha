@@ -8,15 +8,21 @@ import { cn } from '@/lib/utils';
 interface StarRatingProps {
   value: number;
   onChange: (value: number) => void;
+  className?: string;
 }
 
-const StarRating = ({ value = 0, onChange }: StarRatingProps) => {
+const StarRating = ({ value = 0, onChange, className }: StarRatingProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
 
   const maxRating = 5;
 
   return (
-    <div>
+    <div
+      className={cn(
+        'border-black-1c1c22 flex w-38 items-center rounded-lg border-[1px] p-1',
+        className,
+      )}
+    >
       {Array.from({ length: maxRating }, (_, i) => {
         const starValue = i + 1;
         const filled = hovered != null ? starValue <= hovered : starValue <= value;
