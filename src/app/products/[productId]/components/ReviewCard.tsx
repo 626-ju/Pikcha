@@ -7,8 +7,8 @@ import ThumbChip from '@/components/ui/chips/ThumbChip';
 import { useModalStore } from '@/store/modalStore';
 import { ReviewCardProps } from '@/types/review/review';
 
-import DeleteMessageModal from './MessageModal';
 import ReviewAvatar from './ReviewAvatar';
+import ReviewDeleteMessageModal from './ReviewDeleteMessageModal';
 import ReviewModal from './ReviewModal';
 
 const isValidUrl = (url: string) => {
@@ -36,11 +36,11 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
   };
 
   const handleClickDeleteModal = () => {
-    return openModal({ component: DeleteMessageModal, props: { reviewId: review.id } });
+    return openModal({ component: ReviewDeleteMessageModal, props: { reviewId: review.id } });
   };
 
   return (
-    <div className='bg-black-252530 border-black-353542 flex w-full flex-col gap-5 rounded-[8px] border-[1px] p-5 transition-normal duration-300 md:flex-row'>
+    <div className='bg-black-252530 light:bg-white border-black-353542 flex w-full flex-col gap-5 rounded-[8px] border-[1px] p-5 transition-normal duration-300 md:flex-row'>
       <ReviewAvatar user={review.user} rating={review.rating} />
       <div className='flex w-full flex-col gap-5'>
         <div className='text-mogazoa-12px-400'>{review.content}</div>

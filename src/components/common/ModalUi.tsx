@@ -1,6 +1,8 @@
 'use client';
 
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
+
+import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 import { useModalStore } from '@/store/modalStore';
@@ -24,6 +26,10 @@ const contentStyle = {
 
 const Modal = ({ showCloseButton = true, variant = 'basic', className, children }: Props) => {
   const closeModal = useModalStore((state) => state.closeModal);
+  const clearModal = useModalStore((state) => state.clearModal);
+
+  const pathName = usePathname();
+  const pathRef = useRef(pathName);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -32,6 +38,11 @@ const Modal = ({ showCloseButton = true, variant = 'basic', className, children 
       document.body.style.overflow = '';
     };
   }, []);
+
+  //뒤로가기 클릭 시 모달 초기화
+  useEffect(() => {
+    if (pathName !== pathRef.current) clearModal();
+  }, [pathName, clearModal]);
 
   return (
     <Dialog

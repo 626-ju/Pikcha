@@ -18,7 +18,7 @@ const Sidebar = ({ selected, q }: { selected: number | null; q: string }) => {
           return (
             <button
               key={id}
-              className={`h-[50px] w-[220px] rounded-md py-[15px] pl-[20px] text-left ${isSelected ? 'text-white-f1f1f5 bg-black-353542' : 'text-gray-6e6e82'}`}
+              className={`h-[50px] w-[220px] rounded-md py-[15px] pl-[20px] text-left ${isSelected ? 'text-white-f1f1f5 light:text-gray-6e6e82 bg-black-353542 light:bg-gray-200' : 'text-gray-6e6e82'}`}
               onClick={() => navigateToCategory(isSelected ? null : numId, q)}
             >
               {label}

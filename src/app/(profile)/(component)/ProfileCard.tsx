@@ -18,7 +18,7 @@ const ProfileCard = async ({ userid, myPage }: Props) => {
 
   return (
     // 335->296
-    <div className='border-black-353542 bg-black-252530 relative flex min-w-[296px] flex-col items-center gap-7.5 rounded-[12px] px-5 py-7.5 md:px-7.5 xl:mr-[60px] xl:h-fit xl:w-[340px] xl:gap-10 xl:px-5 xl:py-10'>
+    <div className='border-black-353542 bg-black-252530 relative flex min-w-[296px] flex-col items-center gap-7.5 rounded-[12px] px-5 py-7.5 md:px-7.5 xl:mr-[60px] xl:h-fit xl:w-[340px] xl:min-w-[340px] xl:gap-10 xl:px-5 xl:py-10'>
       {/* 오버레이 */}
       <div
         className='pointer-events-none absolute inset-0 h-full w-full bg-center opacity-20 blur-2xl'

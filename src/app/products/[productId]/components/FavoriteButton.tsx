@@ -18,7 +18,12 @@ const FavoriteButton = ({ productId, initialState }: FavoriteButtonProps) => {
     initialState,
   });
   return (
-    <button type='button' onClick={handleToggle} className='h-6 w-6 xl:h-7 xl:w-7'>
+    <button
+      type='button'
+      aria-label='찜하기'
+      onClick={handleToggle}
+      className='h-6 w-6 xl:h-7 xl:w-7'
+    >
       {isToggled ? <FavoriteIcon /> : <UnFavoriteIcon />}
     </button>
   );
