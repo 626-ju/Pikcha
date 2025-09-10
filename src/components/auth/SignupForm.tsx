@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { signUp } from '@/actions/auth';
 import Input from '@/components/common/Input';
@@ -15,20 +16,20 @@ import { SignupFormValues, signupSchema } from '@/lib/validations/auth';
 
 /** 회원가입 입력 폼 */
 const SignupForm = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
     mode: 'onBlur',
   });
 
   const onSubmit = async (data: SignupFormValues) => {
-    setErrorMessage(null);
+    setIsLoading(true);
 
     const formData = new FormData();
     formData.append('email', data.email);
@@ -47,9 +48,11 @@ const SignupForm = () => {
         router.replace(result.redirectTo);
         return;
       }
-      setErrorMessage(result.error ?? '회원가입에 실패했습니다.');
+      toast.error(result.error ?? '회원가입에 실패했습니다.');
+      setIsLoading(false);
     } catch {
-      setErrorMessage('알 수 없는 오류가 발생했습니다.');
+      toast.error('알 수 없는 오류가 발생했습니다.');
+      setIsLoading(false);
     }
   };
 
@@ -103,10 +106,9 @@ const SignupForm = () => {
       </div>
 
       <div>
-        <Button className='shrink-0' disabled={isSubmitting}>
-          {isSubmitting ? '가입 중...' : '가입하기'}
+        <Button className='shrink-0' disabled={isLoading}>
+          {isLoading ? '가입 중...' : '가입하기'}
         </Button>
-        {errorMessage && <p className='my-5 text-center text-sm text-red-500'>{errorMessage}</p>}
       </div>
     </form>
   );
