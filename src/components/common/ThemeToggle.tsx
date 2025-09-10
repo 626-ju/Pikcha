@@ -1,19 +1,20 @@
-// src/components/common/ThemeToggle.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 
 import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
 
-import { cn } from '@/lib/utils'; // 클래스 머지 유틸
+import { cn } from '@/lib/utils';
 
-/** 단일 버튼 라이트↔다크 토글(시스템 모드 제거) */
 export default function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme(); // enableSystem=false면 theme===resolvedTheme
-  const [mounted, setMounted] = useState(false); // SSR 깜빡임 방지
+  const [mounted, setMounted] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    const root = document.documentElement;
+    setIsDark(root.classList.contains('dark'));
+  }, []);
 
   if (!mounted) {
     return (
@@ -23,7 +24,23 @@ export default function ThemeToggle() {
     );
   }
 
-  const isDark = resolvedTheme === 'dark'; // 현재 적용 테마 판별
+  const toggleTheme = () => {
+    const root = document.documentElement;
+
+    if (isDark) {
+      root.classList.remove('dark');
+      root.classList.add('light');
+      localStorage.setItem('theme', 'light');
+      document.cookie = `theme=light; path=/; max-age=31536000; samesite=lax`;
+      setIsDark(false);
+    } else {
+      root.classList.remove('light');
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      document.cookie = `theme=dark; path=/; max-age=31536000; samesite=lax`;
+      setIsDark(true);
+    }
+  };
 
   const position = 'fixed right-10 bottom-30';
   const sizeShape = 'inline-flex h-15 w-15 items-center justify-center rounded-full';
@@ -34,17 +51,13 @@ export default function ThemeToggle() {
   return (
     <button
       type='button'
-      onClick={() => setTheme(isDark ? 'light' : 'dark')} // 라이트↔다크 전환
+      onClick={toggleTheme}
       aria-pressed={isDark}
-      title={isDark ? '다크 → 라이트' : '라이트 → 다크'} // 다음 상태 힌트
-      data-theme-applied={resolvedTheme} // 스타일 확장용 data-attr
+      title={isDark ? '다크 → 라이트' : '라이트 → 다크'}
+      data-theme-applied={isDark ? 'dark' : 'light'}
       className={cn(position, sizeShape, interaction, border, color)}
     >
-      {isDark ? (
-        <Moon /> // 다크 아이콘
-      ) : (
-        <Sun /> // 라이트 아이콘
-      )}
+      {isDark ? <Moon /> : <Sun />}
       <span className='sr-only'>{isDark ? '다크 → 라이트' : '라이트 → 다크'}</span>
     </button>
   );
