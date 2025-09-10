@@ -70,7 +70,7 @@ const FloatingButton = () => {
       {session && (
         <div className='group/add flex items-center gap-4'>
           <div className='bg-white-f1f1f5 absolute -left-32 ml-auto hidden max-w-xs rounded-2xl px-3 py-2 text-gray-900 shadow group-hover/add:block'>
-            상품 추가하기
+            영화 추가하기
             <span className='border-l-white-f1f1f5 absolute top-1/2 -right-[7px] -mt-1 h-0 w-0 border-y-8 border-b-0 border-l-8 border-y-transparent'></span>
           </div>
           <button
