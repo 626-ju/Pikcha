@@ -2,10 +2,12 @@
 
 import React from 'react';
 
-import { LoadingNotice } from '@/components/oauth/LoadingNotice';
-import { NicknameForm } from '@/components/oauth/NicknameForm';
 import { useKakaoOnboardingFlow } from '@/hooks/useKakaoOnboardingFlow';
 import { cn } from '@/lib/utils';
+
+import { NicknameForm } from '../(components)/NicknameForm';
+
+import { LoadingNotice } from '@/components/oauth/LoadingNotice';
 
 /** 카카오 온보딩 페이지 */
 const OauthSignupPage = () => {
