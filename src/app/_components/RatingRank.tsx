@@ -15,8 +15,8 @@ const RatingRank = ({ products }: RatingRankProps) => {
 
   return (
     <section>
-      <h1 className='text-mogazoa-24px-600 text-white-f1f1f5 light:text-gray-6e6e82'>
-        별점이 높은 상품 <span className='text-mogazoa-24px-600 text-gradient'>TOP 6</span>
+      <h1 className='text-mogazoa-24px-600 text-white-f1f1f5'>
+        별점이 높은 영화 <span className='text-mogazoa-24px-600 text-gradient'>TOP 8</span>
       </h1>
       <ProductList>
         {products.map((p) => (
