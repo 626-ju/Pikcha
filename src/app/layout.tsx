@@ -5,7 +5,6 @@ import { ThemeProvider } from 'next-themes';
 import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 import SonnerToast from '@/components/common/SonnerToast';
-import ThemeToggle from '@/components/common/ThemeToggle';
 import FloatingButton from '@/components/ui/FloatingButton';
 
 import pretendard from '../lib/utils/fonts/pretendard';
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang='ko'>
+    <html lang='ko' suppressHydrationWarning>
       <body className={pretendard.variable}>
         <ThemeProvider
           attribute='class' // Tailwind v4 class 전략
@@ -33,7 +32,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             {/* 서버 컴포넌트에서 세션 정보를 가져와 클라이언트 컴포넌트에 전달 */}
             <GlobalNav />
             {children}
-            <ThemeToggle />
             <FloatingButton />
             <SonnerToast />
             <SpeedInsights />
