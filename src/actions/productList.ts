@@ -8,10 +8,10 @@ import { ProductListRes, ProductSearch } from '@/types/products/productList';
 const API_BASE_URL = process.env.API_BASE_URL ?? '';
 const TEAM_ID = process.env.TEAM_ID ?? '';
 
-async function api<T>(path: string, init?: RequestInit): Promise<T> {
+async function product<T>(path: string, init?: RequestInit): Promise<T> {
   return await fetcher(`${API_BASE_URL}/${TEAM_ID}${path}`, {
     ...init,
-    next: { revalidate: 30 },
+    next: { revalidate: 300 },
     headers: { 'Content-Type': 'application/json', ...(init?.headers || {}) },
   });
 }
@@ -26,7 +26,7 @@ export async function searchProducts(params: ProductSearch) {
   if (params.order != null) sp.set('order', String(params.order));
 
   const url = `/products?${sp.toString()}`;
-  return api<ProductListRes>(url);
+  return product<ProductListRes>(url);
 }
 
 // 검색창 검색 시 검색창 하단에 추천 리스트를 보여주는 서버 액션
@@ -38,7 +38,7 @@ type SuggestionProductListRes = { list: SuggestionProduct[] };
 const fetchByKeyword = async (keyword: string): Promise<SuggestionProduct[]> => {
   const qs = new URLSearchParams({ keyword }).toString();
   try {
-    const res = await api<SuggestionProductListRes>(`/products?${qs}`);
+    const res = await product<SuggestionProductListRes>(`/products?${qs}`);
     return res.list ?? [];
   } catch {
     return [];
