@@ -12,11 +12,13 @@ const SearchSuggestions = ({
   suggestions,
   onSelect,
   onClose,
+  onSelectionChange,
 }: {
   query: string;
   suggestions: { id: number; name: string; categoryId: number }[];
   onSelect: (name: string) => void;
   onClose: () => void;
+  onSelectionChange?: (name: string | null) => void;
 }) => {
   const ref = useRef<HTMLUListElement | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -62,13 +64,21 @@ const SearchSuggestions = ({
     setSelectedIndex(-1);
   }, [suggestions]);
 
+  useEffect(() => {
+    if (selectedIndex >= 0 && suggestions[selectedIndex]) {
+      onSelectionChange?.(suggestions[selectedIndex].name);
+    } else {
+      onSelectionChange?.(null);
+    }
+  }, [selectedIndex, suggestions, onSelectionChange]);
+
   if (!query || suggestions.length === 0) return null;
 
   return (
     <ul
       ref={ref}
       role='listbox'
-      className='bg-black-252530 border-black-353542 absolute z-50 mt-1 w-full rounded-md border'
+      className='bg-black-252530 light:bg-white border-black-353542 absolute z-50 mt-1 w-full rounded-md border'
     >
       {suggestions.slice(0, 8).map((p, index) => (
         <li key={p.id}>

@@ -59,7 +59,12 @@ export default function SearchResultList({
   return (
     <div className='relative'>
       <div className='absolute top-[-30px] right-0 z-10'>
-        <SortDropdown variant='product' onChange={handleSortChange} menuPosition='right' />
+        <SortDropdown
+          variant='product'
+          option={sortBy}
+          onChange={handleSortChange}
+          menuPosition='right'
+        />
       </div>
       <ProductList>
         {items.map((product) => (

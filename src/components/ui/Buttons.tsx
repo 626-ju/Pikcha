@@ -44,7 +44,7 @@ const Button: React.FC<ButtonProps> = ({
           onClick={onClick}
           disabled={disabled}
         >
-          <div className='bg-black-1c1c22 flex h-full w-full items-center justify-center rounded-lg'>
+          <div className='bg-black-1c1c22 light:bg-white flex h-full w-full items-center justify-center rounded-lg'>
             <div className={`${disabled ? 'text-gray-6e6e82' : 'text-gradient'}`}>{children}</div>
           </div>
         </button>

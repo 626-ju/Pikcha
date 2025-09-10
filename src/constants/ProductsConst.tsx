@@ -22,7 +22,7 @@ export const SORT_OPTION_REVIEWS: Sort[] = [
 ];
 
 export const SORT_OPTION_USER_PAGE: Sort[] = [
-  { value: 'reviewed-products', name: '리뷰 남긴 상품' },
-  { value: 'created-products', name: '등록한 상품' },
-  { value: 'favorite-products', name: '찜한 상품' },
+  { value: 'reviewed-products', name: '리뷰 남긴 영화' },
+  { value: 'created-products', name: '등록한 영화' },
+  { value: 'favorite-products', name: '찜한 영화' },
 ];

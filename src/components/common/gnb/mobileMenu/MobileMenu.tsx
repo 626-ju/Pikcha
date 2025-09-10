@@ -39,14 +39,14 @@ const MobileMenu = () => {
         <>
           {/* 오버레이 */}
           <div
-            className={`fixed top-[70px] right-0 bottom-0 left-0 z-40 bg-black/50 duration-300 ${
+            className={`fixed top-[70px] right-0 bottom-0 left-0 z-50 bg-black/50 duration-300 ${
               isClosing ? 'animate-out fade-out' : 'animate-in fade-in'
             }`}
             onClick={handleClose}
           />
           {/* 사이드 메뉴 */}
           <aside
-            className={`bg-black-252530 fixed top-[70px] bottom-0 left-0 z-50 w-80 duration-300 ease-out ${
+            className={`bg-black-252530 fixed top-[70px] bottom-0 left-0 z-9999 w-80 duration-300 ease-out ${
               isClosing ? 'animate-out slide-out-to-left' : 'animate-in slide-in-from-left'
             }`}
           >
