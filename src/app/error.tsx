@@ -7,7 +7,7 @@
 //이때 FallbackComponent로 오는 ErrorFallback이 쓰이기 때문에 타입이 다르게 들어올 거라고 생각했어요 ->(이 컴포넌트를 종류가 다른 두 에러바운더리에서 사용한다는 말)
 //-> 그래서 아래와 같이 확장하고 reset이 있으면 reset을 쓰고 resetErrorBoundary가 있으면 이걸 쓰는 식으로 짰습니다.
 
-import React, { startTransition } from 'react';
+import React, { startTransition, useEffect } from 'react';
 
 import { useRouter } from 'next/navigation';
 import { FallbackProps } from 'react-error-boundary';
@@ -28,6 +28,14 @@ const ErrorFallback = ({ error, reset, resetErrorBoundary }: Props) => {
   const router = useRouter();
 
   const userErrMsg = errMap[error.message] || '에러가 발생했습니다';
+
+  useEffect(() => {
+    document.body.classList.add('hide-footer');
+
+    return () => {
+      document.body.classList.remove('hide-footer');
+    };
+  }, []);
 
   return (
     <div className='w-full'>

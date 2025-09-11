@@ -5,7 +5,6 @@ import { toast } from 'sonner';
 import CompareConfirmModal from '@/app/compare/components/CompareConfirmModal';
 import CompareOverflowModal from '@/app/compare/components/CompareOverflowModal';
 import Button from '@/components/ui/Buttons';
-import { MAX_COMPARE_ITEMS } from '@/constants/compareNumber';
 import { useCompareStore } from '@/store/compareStore';
 import { useModalStore } from '@/store/modalStore';
 import { Product } from '@/types/product/productType';
@@ -21,36 +20,32 @@ const AddToCompareButton = ({ product, className }: AddToCompareButtonProps) => 
 
   const handleAddToCompare = () => {
     const currentCount = compareList.length;
+    const result = addProduct(product.id);
 
     // 이미 담긴 상품인지 확인
-    if (compareList.some((p) => p.id === product.id)) {
+    if (result.isDuplicate) {
       toast.info('이미 저장된 항목입니다. "비교하기"에서 확인해주세요.');
       return;
     }
 
-    if (currentCount === 0) {
-      // 첫 번째 담기: 바로 추가 + 안내 토스트
-      addProduct(product);
-      toast.info('비교대상을 추가해주세요');
-    } else if (currentCount >= MAX_COMPARE_ITEMS) {
-      // 최대 개수 도달 시: 추가하면서 제거된 항목 안내 모달
-      const result = addProduct(product);
-      if (result.removedProduct) {
+    if (result.shouldShowModal) {
+      // 최대 개수 도달: 오버플로우 모달 표시
+      openModal({
+        component: CompareOverflowModal,
+        props: {
+          newProduct: product,
+        },
+      });
+    } else {
+      // 성공적으로 추가됨
+      if (currentCount === 0) {
+        toast.info('첫 영화가 담겼습니다. 비교할 다른 영화를 추가해주세요');
+      } else {
+        // 1개 이상: 확인 모달
         openModal({
-          component: CompareOverflowModal,
-          props: {
-            removedProduct: result.removedProduct,
-            newProduct: product,
-          },
+          component: CompareConfirmModal,
         });
       }
-    } else {
-      // 1개 이상이면서 최대 미만: 추가 + 확인 모달
-      addProduct(product);
-      openModal({
-        component: CompareConfirmModal,
-        props: {},
-      });
     }
   };
 

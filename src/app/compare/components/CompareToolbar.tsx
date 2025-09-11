@@ -4,7 +4,10 @@ import Button from '@/components/ui/Buttons';
 
 type Mode = 'browse' | 'delete' | 'compare';
 
-type Props = {
+const BUTTON_CLASS =
+  'text-mogazoa-12px-300 text-white-f1f1f5 !h-[35px] w-[100px] px-5 py-1 whitespace-nowrap';
+
+interface CompareToolbarProps {
   mode: Mode;
   compareListLength: number;
   selectedDeleteCount: number;
@@ -12,7 +15,7 @@ type Props = {
   onExitDelete: () => void;
   onConfirmDelete: () => void;
   onClearAll: () => void;
-};
+}
 
 const CompareToolbar = ({
   mode,
@@ -22,7 +25,7 @@ const CompareToolbar = ({
   onExitDelete,
   onConfirmDelete,
   onClearAll,
-}: Props) => {
+}: CompareToolbarProps) => {
   return (
     <div className='flex w-auto justify-end gap-3 py-3'>
       {mode === 'delete' ? (
@@ -31,15 +34,11 @@ const CompareToolbar = ({
             variant='primary'
             onClick={onConfirmDelete}
             disabled={selectedDeleteCount === 0}
-            className='text-mogazoa-12px-300 text-white-f1f1f5 !h-[35px] w-[100px] px-5 py-1 whitespace-nowrap'
+            className={BUTTON_CLASS}
           >
             삭제 ({selectedDeleteCount})
           </Button>
-          <Button
-            variant='tertiary'
-            onClick={onExitDelete}
-            className='text-mogazoa-12px-300 text-white-f1f1f5 !h-[35px] w-[100px] px-5 py-1 whitespace-nowrap'
-          >
+          <Button variant='tertiary' onClick={onExitDelete} className={BUTTON_CLASS}>
             취소
           </Button>
         </>
@@ -49,7 +48,7 @@ const CompareToolbar = ({
             variant='tertiary'
             onClick={onEnterDelete}
             disabled={compareListLength === 0}
-            className='text-mogazoa-12px-300 text-white-f1f1f5 !h-[35px] w-[100px] px-5 py-1 whitespace-nowrap'
+            className={BUTTON_CLASS}
           >
             선택 삭제
           </Button>
@@ -57,7 +56,7 @@ const CompareToolbar = ({
             variant='tertiary'
             onClick={onClearAll}
             disabled={compareListLength === 0}
-            className='text-mogazoa-12px-300 text-white-f1f1f5 !h-[35px] w-[100px] px-5 py-1 whitespace-nowrap'
+            className={BUTTON_CLASS}
           >
             전체 삭제
           </Button>
@@ -68,5 +67,3 @@ const CompareToolbar = ({
 };
 
 export default CompareToolbar;
-
-// 버튼 공통 컴포로 만들 수 있을 것 같음.

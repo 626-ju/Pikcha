@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { signIn } from '@/actions/auth';
 import Input from '@/components/common/Input';
@@ -15,13 +16,13 @@ import { LoginFormValues, signinSchema } from '@/lib/validations/auth';
 
 /** 로그인 입력 폼 */
 const SigninForm = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<LoginFormValues>({
     resolver: zodResolver(signinSchema),
@@ -29,7 +30,7 @@ const SigninForm = () => {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    setErrorMessage(null);
+    setIsLoading(true);
 
     const formData = new FormData();
     formData.append('email', data.email);
@@ -43,11 +44,18 @@ const SigninForm = () => {
         password: data.password,
         redirect: false,
       });
+
+      toast.success('로그인에 성공했습니다.');
+
+      // 성공 시 바로 페이지 이동
       router.replace(result.redirectTo);
       return;
     }
 
-    setErrorMessage(result.error);
+    toast.error(result.error);
+
+    // 실패했을 때만 다시 로딩 해제
+    setIsLoading(false);
     reset();
   };
 
@@ -78,11 +86,9 @@ const SigninForm = () => {
         />
       </div>
 
-      <Button type='submit' disabled={isSubmitting}>
-        {isSubmitting ? '로그인 중...' : '로그인'}
+      <Button type='submit' disabled={isLoading}>
+        {isLoading ? '로그인 중...' : '로그인'}
       </Button>
-
-      {errorMessage && <p className='text-center text-sm text-red-500'>{errorMessage}</p>}
     </form>
   );
 };

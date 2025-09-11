@@ -11,17 +11,27 @@ const DesktopRight = () => {
   const { data: session } = useSession();
   const isLoggedIn = !!session;
   return (
-    <div>
-      {/* guest */}
-      <div className={isLoggedIn ? 'hidden' : 'flex md:gap-[30px] xl:gap-[60px]'}>
-        <LoginButton />
-        <SignupButton />
-      </div>
-      {/* auth */}
-      <div className={isLoggedIn ? 'flex items-center md:gap-[30px] xl:gap-[60px]' : 'hidden'}>
-        <CompareButton />
-        <ProfileDropdown session={session} />
-      </div>
+    <div className='flex h-[70px] md:h-[80px] xl:h-[100px]'>
+      {!isLoggedIn && (
+        <div className='flex w-[180px] gap-2 md:w-[200px]'>
+          <div className='flex flex-1 justify-center'>
+            <LoginButton />
+          </div>
+          <div className='flex flex-1 justify-center'>
+            <SignupButton />
+          </div>
+        </div>
+      )}
+      {isLoggedIn && (
+        <div className='flex w-[180px] items-center gap-2 md:w-[200px]'>
+          <div className='flex flex-1 justify-center'>
+            <CompareButton />
+          </div>
+          <div className='flex flex-1 justify-center'>
+            <ProfileDropdown />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

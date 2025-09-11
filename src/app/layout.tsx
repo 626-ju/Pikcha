@@ -2,6 +2,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
 
+import FooterLazy from '@/components/common/Footer/FooterLazy';
 import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 import SonnerToast from '@/components/common/SonnerToast';
@@ -32,6 +33,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             {/* 서버 컴포넌트에서 세션 정보를 가져와 클라이언트 컴포넌트에 전달 */}
             <GlobalNav />
             {children}
+            <FooterLazy />
+            <ThemeToggle />
             <FloatingButton />
             <SonnerToast />
             <SpeedInsights />
