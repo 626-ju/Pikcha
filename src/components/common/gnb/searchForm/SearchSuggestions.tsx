@@ -12,11 +12,13 @@ const SearchSuggestions = ({
   suggestions,
   onSelect,
   onClose,
+  onSelectionChange,
 }: {
   query: string;
   suggestions: { id: number; name: string; categoryId: number }[];
   onSelect: (name: string) => void;
   onClose: () => void;
+  onSelectionChange?: (name: string | null) => void;
 }) => {
   const ref = useRef<HTMLUListElement | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -61,6 +63,14 @@ const SearchSuggestions = ({
   useEffect(() => {
     setSelectedIndex(-1);
   }, [suggestions]);
+
+  useEffect(() => {
+    if (selectedIndex >= 0 && suggestions[selectedIndex]) {
+      onSelectionChange?.(suggestions[selectedIndex].name);
+    } else {
+      onSelectionChange?.(null);
+    }
+  }, [selectedIndex, suggestions, onSelectionChange]);
 
   if (!query || suggestions.length === 0) return null;
 

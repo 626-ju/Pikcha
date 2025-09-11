@@ -23,6 +23,7 @@ const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
   const initial = sp.get('q') ?? '';
   const [query, setQuery] = useState(initial);
   const [open, setOpen] = useState(false);
+  const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(null);
 
   const sugs = useSuggestions(query);
 
@@ -69,10 +70,14 @@ const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
         }}
         onFocus={() => setOpen(true)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') goHomeWithQ(query);
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const searchQuery = selectedSuggestion || query;
+            goHomeWithQ(searchQuery);
+          }
         }}
-        placeholder='상품 이름을 검색해 보세요'
-        className='bg-black-252530 light:bg-gray-200 text-white-f1f1f5 placeholder:text-gray-6e6e82 md:max-x-[300px] relative w-full rounded-[28px] py-4 pr-12 pl-13 outline-none focus:border-none focus:ring-0 focus:outline-none md:h-[50px] xl:h-[56px] xl:max-w-[400px]'
+        placeholder='영화 제목을 검색해 보세요'
+        className='bg-black-252530 text-white-f1f1f5 placeholder:text-gray-6e6e82 relative w-full rounded-[28px] py-4 pr-12 pl-13 outline-none focus:border-none focus:ring-0 focus:outline-none md:h-[50px] md:w-[300px] xl:h-[56px] xl:w-[400px]'
       />
       <Search className='text-gray-9fa6b2 absolute top-4 left-6 md:top-3 xl:top-4' />
       {/* X 버튼 : 사용자 의도로만 지우기 */}
@@ -97,6 +102,7 @@ const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
             goHomeWithQ(name);
           }}
           onClose={() => setOpen(false)}
+          onSelectionChange={setSelectedSuggestion}
         />
       )}
     </div>

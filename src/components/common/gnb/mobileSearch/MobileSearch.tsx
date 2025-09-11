@@ -30,7 +30,7 @@ const MobileSearch = () => {
           />
           {/* 검색창 */}
           <div
-            className='bg-black-1c1c22 animate-in slide-in-from-top-2 absolute top-[80px] left-0 z-20 h-[50px] w-full duration-300 ease-out'
+            className='bg-black-1c1c22 animate-in slide-in-from-top-2 absolute top-[78px] left-0 z-20 h-[50px] w-full duration-300 ease-out'
             onClick={(e) => e.stopPropagation()} // 내부 클릭 시 오버레이 닫힘 방지
           >
             {/* 검색 진입 시 검색창, 오버레이 제거 */}
