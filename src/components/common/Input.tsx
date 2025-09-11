@@ -39,7 +39,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             data-slot='input'
             className={cn(
               'bg-black-252530 text-mogazoa-14px-400 border-black-353542',
-              'light:bg-white light:text-black',
               hasError ? 'border-red-ff0000' : 'border-black-353542',
               'rounded-[8px] border outline-none',
               'flex h-[55px] w-full py-6 pr-10 pl-5 xl:h-[70px]',
