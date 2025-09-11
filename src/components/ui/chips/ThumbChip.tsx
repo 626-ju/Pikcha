@@ -21,7 +21,7 @@ const ThumbChip = ({ initialCount, initialState, reviewId }: ThumbChipProps) => 
       type='button'
       onClick={handleToggle}
       className={cn(
-        'text-mogazoa-12px-400 xl:text-mogazoa-18px-400 border-black-353542 bg-black-252530 light:bg-white flex shrink-0 items-center justify-center gap-[5px] rounded-full border-[1px] px-[10px] py-[6px]',
+        'text-mogazoa-12px-400 xl:text-mogazoa-18px-400 border-black-353542 bg-black-252530 flex shrink-0 items-center justify-center gap-[5px] rounded-full border-[1px] px-[10px] py-[6px]',
         isToggled ? 'text-gradient' : 'text-gray-9fa6b2',
       )}
     >

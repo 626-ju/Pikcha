@@ -1,7 +1,8 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import RatingIcon from '@/assets/icon/Icon-star.svg';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar } from '@/components/ui/avatar';
 import { userType } from '@/types/review/review';
 
 const ReviewAvatar = ({ user, rating }: { user: userType; rating: number }) => {
@@ -9,9 +10,14 @@ const ReviewAvatar = ({ user, rating }: { user: userType; rating: number }) => {
 
   return (
     <Link href={`/user/${user.id}`} className='flex w-60 gap-[10px]'>
-      <Avatar className='h-9 w-9 transition-normal duration-300 xl:h-11 xl:w-11'>
-        <AvatarImage src={user.image ?? undefined} alt={`profile image for ${user.nickname}`} />
-        <AvatarFallback>{user.nickname.charAt(0)}</AvatarFallback>
+      <Avatar className='bg-gray-9fa6b2 relative h-9 w-9 transition-normal duration-300 xl:h-11 xl:w-11'>
+        <Image
+          src={user.image ?? '/images/default-profile.png'}
+          alt={`profile image for ${user.nickname}`}
+          width={36}
+          height={36}
+          className='h-auto w-full object-cover'
+        />
       </Avatar>
       <div className='flex shrink-0 flex-col gap-0.5'>
         {user.nickname.slice(0, 10)}
