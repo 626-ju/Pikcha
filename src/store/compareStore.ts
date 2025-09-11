@@ -2,46 +2,49 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { MAX_COMPARE_ITEMS } from '@/constants/compareNumber';
-import { Product } from '@/types/product/productType';
 
 interface CompareState {
-  compareList: Product[];
-  addProduct: (product: Product) => { removedProduct?: Product };
+  compareList: number[];
+  shouldAutoSelect: boolean;
+  addProduct: (productId: number) => { shouldShowModal: boolean; isDuplicate: boolean };
+  addProductWithRemoval: (productId: number, removeProductId: number) => void;
   removeProduct: (productId: number) => void;
   clearCompareList: () => void;
-  isProductInList: (productId: number) => boolean;
-  undoRemove: (removedProduct: Product, newProduct: Product) => void;
+  setShouldAutoSelect: (value: boolean) => void;
 }
 
 export const useCompareStore = create<CompareState>()(
   persist(
     (set, get) => ({
       compareList: [],
+      shouldAutoSelect: false,
 
-      addProduct: (product: Product) => {
+      addProduct: (productId: number) => {
         const { compareList } = get();
 
         // 이미 있는 상품인지 확인
-        if (compareList.some((p) => p.id === product.id)) {
-          return {};
+        if (compareList.includes(productId)) {
+          return { shouldShowModal: false, isDuplicate: true };
         }
 
-        let newList = [...compareList, product];
-        let removedProduct: Product | undefined;
-
-        // 최대 8개 제한, FIFO(가장 앞의 상품부터 제거) 방식 -> 모달 내에서 선택하게 수정
-        if (newList.length > MAX_COMPARE_ITEMS) {
-          removedProduct = newList[0];
-          newList = newList.slice(1);
+        // 최대 개수에 도달한 경우 모달을 표시해야 함
+        if (compareList.length >= MAX_COMPARE_ITEMS) {
+          return { shouldShowModal: true, isDuplicate: false };
         }
 
-        set({ compareList: newList });
-        return { removedProduct };
+        // 공간이 있으면 바로 추가
+        set({ compareList: [...compareList, productId] });
+        return { shouldShowModal: false, isDuplicate: false };
+      },
+
+      addProductWithRemoval: (productId: number, removeProductId: number) => {
+        const { compareList } = get();
+        set({ compareList: [...compareList.filter((id) => id !== removeProductId), productId] });
       },
 
       removeProduct: (productId: number) => {
         set((state) => ({
-          compareList: state.compareList.filter((p) => p.id !== productId),
+          compareList: state.compareList.filter((id) => id !== productId),
         }));
       },
 
@@ -49,15 +52,8 @@ export const useCompareStore = create<CompareState>()(
         set({ compareList: [] });
       },
 
-      isProductInList: (productId: number) => {
-        return get().compareList.some((p) => p.id === productId);
-      },
-
-      undoRemove: (removedProduct: Product, newProduct: Product) => {
-        const { compareList } = get();
-        // 새로 추가된 상품 제거하고 삭제된 상품을 맨 앞에 복원
-        const listWithoutNew = compareList.filter((p) => p.id !== newProduct.id);
-        set({ compareList: [removedProduct, ...listWithoutNew] });
+      setShouldAutoSelect: (value: boolean) => {
+        set({ shouldAutoSelect: value });
       },
     }),
     {
