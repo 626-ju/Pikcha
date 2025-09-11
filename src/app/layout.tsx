@@ -1,6 +1,7 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SessionProvider } from 'next-auth/react';
 
+import FooterLazy from '@/components/common/Footer/FooterLazy';
 import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 import SonnerToast from '@/components/common/SonnerToast';
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SessionProvider>
           <GlobalNav />
           {children}
+          <FooterLazy />
           <ThemeToggle />
           <FloatingButton />
           <SonnerToast />
