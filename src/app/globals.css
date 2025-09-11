@@ -178,7 +178,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #f3f4f6;
+  --background: #ffffff;
   --foreground: #1c1c22;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -252,6 +252,9 @@ html {
 
 body {
   font-family: var(--font-pretendard);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 @layer base {
