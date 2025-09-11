@@ -87,6 +87,8 @@ const ProfileUpdateForm = () => {
           defaultValue={nickname}
           {...register('nickname')}
           setError={setError}
+          errorMessage={err ? ' ' : ''}
+          className={err ? 'animate-shake' : ''}
         />
 
         <Textbox
