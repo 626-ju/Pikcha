@@ -10,7 +10,7 @@ function Textarea({ hasError, ...props }: TextareaProps) {
   return (
     <div
       className={cn(
-        'bg-black-353542 light:bg-gray-300',
+        'bg-black-353542',
         'relative rounded-[8px] p-[1px]',
         'focus-within:bg-main-gradation',
         hasError ? 'bg-red-ff0000 focus-within:bg-red-ff0000' : '',
@@ -24,7 +24,7 @@ function Textarea({ hasError, ...props }: TextareaProps) {
           'rounded-[8px]',
 
           // Background & Text
-          'bg-black-252530 light:bg-white',
+          'bg-black-252530',
           'placeholder:text-gray-6e6e82 text-base',
 
           // Layout & Sizing

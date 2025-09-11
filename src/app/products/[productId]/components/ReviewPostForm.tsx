@@ -49,7 +49,7 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
           <StarRating
             value={field.value}
             onChange={field.onChange}
-            className={errors.rating ? 'border-red-ff0000 animate-shake border-[1px]' : ''}
+            className={errors.rating ? 'border-red-ff0000 animate-shake' : ''}
           />
         )}
       />

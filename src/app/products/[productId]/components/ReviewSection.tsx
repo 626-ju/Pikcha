@@ -62,12 +62,12 @@ const ReviewSection = ({
 
   return (
     <section ref={sectionRef}>
-      <div className='bg-black-1c1c22 light:bg-white sticky top-17 z-5 mb-2 flex justify-between px-5 py-5 shadow-md md:top-20 xl:top-24'>
+      <div className='bg-black-1c1c22 sticky top-17 z-5 flex justify-between py-5 md:top-20 xl:top-24'>
         <h2 className='text-mogazoa-18px-600 xl:text-mogazoa-20px-600'>상품리뷰</h2>
         <SortDropdown variant='review' onChange={handleChangeOption} option={option} />
       </div>
       {reviews?.length > 0 ? (
-        <div className='mx-5 flex flex-col gap-3'>
+        <div className='flex flex-col gap-3'>
           {reviews?.map((rev) => (
             <ReviewCard review={rev} productId={productId} key={rev.id} />
           ))}
