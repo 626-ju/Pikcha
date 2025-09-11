@@ -34,7 +34,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             <GlobalNav />
             {children}
             <FooterLazy />
-            <ThemeToggle />
             <FloatingButton />
             <SonnerToast />
             <SpeedInsights />
