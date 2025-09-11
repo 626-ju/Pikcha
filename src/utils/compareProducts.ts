@@ -1,13 +1,21 @@
 import { ComparisonResult } from '@/types/compare/compareType';
-import { Product } from '@/types/product/productType';
+import { ProductDetail } from '@/types/product/productType';
 
 // 승자를 뽑고, 승자가 없으면 null
-function pickWinner(a: number, b: number, p1: Product, p2: Product): Product | null {
+function pickWinner(
+  a: number,
+  b: number,
+  p1: ProductDetail,
+  p2: ProductDetail,
+): ProductDetail | null {
   if (a === b) return null;
   return a > b ? p1 : p2;
 }
 
-export function compareProducts(product1: Product, product2: Product): ComparisonResult {
+export function compareProducts(
+  product1: ProductDetail,
+  product2: ProductDetail,
+): ComparisonResult {
   // 항목별 승자 판별
   const ratingWinner = pickWinner(product1.rating, product2.rating, product1, product2);
   const favoriteWinner = pickWinner(
@@ -18,20 +26,21 @@ export function compareProducts(product1: Product, product2: Product): Compariso
   );
   const reviewWinner = pickWinner(product1.reviewCount, product2.reviewCount, product1, product2);
 
-  // 총 승수 집계 (비교 후 1승씩 추가)
+  const winners = [ratingWinner, favoriteWinner, reviewWinner];
+
+  // 총 승수 집계
   let product1Wins = 0;
   let product2Wins = 0;
 
-  for (const w of [ratingWinner, favoriteWinner, reviewWinner]) {
-    if (!w) continue;
-    if (w.id === product1.id) product1Wins++;
-    else product2Wins++;
-  }
+  winners.forEach((winner) => {
+    if (winner?.id === product1.id) product1Wins++;
+    else if (winner?.id === product2.id) product2Wins++;
+  });
 
   // 승자 판정
   const isDraw = product1Wins === product2Wins;
   const winner = isDraw ? null : product1Wins > product2Wins ? product1 : product2;
-  const loser = isDraw ? null : winner?.id === product1.id ? product2 : product1;
+  const loser = winner ? (winner.id === product1.id ? product2 : product1) : null;
   const winCount = Math.max(product1Wins, product2Wins);
 
   // 결과값 반환
