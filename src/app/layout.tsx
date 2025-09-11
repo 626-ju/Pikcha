@@ -5,7 +5,6 @@ import FooterLazy from '@/components/common/Footer/FooterLazy';
 import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 import SonnerToast from '@/components/common/SonnerToast';
-import ThemeToggle from '@/components/common/ThemeToggle';
 import FloatingButton from '@/components/ui/FloatingButton';
 
 import pretendard from '../lib/utils/fonts/pretendard';
@@ -26,7 +25,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <GlobalNav />
           {children}
           <FooterLazy />
-          <ThemeToggle />
           <FloatingButton />
           <SonnerToast />
           <SpeedInsights />
