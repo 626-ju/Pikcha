@@ -53,7 +53,7 @@ const FloatingButton = () => {
               'inline-flex h-15 w-15 items-center justify-center rounded-full',
               'transition focus:outline-none',
               'border border-transparent',
-              'light:bg-orange-500 bg-indigo-800 text-white',
+              'light:bg-orange-500 light:hover:bg-orange-400 bg-indigo-800 text-white hover:bg-indigo-700',
             )}
           >
             {isDark ? (
