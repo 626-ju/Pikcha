@@ -12,6 +12,7 @@ import FileInput from '@/components/common/FileInput';
 import Input from '@/components/common/Input';
 import Textbox from '@/components/common/Textbox';
 import Button from '@/components/ui/Buttons';
+import { cn } from '@/lib/utils';
 import { useModalStore } from '@/store/modalStore';
 import { productSchema } from '@/types/product/productSchema';
 import { ProductDetail, ProductFormValue } from '@/types/product/productType';
@@ -96,7 +97,7 @@ const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create'
       />
       <Button
         variant='primary'
-        className='mt-6'
+        className={cn('mt-6', isError ? 'bg-black-353542 !cursor-default' : '')}
         disabled={!isValid || isLoading || isError || (mode === 'edit' && !isDirty)}
       >
         {isError ? '존재하는 영화 제목 입니다.' : mode === 'create' ? '추가하기' : '수정하기'}
