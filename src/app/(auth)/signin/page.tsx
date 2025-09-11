@@ -4,10 +4,9 @@ import React from 'react';
 
 import { cn } from '@/lib/utils';
 
+import SigninForm from './(components)/SigninForm';
 import SignupCTA from './(components)/SignupCTA';
 import SnsSignin from './(components)/SnsSignin';
-
-import SigninForm from '@/components/auth/SigninForm';
 
 /** 로그인 페이지 */
 const SigninPage = () => {
