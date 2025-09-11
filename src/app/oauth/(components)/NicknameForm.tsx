@@ -4,6 +4,7 @@ import React from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import Input from '@/components/common/Input';
 import Button from '@/components/ui/Buttons';
@@ -27,7 +28,7 @@ export const NicknameForm = ({ onSubmit, isBusy, errorMessage }: Props) => {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
+    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-10 space-y-5'>
       <Input
         type='text'
         label='닉네임'
@@ -41,7 +42,7 @@ export const NicknameForm = ({ onSubmit, isBusy, errorMessage }: Props) => {
         <Button type='submit' className='shrink-0' disabled={isSubmitting || isBusy}>
           {isSubmitting || isBusy ? '가입 중...' : '가입하기'}
         </Button>
-        {errorMessage && <p className='my-5 text-center text-sm text-red-500'>{errorMessage}</p>}
+        {errorMessage && toast.error(errorMessage)}
       </div>
     </form>
   );
