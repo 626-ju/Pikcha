@@ -36,7 +36,9 @@ type UseKakaoOnboardingFlowResult = {
 /** 현재 URL에서 code 읽기 */
 const readFreshCode = (): string | null => {
   if (typeof window === 'undefined') return null;
-  return new URL(window.location.href).searchParams.get('code');
+  const code = new URL(window.location.href).searchParams.get('code');
+  console.log('[AuthCode] 현재 URL에서 읽은 code:', code);
+  return code;
 };
 
 export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
@@ -63,8 +65,11 @@ export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
       setErrorMessage(null);
 
       const code = readFreshCode();
+      console.log('[Onboarding:init] code 확인:', code);
+
       if (!code) {
         // 2차 코드 없으면 발급 받으러 감
+        console.log('[Onboarding:init] code 없음 → 재인가');
         setPhase('redirecting');
         beginKakaoAuthorize();
         return;
@@ -75,13 +80,16 @@ export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
       const redirectUri = getBackendKakaoRedirectUri();
       const url = `${apiBase}/${teamId}/auth/signIn/kakao`;
 
-      const { ok, data } = await postJson<SignInResponse>(url, {
+      console.log('[Onboarding:signIn] 요청 전송', { url, code, redirectUri });
+      const { ok, data, rawText } = await postJson<SignInResponse>(url, {
         redirectUri,
         token: code,
       });
+      console.log('[Onboarding:signIn] 응답 수신', { ok, data, rawText });
 
       if (ok && data?.accessToken && data.user) {
-        // ✅ 기존 가입자
+        console.log('[Onboarding:signIn] 기존 사용자 확인 완료');
+        // 기존 가입자
         await update({
           accessToken: data.accessToken,
           needsOnboarding: false,
@@ -95,6 +103,7 @@ export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
         });
 
         // 성공 후에만 code 제거
+        console.log('[Onboarding] clearKakaoAuthCode 호출');
         clearKakaoAuthCode();
 
         setPhase('redirecting');
@@ -107,14 +116,19 @@ export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
         return;
       }
 
-      // ❌ 실패(대부분 미가입) → 폼으로. 이 때 code가 백엔드에서 소모됐을 가능성 큼
+      // 실패(대부분 미가입) → 폼으로. 이 때 code가 백엔드에서 소모됐을 가능성 큼
       setNeedsFreshCode(true);
+      console.log('[Onboarding] code가 소모됨 → needsFreshCode=true');
+      console.log('[Onboarding:signIn] 실패 → 신규 가입 플로우로');
+      clearKakaoAuthCode();
       setPhase('form');
     })();
   }, [status, session, update, router]);
 
   // 2) 신규: 폼 제출 시 signUp 호출. code 없거나 소모되었으면 먼저 재인가
   const submitNickname = async (values: { nickname: string }) => {
+    console.log('[Onboarding:signUp] 제출 시도', { values, isBusy, needsFreshCode });
+
     if (isBusy) return;
     setIsBusy(true);
     setErrorMessage(null);
@@ -127,6 +141,8 @@ export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
       }
 
       const code = readFreshCode();
+      console.log('[Onboarding:signUp] code 읽음', code);
+
       if (!code || needsFreshCode) {
         // signIn에서 실패했다면 code는 소모되었을 확률 ↑ → 새 코드부터 받자
         if (typeof window !== 'undefined') {
@@ -142,11 +158,14 @@ export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
       const redirectUri = getBackendKakaoRedirectUri();
       const url = `${apiBase}/${teamId}/auth/signUp/kakao`;
 
+      console.log('[Onboarding:signUp] 요청 전송', { url, code });
+
       const { ok, data, rawText } = await postJson<SignInResponse>(url, {
         nickname: nick,
         redirectUri,
         token: code,
       });
+      console.log('[Onboarding:signUp] 응답 수신', { ok, data, rawText });
 
       if (!ok || !data?.accessToken || !data?.user) {
         // 실패 → 새 코드로 다시 받도록 유도
@@ -165,6 +184,10 @@ export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
         return;
       }
 
+      console.log('[Onboarding] 세션 업데이트 직전', {
+        accessToken: data.accessToken,
+        user: data.user,
+      });
       await update({
         accessToken: data.accessToken,
         needsOnboarding: false,
@@ -177,6 +200,7 @@ export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
         },
       });
 
+      console.log('[Onboarding] clearKakaoAuthCode 호출');
       // 성공 후 정리
       clearKakaoAuthCode();
       if (typeof window !== 'undefined') {
@@ -242,6 +266,7 @@ export const useKakaoOnboardingFlow = (): UseKakaoOnboardingFlowResult => {
       });
 
       sessionStorage.removeItem('pendingNickname');
+      console.log('[Onboarding] clearKakaoAuthCode 호출');
       clearKakaoAuthCode();
       setPhase('redirecting');
       router.replace('/');
