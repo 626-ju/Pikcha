@@ -72,7 +72,7 @@ const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create'
             <FileInput value={field.value ?? []} onChange={field.onChange} maxFiles={1} />
           )}
         />
-        <div className='flex flex-col gap-[10px] md:flex-1 md:gap-3'>
+        <div className='flex flex-col gap-[10px] md:flex-1 md:gap-4'>
           <Input
             placeholder='작품 제목'
             {...register('name')}
