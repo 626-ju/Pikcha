@@ -59,7 +59,7 @@ export const postReview = async ({
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newReview),
-    cache: 'no-store',
+    cache: 'no-cache',
   });
 
   revalidatePath(`/products/${productId}`);
@@ -84,7 +84,7 @@ export const patchReview = async ({ rating, content, images, reviewId }: ReviewP
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newReview),
-    cache: 'no-store',
+    cache: 'no-cache',
   });
 
   revalidateTag('reviews');
@@ -101,7 +101,7 @@ export const deleteReview = async (reviewId: number, productId: number) => {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
-      cache: 'no-store',
+      cache: 'no-cache',
     },
   });
 
