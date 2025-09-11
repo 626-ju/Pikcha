@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import GuestProfile from '@/assets/icon/GuestProfile.svg';
 import RankingChip from '@/components/ui/chips/RankingChip';
 import { UserRanking } from '@/types/user/userRanking';
 
@@ -32,8 +31,11 @@ const ReviewerCard = ({
               className='h-9 w-9 rounded-full xl:h-[42px] xl:w-[42px]'
             />
           ) : (
-            <GuestProfile
+            <Image
+              src='/images/guestProfile.png'
               alt='기본 프로필 이미지'
+              width={42}
+              height={42}
               className='h-9 w-9 rounded-full xl:h-[42px] xl:w-[42px]'
             />
           )}
