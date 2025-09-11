@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 
 import FacebookIcon from '@/assets/icon/Icon-facebook.svg';
 import InstaIcon from '@/assets/icon/Icon-instagram.svg';
-import TempLogo from '@/assets/icon/Icon-templogo.svg';
 import XIcon from '@/assets/icon/Icon-x.svg';
+import Logo from '@/assets/icon/PickCha2.svg';
 
 const Footer = () => {
   const pathname = usePathname();
@@ -52,9 +52,9 @@ const Footer = () => {
         </ul>
       </div>
 
-      <ul className='mb-5 flex items-center gap-2.5 2xl:absolute 2xl:left-1/2 2xl:mt-[-8px] 2xl:-translate-x-1/2 2xl:flex-col'>
+      <ul className='mb-5 flex items-end gap-2.5 2xl:absolute 2xl:left-1/2 2xl:mt-[-8px] 2xl:-translate-x-1/2 2xl:flex-col 2xl:items-center'>
         <li>
-          <TempLogo width={80} height={40} />
+          <Logo width={80} height={40} />
         </li>
         <li className='2xl:text-center'>&copy; 2025 by 3team All rights reserved.</li>
       </ul>
