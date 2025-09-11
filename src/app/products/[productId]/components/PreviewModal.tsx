@@ -12,13 +12,13 @@ const PreviewModal = ({ image }: { image: string }) => {
         <DialogTitle>Preview</DialogTitle>
       </DialogHeader>
       <DialogDescription>클릭한 리뷰 이미지를 확대해서 보여주는 모달입니다.</DialogDescription>
-      <div className='h-full w-full'>
+      <div className='flex h-full w-full justify-center'>
         <Image
           src={image}
           alt='리뷰 이미지'
           width={295}
           height={295}
-          className='h-auto w-full object-center'
+          className='h-auto w-2/3 object-center'
         />
       </div>
     </Modal>
