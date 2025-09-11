@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang='ko' suppressHydrationWarning>
+    <html lang='ko'>
       <body className={pretendard.variable}>
         <ThemeProvider
           attribute='class' // Tailwind v4 class 전략
