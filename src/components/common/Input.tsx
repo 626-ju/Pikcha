@@ -55,7 +55,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 if (maxLength) e.target.value = truncated(e.target.value, maxLength);
                 return e.target.value.length;
               });
-              setError && setError(false);
+              if (setError) setError(false);
               props.onChange?.(e);
             }}
           />
