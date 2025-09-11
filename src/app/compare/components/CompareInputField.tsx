@@ -4,20 +4,21 @@ import { useState } from 'react';
 
 import { toast } from 'sonner';
 
-import { getProductDetail } from '@/actions/productDetail';
 import SearchSuggestions from '@/components/common/gnb/searchForm/SearchSuggestions';
 import CompareChip from '@/components/ui/chips/CompareChip';
 import { useSuggestions } from '@/hooks/useSuggestions';
-import { type Product } from '@/types/product/productType';
+import { type ProductDetail } from '@/types/product/productType';
 
 type SuggestionProduct = { id: number; name: string; categoryId: number };
 
 interface CompareInputFieldProps {
   index: number;
-  selectedProduct?: Product;
-  onProductSelect: (product: Product) => void;
-  onProductRemove: (productId: number) => void;
+  selectedProduct: ProductDetail | null;
+  onProductSelect: (product: ProductDetail, index: number) => void;
+  onProductRemove: (index: number) => void;
 }
+
+const NO_RESULT_DISPLAY_TIME = 3000;
 
 const CompareInputField = ({
   index,
@@ -34,12 +35,17 @@ const CompareInputField = ({
 
   const handleSuggestionSelect = async (suggestion: SuggestionProduct) => {
     try {
-      const productDetail = await getProductDetail(suggestion.id);
-      onProductSelect(productDetail as Product);
+      const res = await fetch(`/api/products/batch?ids=${suggestion.id}`);
+      if (!res.ok) throw new Error('Failed to fetch');
+      const data: { list: ProductDetail[] } = await res.json();
+      const productDetail = data.list?.[0];
+      if (!productDetail) throw new Error('Not found');
+
+      onProductSelect(productDetail, index);
       setQuery('');
       setOpen(false);
     } catch {
-      toast.error('상품 정보를 불러올 수 없습니다.');
+      toast.error('영화 정보를 불러올 수 없습니다.');
     }
   };
 
@@ -56,14 +62,14 @@ const CompareInputField = ({
             <CompareChip
               variant={index === 0 ? 'first' : 'second'}
               productName={selectedProduct.name}
-              onClick={() => onProductRemove(selectedProduct.id)}
+              onClick={() => onProductRemove(index)}
             />
           ) : (
             <input
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
-                setOpen(true);
+                if (!open) setOpen(true);
                 setShowNoResult(false);
               }}
               onFocus={() => {
@@ -74,7 +80,7 @@ const CompareInputField = ({
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && query.trim() && suggestions.length === 0) {
                   setShowNoResult(true);
-                  setTimeout(() => setShowNoResult(false), 3000);
+                  setTimeout(() => setShowNoResult(false), NO_RESULT_DISPLAY_TIME);
                 }
               }}
               placeholder='목록에서 영화를 선택하거나 검색하세요'

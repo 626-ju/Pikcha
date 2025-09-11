@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { getBatchProductDetails } from '@/actions/compareProducts';
 import { ProductDetail } from '@/types/product/productType';
 
 interface UseCompareProductsResult {
@@ -15,8 +14,12 @@ export function useCompareProducts(productIds: number[]): UseCompareProductsResu
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchProducts = async () => {
-      if (productIds.length === 0) {
+      const uniqueIds = Array.from(new Set(productIds.filter((n) => Number.isFinite(n))));
+
+      if (uniqueIds.length === 0) {
         setProducts([]);
         setLoading(false);
         return;
@@ -26,11 +29,14 @@ export function useCompareProducts(productIds: number[]): UseCompareProductsResu
       setError(null);
 
       try {
-        const validProducts = await getBatchProductDetails(productIds);
-        setProducts(validProducts);
+        const qs = new URLSearchParams({ ids: uniqueIds.join(',') }).toString();
+        const res = await fetch(`/api/products/batch?${qs}`, { signal: controller.signal });
+        if (!res.ok) throw new Error('Failed to fetch');
+        const data: { list: ProductDetail[] } = await res.json();
+        setProducts(data.list ?? []);
       } catch (err) {
-        console.error('Failed to fetch products:', err);
-        setError('상품 정보를 불러오는 데 실패했습니다.');
+        if (err instanceof Error && err.name === 'AbortError') return;
+        setError('영화 정보를 불러오는 데 실패했습니다.');
         setProducts([]);
       } finally {
         setLoading(false);
@@ -38,6 +44,7 @@ export function useCompareProducts(productIds: number[]): UseCompareProductsResu
     };
 
     fetchProducts();
+    return () => controller.abort();
   }, [productIds]);
 
   return { products, loading, error };

@@ -28,8 +28,8 @@ export function useInfiniteScroll<T>({
         const result = await fetcher(cursor);
         setItems((prev) => [...prev, ...result.list]);
         setCursor(result.nextCursor);
-      } catch (error) {
-        console.error('Failed to load more items:', error);
+      } catch {
+        return;
       }
     });
   }, [cursor, isPending, fetcher]);
@@ -40,8 +40,8 @@ export function useInfiniteScroll<T>({
         const result = await fetcher(null);
         setItems(result.list);
         setCursor(result.nextCursor);
-      } catch (error) {
-        console.error('Failed to reset items:', error);
+      } catch {
+        return;
       }
     });
   }, [fetcher]);
