@@ -13,10 +13,14 @@ interface InputProps extends React.ComponentProps<'input'> {
   errorMessage?: string;
   hintMessage?: string;
   maxLength?: number;
+  setError?: (state: boolean) => void;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, id, label, errorMessage, hintMessage, maxLength, ...props }, ref) => {
+  (
+    { className, type, id, label, errorMessage, hintMessage, maxLength, setError, ...props },
+    ref,
+  ) => {
     const generatedId = React.useId();
     const inputId = id || generatedId;
     const hasError = !!errorMessage;
@@ -52,6 +56,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 if (maxLength) e.target.value = truncated(e.target.value, maxLength);
                 return e.target.value.length;
               });
+              setError && setError(false);
               props.onChange?.(e);
             }}
           />

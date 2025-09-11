@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useErrorBoundary } from 'react-error-boundary';
 import { Controller, useForm } from 'react-hook-form';
 
 import { patchProduct, postProduct } from '@/actions/productDetail';
@@ -16,7 +17,7 @@ import { productSchema } from '@/types/product/productSchema';
 import { ProductDetail, ProductFormValue } from '@/types/product/productType';
 
 const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create' | 'edit' }) => {
-  const { showBoundary } = useErrorBoundary();
+  const [isError, setIsError] = useState(false);
   const closeModal = useModalStore((state) => state.closeModal);
   const openModal = useModalStore((state) => state.openModal);
 
@@ -24,7 +25,7 @@ const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create'
     register,
     handleSubmit,
     control,
-    formState: { errors, isValid, isSubmitting, isDirty },
+    formState: { errors, isValid, isLoading, isDirty },
   } = useForm<ProductFormValue>({
     resolver: zodResolver(productSchema),
     mode: 'all',
@@ -53,8 +54,8 @@ const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create'
         await patchProduct({ productId: product.id, data });
       }
       closeModal();
-    } catch (err) {
-      showBoundary(err);
+    } catch {
+      setIsError(true);
     }
   };
 
@@ -77,6 +78,7 @@ const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create'
             placeholder='작품 제목'
             {...register('name')}
             errorMessage={errors.name?.message}
+            setError={setIsError}
           />
           <Controller
             name='categoryId'
@@ -95,9 +97,9 @@ const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create'
       <Button
         variant='primary'
         className='mt-6'
-        disabled={!isValid || isSubmitting || (mode === 'edit' && !isDirty)}
+        disabled={!isValid || isLoading || isError || (mode === 'edit' && !isDirty)}
       >
-        {mode === 'create' ? '추가하기' : '수정하기'}
+        {isError ? '존재하는 영화 제목 입니다.' : mode === 'create' ? '추가하기' : '수정하기'}
       </Button>
       {mode === 'edit' && (
         <Button
