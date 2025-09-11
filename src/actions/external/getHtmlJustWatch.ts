@@ -7,7 +7,7 @@ import { ProviderInfo } from '@/types/justwatch/providers';
 export const getHtmlJustWatch = async (moviename: string) => {
   const encode = encodeURIComponent(moviename);
 
-  const res = await fetch(`https://www.justwatch.com/kr/검색?q=${encode}`, {
+  const res = await fetch(`https://www.justwatch.com/kr/search?content_type=movie&q=${encode}`, {
     //.json말고 .text해야해서 그냥 fetch로
     cache: 'force-cache',
     headers: {
@@ -20,15 +20,39 @@ export const getHtmlJustWatch = async (moviename: string) => {
   const $ = cheerio.load(html);
 
   const providers: ProviderInfo[] = [];
-  $('.buybox-row a').each((_, el) => {
-    const $el = $(el);
-    const url = $el.attr('href') || '';
-    const logo = $el.find('img').attr('src');
+  let matched = false;
+  const allowedProviders = ['netflix', 'watcha', 'disney', 'wavve'];
 
-    if (url.startsWith('http') && !providers.some((p) => p.logo === logo)) {
-      providers.push({ url, logo });
-    }
-  });
+  const firstTitleRow = $('.title-list-row__row').first();
 
-  return providers;
+  //검색 결과의 첫번째 항목
+  const title = firstTitleRow.find('.title-list-row__column-header').text().trim();
+
+  // 검색어가 영화 제목에 '포함' 되어 있는지?
+  if (title.toLowerCase().includes(moviename.toLowerCase())) {
+    matched = true;
+
+    //첫번째 항목 안의 프로바이더들 중
+    firstTitleRow.find('.buybox-row a').each((_, el) => {
+      const $el = $(el);
+      const url = $el.attr('href') || '';
+      const logo = $el.find('img').attr('src');
+
+      const lowerUrl = url.toLowerCase();
+      if (
+        allowedProviders.some((p) => lowerUrl.includes(p)) && //[넷플, 디즈니, 웨이브, 왓챠만]
+        url.startsWith('http') &&
+        !providers.some((p) => p.logo === logo)
+      ) {
+        const providerName = allowedProviders.find((p) => lowerUrl.includes(p));
+        const alreadyAdded = providers.some((p) => p.url.toLowerCase().includes(providerName!));
+
+        if (!alreadyAdded) {
+          providers.push({ url, logo });
+        }
+      }
+    });
+  }
+
+  return matched ? providers : [];
 };

@@ -13,8 +13,8 @@ interface Props {
 
 export const StreamingIcon = ({ providers }: Props) => {
   return (
-    <div className='relative inline-block'>
-      <h3 className='text-mogazoa-16px-600 text-black-2e2e3a mb-5'>감상하기</h3>
+    <div className='relative inline-block min-w-40'>
+      <h3 className='text-mogazoa-16px-600 text-black-2e2e3a mb-5'>{`바로 감상하기`}</h3>
       <div className='inline-flex items-center'>
         {providers.map((item) => (
           <Link
