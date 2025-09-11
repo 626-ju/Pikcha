@@ -7,6 +7,7 @@ import ThumbChip from '@/components/ui/chips/ThumbChip';
 import { useModalStore } from '@/store/modalStore';
 import { ReviewCardProps } from '@/types/review/review';
 
+import PreviewModal from './PreviewModal';
 import ReviewAvatar from './ReviewAvatar';
 import ReviewDeleteMessageModal from './ReviewDeleteMessageModal';
 import ReviewModal from './ReviewModal';
@@ -39,8 +40,12 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
     return openModal({ component: ReviewDeleteMessageModal, props: { reviewId: review.id } });
   };
 
+  const handleClickPreviewModal = (imageSrc: string) => {
+    return openModal({ component: PreviewModal, props: { image: imageSrc } });
+  };
+
   return (
-    <div className='bg-black-252530 light:bg-white border-black-353542 flex w-full flex-col gap-5 rounded-[8px] border-[1px] p-5 transition-normal duration-300 md:flex-row'>
+    <div className='bg-black-252530 border-black-353542 flex w-full flex-col gap-5 rounded-[8px] border-[1px] p-5 transition-normal duration-300 md:flex-row'>
       <ReviewAvatar user={review.user} rating={review.rating} />
       <div className='flex w-full flex-col gap-5'>
         <div className='text-mogazoa-12px-400'>{review.content}</div>
@@ -49,9 +54,15 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
             {filteredImages.map((ri) => (
               <div
                 key={ri.id}
-                className='relative h-15 w-15 overflow-hidden rounded-[12px] md:h-20 md:w-20 xl:h-25 xl:w-25'
+                onClick={() => handleClickPreviewModal(ri.source as string)}
+                className='relative h-15 w-15 cursor-pointer overflow-hidden rounded-[12px] md:h-20 md:w-20 xl:h-25 xl:w-25'
               >
-                <Image src={ri.source as string} alt='리뷰 이미지' fill className='object-cover' />
+                <Image
+                  src={(ri.source as string) ?? '/images/noImage.png'}
+                  alt='리뷰 이미지'
+                  fill
+                  className='object-cover'
+                />
               </div>
             ))}
           </div>

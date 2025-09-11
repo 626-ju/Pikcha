@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import DropdownIcon from '@/assets/icon/Icon-dropdown.svg';
 import DropupIcon from '@/assets/icon/Icon-dropup.svg';
@@ -26,7 +26,7 @@ const SortDropdown = ({
   onChange?: (value: string) => void; // 프롭을 string으로 받는 함수
   option?: string;
 }) => {
-  const getSortOption = () => {
+  const getSortOption = useCallback(() => {
     switch (variant) {
       case 'product':
         return SORT_OPTION_PRODUCTS;
@@ -37,9 +37,9 @@ const SortDropdown = ({
       default:
         return [];
     }
-  };
+  }, [variant]);
 
-  const sortOptions = useMemo(() => getSortOption(), [variant, getSortOption]);
+  const sortOptions = useMemo(() => getSortOption(), [getSortOption]);
 
   const displayValue =
     sortOptions.find((op) => op.value === option)?.name || sortOptions?.[0]?.name;
@@ -67,7 +67,7 @@ const SortDropdown = ({
       {isOpen && (
         <div
           className={cn(
-            'bg-black-252530 light:bg-white border-black-353542 absolute top-10 z-50 flex w-[150px] flex-col gap-[10px] rounded-lg border-1 p-[10px] md:w-[200px]',
+            'bg-black-252530 border-black-353542 absolute top-10 z-50 flex w-[150px] flex-col gap-[10px] rounded-lg border-1 p-[10px] md:w-[200px]',
             menuPosition === 'right' ? 'right-0' : 'left-0',
           )}
         >

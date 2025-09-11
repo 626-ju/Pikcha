@@ -42,6 +42,7 @@ const ReviewSection = ({
 
   useEffect(() => {
     reset();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId, trigger]);
 
   useEffect(() => {
@@ -56,11 +57,12 @@ const ReviewSection = ({
     const y = sectionRef.current!.getBoundingClientRect().top + window.pageYOffset - topOffset;
 
     window.scrollTo({ top: y, behavior: 'smooth' });
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [option]);
 
   return (
     <section ref={sectionRef}>
-      <div className='bg-black-1c1c22 sticky top-17 z-5 flex justify-between py-5 shadow-lg md:top-20 xl:top-24'>
+      <div className='bg-black-1c1c22 sticky top-17 z-5 flex justify-between py-5 md:top-20 xl:top-24'>
         <h2 className='text-mogazoa-18px-600 xl:text-mogazoa-20px-600'>상품리뷰</h2>
         <SortDropdown variant='review' onChange={handleChangeOption} option={option} />
       </div>
