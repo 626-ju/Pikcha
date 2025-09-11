@@ -1,52 +1,82 @@
 'use client';
 
+import { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import Modal from '@/components/common/ModalUi';
 import Button from '@/components/ui/Buttons';
-import { DialogTitle } from '@/components/ui/dialog';
+import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { MAX_COMPARE_ITEMS } from '@/constants/compareNumber';
+import { useCompareProducts } from '@/hooks/useCompareProducts';
 import { useCompareStore } from '@/store/compareStore';
 import { useModalStore } from '@/store/modalStore';
-import { Product } from '@/types/product/productType';
+import { type ProductDetail } from '@/types/product/productType';
+
+import SelectableMovieCard from './SelectableMovieCard';
 
 interface CompareOverflowModalProps {
-  removedProduct: Product;
-  newProduct: Product;
+  newProduct: ProductDetail;
 }
 
-const CompareOverflowModal = ({ removedProduct, newProduct }: CompareOverflowModalProps) => {
+const CompareOverflowModal = ({ newProduct }: CompareOverflowModalProps) => {
   const { closeModal } = useModalStore();
-  const { undoRemove } = useCompareStore();
+  const { compareList, addProductWithRemoval, setShouldAutoSelect } = useCompareStore();
+  const { products: compareProducts } = useCompareProducts(compareList);
+  const [selectedProduct, setSelectedProduct] = useState<ProductDetail | null>(null);
   const router = useRouter();
 
-  const handleUndo = () => {
-    undoRemove(removedProduct, newProduct);
-    closeModal();
-    router.push('/compare');
+  const handleSelectProduct = (product: ProductDetail) => {
+    setSelectedProduct((prev) => (prev?.id === product.id ? null : product));
   };
 
-  const handleGoToCompare = () => {
-    closeModal();
-    router.push('/compare');
+  const handleConfirmDelete = () => {
+    if (selectedProduct) {
+      addProductWithRemoval(newProduct.id, selectedProduct.id);
+      setShouldAutoSelect(true);
+      closeModal();
+      router.push('/compare');
+    }
   };
 
   return (
     <Modal variant='compare'>
+      <DialogHeader>
+        <DialogTitle className='text-mogazoa-24px-400'>비교하기 목록 가득참</DialogTitle>
+      </DialogHeader>
       <div className='text-center'>
-        <DialogTitle className='text-mogazoa-24px-400 mb-4'>비교하기 목록이 가득참</DialogTitle>
-        <p className='text-gray-9fa6b2 mb-2'>비교하기는 최대 4개까지 저장 가능합니다.</p>
-        <p className='text-gray-9fa6b2 mb-6'>
-          <span className='text-red-400'>&ldquo;{removedProduct.name}&rdquo;</span>이(가) 삭제되고{' '}
-          <span className='text-green-400'>&ldquo;{newProduct.name}&rdquo;</span>이(가)
-          추가되었습니다.
+        <p className='text-gray-9fa6b2 text-mogazoa-16px-300'>
+          비교하기는 최대 {MAX_COMPARE_ITEMS}개까지 저장 가능합니다.
+        </p>
+        <p className='text-gray-9fa6b2 text-mogazoa-16px-300 mb-6'>
+          <span className='text-main-blue'>&ldquo;{newProduct.name}&rdquo;</span>을(를) 추가하려면
+          기존 영화 중 하나를 삭제해주세요.
         </p>
 
+        <div className='mb-10'>
+          <div className='grid max-h-110 grid-cols-2 justify-items-center gap-4 overflow-y-auto px-8'>
+            {compareProducts.map((product) => (
+              <SelectableMovieCard
+                key={product.id}
+                product={product}
+                isSelected={selectedProduct?.id === product.id}
+                onSelect={handleSelectProduct}
+              />
+            ))}
+          </div>
+        </div>
+
         <div className='flex gap-3'>
-          <Button variant='tertiary' onClick={handleUndo} className='flex-1'>
-            삭제 되돌리기
+          <Button variant='tertiary' onClick={closeModal} className='flex-1'>
+            취소
           </Button>
-          <Button variant='primary' onClick={handleGoToCompare} className='flex-1'>
-            비교하러 가기
+          <Button
+            variant='primary'
+            onClick={handleConfirmDelete}
+            disabled={!selectedProduct}
+            className='flex-1'
+          >
+            선택한 영화 삭제하고 추가
           </Button>
         </div>
       </div>

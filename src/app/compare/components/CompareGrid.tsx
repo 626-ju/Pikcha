@@ -1,16 +1,16 @@
-import { type Product } from '@/types/product/productType';
+import { type ProductDetail } from '@/types/product/productType';
 
 import CompareCard from './CompareCard';
 
-type Props = {
-  list: Product[];
-  isSelected: (product: Product) => boolean;
-  onSelect: (product: Product) => void;
-};
+interface CompareGridProps {
+  list: ProductDetail[];
+  isSelected: (product: ProductDetail) => boolean;
+  onSelect: (productId: number) => void;
+}
 
-const CompareGrid = ({ list, isSelected, onSelect }: Props) => {
+const CompareGrid = ({ list, isSelected, onSelect }: CompareGridProps) => {
   return (
-    <div className='grid grid-cols-2 gap-6 md:grid-cols-4'>
+    <div className='grid grid-cols-2 gap-6 py-10 md:grid-cols-4 xl:gap-8 xl:px-16'>
       {list.map((product) => (
         <CompareCard
           key={product.id}

@@ -1,17 +1,18 @@
 'use client';
 
+import { CircleCheckBig } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import StarIcon from '@/assets/icon/Icon-star.svg';
 import Button from '@/components/ui/Buttons';
 import { verifyImgUrl } from '@/lib/utils/verifyImgUrl';
-import { type Product } from '@/types/product/productType';
+import { type ProductDetail } from '@/types/product/productType';
 
 interface CompareCardProps {
-  product: Product;
+  product: ProductDetail;
   isSelected: boolean;
-  onSelect: (product: Product) => void;
+  onSelect: (productId: number) => void;
 }
 
 const CompareCard = ({ product, isSelected, onSelect }: CompareCardProps) => {
@@ -22,10 +23,11 @@ const CompareCard = ({ product, isSelected, onSelect }: CompareCardProps) => {
     <div className='relative'>
       <div
         className={`border-black-353542 block cursor-pointer rounded-[8px] transition-all ${
-          isSelected ? 'ring-main-indigo rounded-[8px] ring-4' : ''
+          isSelected
+            ? 'border-main-indigo border-3'
+            : 'border-3 border-transparent hover:border-gray-500'
         }`}
-        onClick={() => onSelect(product)}
-        tabIndex={-1}
+        onClick={() => onSelect(product.id)}
       >
         <div className='relative mb-1 aspect-[5/7]'>
           <Image
@@ -35,6 +37,11 @@ const CompareCard = ({ product, isSelected, onSelect }: CompareCardProps) => {
             className='rounded-sm'
             sizes='(max-width: 768px) 140px, (max-width: 1280px) 227px, 260px'
           />
+          {isSelected && (
+            <div className='absolute inset-0 flex items-center justify-center rounded-sm bg-blue-500/20'>
+              <CircleCheckBig className='text-main-indigo h-14 w-14 rounded-full bg-white p-1 md:h-8 md:w-8 xl:h-14 xl:w-14' />
+            </div>
+          )}
         </div>
 
         <div className='flex flex-col'>
