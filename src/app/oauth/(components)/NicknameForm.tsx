@@ -29,9 +29,9 @@ export const NicknameForm = ({ onSubmit, isBusy, errorMessage }: Props) => {
   });
 
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <div>
       <BicLogo />
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-10 space-y-5 py-5'>
+      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-10 space-y-5 px-5'>
         <Input
           type='text'
           label='닉네임'
