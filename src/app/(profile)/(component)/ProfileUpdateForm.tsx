@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
-import { useErrorBoundary } from 'react-error-boundary';
 import { Controller, useForm } from 'react-hook-form';
 
 import { patchProfileInfo } from '@/actions/profile/patchProfileInfo';
@@ -17,7 +16,6 @@ import { useUserInfoStore } from '@/store/userInfoStore';
 import { profileSchema, type ProfileFormValues } from '@/types/profile/profileUpdateSchema';
 
 const ProfileUpdateForm = () => {
-  const { showBoundary } = useErrorBoundary();
   const { update } = useSession();
   const closeModal = useModalStore((state) => state.closeModal);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,6 +23,8 @@ const ProfileUpdateForm = () => {
   const nickname = useUserInfoStore((state) => state.nickname);
   const description = useUserInfoStore((state) => state.description);
   const image = useUserInfoStore((state) => state.image);
+
+  const [err, setError] = useState(false);
 
   const {
     register,
@@ -63,8 +63,8 @@ const ProfileUpdateForm = () => {
       });
 
       closeModal();
-    } catch (err) {
-      showBoundary(err);
+    } catch {
+      setError(true);
     } finally {
       setIsLoading(false);
     }
@@ -86,6 +86,9 @@ const ProfileUpdateForm = () => {
           maxLength={10}
           defaultValue={nickname}
           {...register('nickname')}
+          setError={setError}
+          errorMessage={err ? ' ' : ''}
+          className={err ? 'animate-shake' : ''}
         />
 
         <Textbox
@@ -95,8 +98,8 @@ const ProfileUpdateForm = () => {
           {...register('description')}
         />
 
-        <Button disabled={!isDirty || isLoading} className='my-5'>
-          {isLoading ? '저장 중...' : '저장하기'}
+        <Button disabled={!isDirty || isLoading || err} className='my-5'>
+          {isLoading ? '저장 중...' : err ? '닉네임이 중복되었습니다' : '저장하기'}
         </Button>
       </form>
     </div>
