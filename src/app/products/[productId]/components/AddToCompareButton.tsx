@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 
 import CompareConfirmModal from '@/app/compare/components/CompareConfirmModal';
@@ -18,9 +19,17 @@ const AddToCompareButton = ({ product, className }: AddToCompareButtonProps) => 
   const { compareList, addProduct } = useCompareStore();
   const { openModal } = useModalStore();
 
+  const session = useSession();
+
   const handleAddToCompare = () => {
     const currentCount = compareList.length;
     const result = addProduct(product.id);
+
+    // 로그아웃 상태면 로그인 유도 토스트
+    if (!session.data) {
+      toast.error('로그인이 필요합니다.');
+      return;
+    }
 
     // 이미 담긴 상품인지 확인
     if (result.isDuplicate) {

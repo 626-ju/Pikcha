@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { useSession } from 'next-auth/react';
+import { toast } from 'sonner';
+
+// 세션 존재해야 사용 가능합니다!!
 const useOptimisticToggle = ({
   initialCount = 0,
   initialState,
@@ -13,8 +17,14 @@ const useOptimisticToggle = ({
   const [optimisticCount, setOptimisticCount] = useState(initialCount);
   const clickCountRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout>(null);
+  const session = useSession();
 
   const handleToggle = () => {
+    if (!session.data) {
+      toast.error('로그인이 필요합니다.');
+      return;
+    }
+
     const newToggleState = !isToggled;
     const newCount = newToggleState ? optimisticCount + 1 : optimisticCount - 1;
 

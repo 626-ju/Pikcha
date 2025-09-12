@@ -14,11 +14,17 @@ export const getProductDetail = async (productId: number): Promise<ProductDetail
   const session = await auth();
   const accessToken = session?.accessToken;
 
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (accessToken) {
+    headers.Authorization = `Bearer ${accessToken}`;
+  }
+
   const productDetail = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${productId}`, {
     method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers,
     next: { revalidate: 300, tags: [`products-${productId}`] },
   });
   return productDetail;

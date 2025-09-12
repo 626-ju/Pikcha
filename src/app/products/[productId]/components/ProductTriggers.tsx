@@ -1,6 +1,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import { toast } from 'sonner';
 
 import ProductModal from '@/app/_components/ProductPost/ProductModal';
 import Button from '@/components/ui/Buttons';
@@ -17,10 +18,17 @@ const ProductTriggers = ({ product }: { product: ProductDetail }) => {
   const { data } = useSession();
   const userId = Number(data?.user.id);
 
+  const session = useSession();
+
   setProduct(product);
 
   const handleClickPostReviewModal = () => {
-    return openModal({ component: ReviewPostModal, props: { mode: 'create' } });
+    console.log(session);
+    if (!session.data) {
+      return toast.error('로그인이 필요합니다');
+    } else {
+      return openModal({ component: ReviewPostModal, props: { mode: 'create' } });
+    }
   };
 
   const handleClickPatchProductModal = () => {
