@@ -64,9 +64,9 @@ const SigninForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className={cn(
         'm-auto flex h-full flex-col justify-center gap-[60px]',
-        'w=[335px] px-5 pt-[108px] pb-5',
-        'md:w-[440px] md:pt-[181px]',
-        'xl:w-[640px] xl:pt-[90px]',
+        'w=[335px] px-5 py-5',
+        'md:w-[440px]',
+        'xl:w-[640px]',
       )}
     >
       <div className='flex flex-col gap-[30px] md:gap-10'>
