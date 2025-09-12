@@ -63,7 +63,7 @@ const SignupForm = () => {
         'm-auto flex flex-col justify-between md:justify-start',
         'h-screen',
         'w-[335px] md:w-[440px] xl:w-[640px]',
-        'py-[30px] md:py-[181px] xl:py-[93px]',
+        'py-5',
         'md:gap-[60px]',
       )}
     >
