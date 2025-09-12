@@ -57,7 +57,7 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
       <Textbox
         placeholder='리뷰를 작성해 주세요.'
         {...register('content')}
-        maxLength={500}
+        maxLength={300}
         errorMessage={errors.content?.message}
       />
       {/* <p className={`text-red-ff0000 text-mogazoa-12px-300 h-3`}>
