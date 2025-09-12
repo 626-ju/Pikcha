@@ -52,7 +52,7 @@ const Modal = ({ showCloseButton = true, variant = 'basic', className, children 
       }}
     >
       <DialogContent
-        className={cn(className, contentStyle[variant])}
+        className={cn(className, 'min-w-[375px]', contentStyle[variant])}
         showCloseButton={showCloseButton}
       >
         {/*본격적인 모달 컨텐츠*/}
