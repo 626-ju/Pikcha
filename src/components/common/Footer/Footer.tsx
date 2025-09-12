@@ -29,9 +29,9 @@ const Footer = () => {
       {/* shadow-[0_-1px_2px_0_rgba(0,0,0,1)] */}
       {/* gnb 그림자 -> 아래쪽에만 생김 shadow-sm shadow-black*/}
       <div className='mr-20'>
-        <ul className='mb-5 flex items-center gap-2.5'>
+        <ul className='mb-5 flex flex-wrap items-center gap-2.5'>
           <li className='border-white-f1f1f5/60 h-5 border-r-1 pr-2.5'>문의</li>
-          <li>pickcha@gmail.com ,</li>
+          <li className='border-white-f1f1f5/60 border-r-1 pr-2.5'>pickcha@gmail.com</li>
           <li>
             <a
               href='https://github.com/TEAM3-Mogazoa/Mogazoa'
@@ -45,21 +45,21 @@ const Footer = () => {
           </li>
         </ul>
 
-        <ul className='mb-5 flex items-center gap-2.5'>
+        <ul className='mb-5 flex flex-wrap items-center gap-2.5'>
           <li className='border-white-f1f1f5/60 border-r-1 pr-2.5'> 픽챠 </li>
           <li className='border-white-f1f1f5/60 border-r-1 pr-2.5'>김성주 나소연 남만재 배민지</li>
           <li>코드잇 16기 파트4 3팀</li>
         </ul>
       </div>
 
-      <ul className='mb-5 flex items-end gap-2.5 2xl:absolute 2xl:left-1/2 2xl:mt-[-8px] 2xl:-translate-x-1/2 2xl:flex-col 2xl:items-center'>
+      <ul className='mb-5 flex flex-wrap items-end gap-2.5 2xl:absolute 2xl:left-1/2 2xl:mt-[-8px] 2xl:-translate-x-1/2 2xl:flex-col 2xl:items-center'>
         <li>
           <Logo width={80} height={40} />
         </li>
         <li className='2xl:text-center'>&copy; 2025 by 3team All rights reserved.</li>
       </ul>
 
-      <ul className='text-white-f1f1f5/60 relative flex items-end gap-5 md:absolute md:right-5 md:bottom-15 md:justify-end md:pb-10 xl:right-30'>
+      <ul className='text-white-f1f1f5/60 relative flex items-end gap-5 xl:absolute xl:right-30 xl:bottom-15 xl:justify-end'>
         {/* md:absolute md:right-5 md:bottom-15 xl:right-30  */}
         <li className='hover:text-white-f1f1f5'>
           <a

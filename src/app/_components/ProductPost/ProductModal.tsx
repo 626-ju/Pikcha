@@ -14,7 +14,7 @@ const ProductModal = ({ mode }: { mode: 'create' | 'edit' }) => {
   const title = mode === 'create' ? '작품 추가' : '작품 수정';
 
   return (
-    <Modal className='px-[30px] pb-[30px] md:px-10 md:pb-10'>
+    <Modal className='px-10 pb-[30px] md:px-10 md:pb-10'>
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
       </DialogHeader>

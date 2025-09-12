@@ -27,7 +27,7 @@ interface Props extends Partial<FallbackProps> {
 const ErrorFallback = ({ error, reset, resetErrorBoundary }: Props) => {
   const router = useRouter();
 
-  const userErrMsg = errMap[error.message] || '에러가 발생했습니다';
+  const userErrMsg = errMap[error.message] || '비정상적인 접근입니다';
 
   useEffect(() => {
     document.body.classList.add('hide-footer');
