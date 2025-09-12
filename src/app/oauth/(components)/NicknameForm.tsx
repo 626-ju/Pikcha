@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import BicLogo from '@/components/common/BigLogo';
 import Input from '@/components/common/Input';
 import Button from '@/components/ui/Buttons';
 import { oauthSignupSchema, OauthSignupValues } from '@/lib/validations/auth';
@@ -28,22 +29,25 @@ export const NicknameForm = ({ onSubmit, isBusy, errorMessage }: Props) => {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-10 space-y-5'>
-      <Input
-        type='text'
-        label='닉네임'
-        placeholder='닉네임을 입력해 주세요'
-        errorMessage={errors.nickname?.message}
-        {...register('nickname')}
-        hintMessage='최대 10자 가능'
-        maxLength={10}
-      />
-      <div>
-        <Button type='submit' className='shrink-0' disabled={isSubmitting || isBusy}>
-          {isSubmitting || isBusy ? '가입 중...' : '가입하기'}
-        </Button>
-        {errorMessage && toast.error(errorMessage)}
-      </div>
-    </form>
+    <div className='flex flex-col items-center justify-center'>
+      <BicLogo />
+      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-10 space-y-5 py-5'>
+        <Input
+          type='text'
+          label='닉네임'
+          placeholder='닉네임을 입력해 주세요'
+          errorMessage={errors.nickname?.message}
+          {...register('nickname')}
+          hintMessage='최대 10자 가능'
+          maxLength={10}
+        />
+        <div>
+          <Button type='submit' className='shrink-0' disabled={isSubmitting || isBusy}>
+            {isSubmitting || isBusy ? '가입 중...' : '가입하기'}
+          </Button>
+          {errorMessage && toast.error(errorMessage)}
+        </div>
+      </form>
+    </div>
   );
 };
