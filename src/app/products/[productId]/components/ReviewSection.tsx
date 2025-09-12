@@ -28,7 +28,6 @@ const ReviewSection = ({
   const {
     items: reviews,
     triggerRef,
-    hasMore,
     reset,
   } = useInfiniteScroll({
     initialData: initialReviews,
@@ -85,10 +84,6 @@ const ReviewSection = ({
         </div>
       )} */}
       <div ref={triggerRef} className='h-20'></div>
-
-      {!hasMore && reviews.length > 0 && (
-        <p className='text-gray-9fa6b2 mb-10 text-center'>모든 리뷰를 불러왔습니다.</p>
-      )}
     </section>
   );
 };
