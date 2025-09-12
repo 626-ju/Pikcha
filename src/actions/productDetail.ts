@@ -44,7 +44,10 @@ export const postProduct = async ({ categoryId, image, description, name }: Prod
     body: JSON.stringify(newProduct),
   });
 
-  revalidateTag(`products`);
+  // 전체 상품 목록과 해당 카테고리 상품 목록 업데이트
+  revalidateTag('products');
+  revalidateTag('products-list');
+  revalidateTag(`category-${categoryId}`);
 
   return res;
 };
@@ -75,7 +78,11 @@ export const patchProduct = async ({
     body: JSON.stringify(newProduct),
   });
 
+  // 제품 상세, 전체 목록, 해당 카테고리 목록 업데이트
   revalidateTag(`products-${productId}`);
+  revalidateTag('products');
+  revalidateTag('products-list');
+  revalidateTag(`category-${data.categoryId}`);
 
   return res;
 };
@@ -84,6 +91,15 @@ export const deleteProduct = async (productId: number) => {
   const session = await auth();
   const accessToken = session?.accessToken;
 
+  // 삭제하기 전에 제품 정보를 가져와서 카테고리 ID를 확인
+  let categoryId: number | null = null;
+  try {
+    const productDetail = await getProductDetail(productId);
+    categoryId = productDetail.categoryId;
+  } catch {
+    // 제품 정보를 가져올 수 없어도 삭제는 진행
+  }
+
   const res = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${productId}`, {
     method: 'DELETE',
     headers: {
@@ -91,6 +107,14 @@ export const deleteProduct = async (productId: number) => {
       'Content-Type': 'application/json',
     },
   });
+
+  // 전체 목록, 랭킹, 해당 카테고리 목록 업데이트
+  revalidateTag('products');
+  revalidateTag('products-ranking');
+  revalidateTag('products-list');
+  if (categoryId) {
+    revalidateTag(`category-${categoryId}`);
+  }
 
   return res;
 };

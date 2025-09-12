@@ -8,11 +8,11 @@ import { ProductListRes } from '@/types/products/productList';
 const API_BASE_URL = process.env.API_BASE_URL ?? '';
 const TEAM_ID = process.env.TEAM_ID ?? '';
 
-// 랭킹은 5분에 한 번씩 캐싱
+// 랭킹은 1시간마다 캐싱, 태그를 통한 즉시 갱신 가능
 async function api<T>(path: string): Promise<T> {
   return await fetcher(`${API_BASE_URL}/${TEAM_ID}/${path}`, {
     method: 'GET',
-    next: { revalidate: 300 },
+    next: { revalidate: 3600, tags: ['products-ranking'] },
     headers: { 'Content-Type': 'application/json' },
   });
 }

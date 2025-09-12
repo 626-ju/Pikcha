@@ -63,11 +63,21 @@ export const postReview = async ({
   });
 
   revalidatePath(`/products/${productId}`);
+  revalidateTag(`product-${productId}`);
+  revalidateTag('compare-products');
+  revalidateTag('products-ranking');
+  revalidateTag('reviewer-ranking');
 
   return res;
 };
 
-export const patchReview = async ({ rating, content, images, reviewId }: ReviewPatchFormValue) => {
+export const patchReview = async ({
+  rating,
+  content,
+  images,
+  reviewId,
+  productId,
+}: ReviewPatchFormValue & { productId: number }) => {
   const session = await auth();
   const accessToken = session?.accessToken;
 
@@ -88,6 +98,9 @@ export const patchReview = async ({ rating, content, images, reviewId }: ReviewP
   });
 
   revalidateTag('reviews');
+  revalidateTag(`product-${productId}`);
+  revalidateTag('compare-products');
+  revalidateTag('products-ranking');
 
   return res;
 };
@@ -106,6 +119,10 @@ export const deleteReview = async (reviewId: number, productId: number) => {
   });
 
   revalidatePath(`/products/${productId}`);
+  revalidateTag(`product-${productId}`);
+  revalidateTag('compare-products');
+  revalidateTag('products-ranking');
+  revalidateTag('reviewer-ranking');
   return res;
 };
 

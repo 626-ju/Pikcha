@@ -28,7 +28,7 @@ export async function GET(req: Request) {
       try {
         const product = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${id}`, {
           method: 'GET',
-          next: { revalidate: 300 },
+          next: { revalidate: 300, tags: [`product-${id}`, 'compare-products'] },
         });
         return product as ProductDetail;
       } catch {

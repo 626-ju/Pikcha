@@ -11,7 +11,7 @@ export const getReviewerRanking = async (): Promise<UserRanking[]> => {
   const data = await fetcher(`${API_BASE_URL}/${TEAM_ID}/users/ranking`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
-    next: { revalidate: 300 },
+    next: { revalidate: 300, tags: ['reviewer-ranking'] },
   });
   return data.slice(0, 5);
 };
