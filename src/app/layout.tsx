@@ -23,7 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={pretendard.variable}>
         <SessionProvider>
           <GlobalNav />
-          {children}
+          <main className='flex-1'>{children}</main>
           <FooterLazy />
           <FloatingButton />
           <SonnerToast />

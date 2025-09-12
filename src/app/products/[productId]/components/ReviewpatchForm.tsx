@@ -63,7 +63,7 @@ const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
       <Textbox
         placeholder='리뷰를 작성해 주세요.'
         {...register('content')}
-        maxLength={500}
+        maxLength={300}
         errorMessage={errors.content?.message}
       />
       <div className='my-scrollbar w-[295px] overflow-x-scroll md:w-[510px] xl:w-[540px]'>
