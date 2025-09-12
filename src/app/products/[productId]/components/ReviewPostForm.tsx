@@ -6,6 +6,7 @@ import { postReview } from '@/actions/review/review';
 import FileInput from '@/components/common/FileInput';
 import Textbox from '@/components/common/Textbox';
 import Button from '@/components/ui/Buttons';
+import { cn } from '@/lib/utils';
 import { useModalStore } from '@/store/modalStore';
 import { triggerStore } from '@/store/triggerStore';
 import { ReviewFormValue } from '@/types/review/review';
@@ -22,7 +23,7 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
     register,
     handleSubmit,
     control,
-    formState: { isSubmitting, errors },
+    formState: { isLoading, errors },
   } = useForm<ReviewFormValue>({
     resolver: zodResolver(postReviewSchema),
     mode: 'onChange',
@@ -71,7 +72,12 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
           )}
         />
       </div>
-      <Button variant='primary' type='submit' disabled={isSubmitting} className='mt-[15px]'>
+      <Button
+        variant='primary'
+        type='submit'
+        disabled={isLoading}
+        className={cn('mt-[15px]', errors.rating?.message ? 'bg-black-353542 !cursor-default' : '')}
+      >
         {(errors && (errors.content?.message ?? errors.rating?.message)) || '리뷰 등록하기'}
       </Button>
     </form>

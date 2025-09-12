@@ -17,14 +17,19 @@ export const getProductReviews = async (
   const session = await auth();
   const accessToken = session?.accessToken;
 
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (accessToken) {
+    headers.Authorization = `Bearer ${accessToken}`;
+  }
+
   const productReviews: ReviewResponse = await fetcher(
     `${BASE_URL}/${TEAM_ID}/products/${productId}/reviews?order=${option}&cursor=${cursorId}`,
     {
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
+      headers,
       next: { revalidate: 300, tags: [`reviews`] },
       cache: 'force-cache',
     },
