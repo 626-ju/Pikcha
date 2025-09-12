@@ -32,7 +32,15 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
     <div className='mx-auto max-w-250 px-5 py-10'>
       <header className='flex w-full flex-col md:max-h-[350px] md:flex-row'>
         <div className='relative mx-auto aspect-[5/7] w-full shrink-0 transition-normal duration-300 md:max-w-[250px]'>
-          <Image src={posterImage} alt='영화 포스터' fill priority className='object-cover' />
+          <Image
+            src={posterImage}
+            alt='영화 포스터'
+            width={500}
+            height={700}
+            priority
+            fetchPriority='high'
+            className='h-full w-full object-cover'
+          />
         </div>
         <div className='mt-5 flex w-full flex-col gap-[10px] md:mt-0 md:pl-5'>
           <div className='flex justify-between'>

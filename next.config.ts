@@ -35,6 +35,10 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
     ],
     domains: ['mogazoa-api.vercel.app', 'example.com'],
   },

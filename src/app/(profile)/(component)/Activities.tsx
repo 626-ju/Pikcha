@@ -22,12 +22,12 @@ const Activities = async ({ userid }: Props) => {
         <StatisticsCard title='남긴 별점 평균'>
           <div className='text-yellow-ffc83c flex gap-[5px]'>
             <StarIcon size={20} />
-            <span className='text-white-f1f1f5 light:text-gray-9fa6b2'>{RoundaverageRating}</span>
+            <span className='text-white-f1f1f5'>{RoundaverageRating}</span>
           </div>
         </StatisticsCard>
 
         <StatisticsCard title='남긴 리뷰'>
-          <div className='light:text-gray-9fa6b2 flex gap-[5px]'>
+          <div className='flex gap-[5px]'>
             <ReviewIcon size={20} />
             {data.reviewCount}
           </div>
