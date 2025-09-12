@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang='ko' className={'theme'}>
+    <html lang='ko'>
       <body className={pretendard.variable}>
         <SessionProvider>
           <GlobalNav />
