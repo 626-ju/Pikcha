@@ -59,7 +59,7 @@ const Footer = () => {
         <li className='2xl:text-center'>&copy; 2025 by 3team All rights reserved.</li>
       </ul>
 
-      <ul className='text-white-f1f1f5/60 relative flex items-end gap-5 md:absolute md:right-5 md:bottom-15 md:justify-end xl:right-30'>
+      <ul className='text-white-f1f1f5/60 relative flex items-end gap-5 xl:absolute xl:right-30 xl:bottom-15 xl:justify-end'>
         {/* md:absolute md:right-5 md:bottom-15 xl:right-30  */}
         <li className='hover:text-white-f1f1f5'>
           <a
