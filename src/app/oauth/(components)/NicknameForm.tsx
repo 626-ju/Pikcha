@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import BicLogo from '@/components/common/BigLogo';
 import Input from '@/components/common/Input';
 import Button from '@/components/ui/Buttons';
-import { oauthSignupSchema, OauthSignupValues } from '@/lib/validations/auth';
+import { oauthSignupSchema, type OauthSignupValues } from '@/lib/validations/auth';
 
 type Props = {
   onSubmit: (values: OauthSignupValues) => Promise<void> | void;
@@ -22,16 +22,34 @@ export const NicknameForm = ({ onSubmit, isBusy, errorMessage }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<OauthSignupValues>({
     resolver: zodResolver(oauthSignupSchema),
     mode: 'onBlur',
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+      setIsLoading(false);
+    }
+  }, [errorMessage]);
+
+  const handleFormSubmit = async (values: OauthSignupValues) => {
+    try {
+      setIsLoading(true);
+      await onSubmit(values);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div>
       <BicLogo />
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-10 space-y-5 px-5'>
+      <form onSubmit={handleSubmit(handleFormSubmit)} className='flex flex-col gap-10 px-5'>
         <Input
           type='text'
           label='닉네임'
@@ -42,10 +60,9 @@ export const NicknameForm = ({ onSubmit, isBusy, errorMessage }: Props) => {
           maxLength={10}
         />
         <div>
-          <Button type='submit' className='shrink-0' disabled={isSubmitting || isBusy}>
-            {isSubmitting || isBusy ? '가입 중...' : '가입하기'}
+          <Button type='submit' className='shrink-0' disabled={isLoading || isBusy}>
+            {isLoading || isBusy ? '가입 중...' : '가입하기'}
           </Button>
-          {errorMessage && toast.error(errorMessage)}
         </div>
       </form>
     </div>
