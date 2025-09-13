@@ -6,7 +6,6 @@ import GlobalNav from '@/components/common/gnb/GlobalNav';
 import ModalContainer from '@/components/common/ModalContainer';
 import SonnerToast from '@/components/common/SonnerToast';
 import FloatingButton from '@/components/ui/FloatingButton';
-import { cn } from '@/lib/utils';
 
 import pretendard from '../lib/utils/fonts/pretendard';
 
@@ -20,8 +19,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang='ko' className={'theme'}>
-      <body className={cn(pretendard.variable, 'flex min-h-screen flex-col')}>
+    <html lang='ko'>
+      <body className={pretendard.variable}>
         <SessionProvider>
           <GlobalNav />
           <main className='flex-1'>{children}</main>
