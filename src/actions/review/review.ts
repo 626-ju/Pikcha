@@ -131,7 +131,6 @@ export const toggleReviewLike = async (reviewId: number, isCurrentlyLike: boolea
   const accessToken = session?.accessToken;
 
   const method = isCurrentlyLike ? 'DELETE' : 'POST';
-  console.log('method:', method);
   const res = await fetcher(`${BASE_URL}/${TEAM_ID}/reviews/${reviewId}/like`, {
     method: method,
     headers: {

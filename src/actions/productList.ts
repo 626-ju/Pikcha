@@ -6,7 +6,7 @@ import { ProductListRes, ProductSearch } from '@/types/products/productList';
 // 상품 검색을 위한 api 호출
 // .env 내 teamId 환경 변수로 포함되어 있음.
 const API_BASE_URL = process.env.API_BASE_URL ?? '';
-const TEAM_ID = process.env.TEAM_ID ?? '';
+const TEAM_ID = process.env.TEST_TEAM_ID ?? '';
 
 async function product<T>(path: string, init?: RequestInit, customTags?: string[]): Promise<T> {
   return await fetcher(`${API_BASE_URL}/${TEAM_ID}${path}`, {
@@ -33,7 +33,9 @@ export async function searchProducts(params: ProductSearch) {
     tags.push(`category-${params.category}`);
   }
 
-  return product<ProductListRes>(url, undefined, tags);
+  const result = await product<ProductListRes>(url, undefined, tags);
+
+  return result;
 }
 
 // 검색창 검색 시 검색창 하단에 추천 리스트를 보여주는 서버 액션
