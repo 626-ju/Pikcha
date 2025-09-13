@@ -102,10 +102,10 @@ const ProfileUpdateForm = () => {
         <div
           className={cn(
             'text-red-ff0000 relative flex flex-col items-center justify-start',
-            'mt-[26px] md:mt-[30px]', //모바일 36px 태블릿 40px
+            'mt-[30px] md:mt-10', //모바일 40px 태블릿 50px
           )}
         >
-          <p className='text-mogazoa-14px-300 absolute top-[-20px]'>
+          <p className='md:text-mogazoa-14px-300 text-mogazoa-12px-300 absolute top-[-24px] h-4'>
             {err && '닉네임이 중복되었습니다'}
           </p>
           <Button disabled={!isDirty || isLoading || err} className={cn('mb-5')}>
