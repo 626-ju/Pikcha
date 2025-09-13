@@ -1,5 +1,3 @@
-'use server';
-
 import fetcher from '@/lib/utils/fetcher';
 
 const getFollowInfo = async (type: 'followers' | 'followees', cursor: number = 0, userid: number) =>
