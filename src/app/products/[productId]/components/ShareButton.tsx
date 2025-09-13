@@ -20,7 +20,7 @@ const ShareButton = ({
   const handleClickShareKakao = () => {
     if (!window.Kakao) return toast.error('카카오톡 공유하기를 실패하였습니다.');
     window.Kakao.Share.sendCustom({
-      templateId: 124124,
+      templateId: 124296,
       templateArgs: { THU: product?.image as string },
     });
   };

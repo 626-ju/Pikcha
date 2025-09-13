@@ -48,7 +48,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
     <div className='bg-black-252530 border-black-353542 flex w-full flex-col gap-5 rounded-[8px] border-[1px] p-5 transition-normal duration-300 md:flex-row'>
       <ReviewAvatar user={review.user} rating={review.rating} />
       <div className='flex w-full flex-col gap-5'>
-        <div className='text-mogazoa-12px-400'>{review.content}</div>
+        <div className='text-mogazoa-14px-400 xl:text-mogazoa-16px-400'>{review.content}</div>
         {filteredImages.length > 0 && (
           <div className='flex gap-[10px] xl:gap-[20px]'>
             {filteredImages.map((ri) => (

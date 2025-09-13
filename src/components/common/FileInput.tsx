@@ -14,9 +14,10 @@ interface FileInputProps {
   maxFiles?: number;
   value: string[];
   onChange: (value: string[]) => void;
+  hasError?: string | undefined;
 }
 
-const FileInput = ({ maxFiles = 1, value, onChange }: FileInputProps) => {
+const FileInput = ({ maxFiles = 1, value, onChange, hasError }: FileInputProps) => {
   const [files, setFiles] = useState<string[]>(value ?? []);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { showBoundary } = useErrorBoundary();
@@ -61,6 +62,7 @@ const FileInput = ({ maxFiles = 1, value, onChange }: FileInputProps) => {
             'border-black-353542 bg-black-252530 border',
             'aspect-square w-30 rounded-[8px]',
             'md:w-40',
+            hasError && 'border-red-ff0000',
           )}
           onClick={() => fileInputRef.current?.click()}
         >

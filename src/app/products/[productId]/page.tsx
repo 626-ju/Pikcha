@@ -1,5 +1,6 @@
 'use server';
 
+import { Metadata } from 'next';
 import Image from 'next/image';
 
 import { getProductDetail } from '@/actions/productDetail';
@@ -15,6 +16,19 @@ import ShareButton from './components/ShareButton';
 type ProductIdPageProps = {
   params: Promise<{ productId: string }>;
 };
+
+export async function generateMetadata({ params }: ProductIdPageProps): Promise<Metadata> {
+  const { productId } = await params;
+  const product = await getProductDetail(Number(productId));
+
+  return {
+    title: `${product.name} | 픽챠(Pikcha)`,
+    description: product.description,
+    openGraph: {
+      images: product.image,
+    },
+  };
+}
 
 const ProductIdPage = async ({ params }: ProductIdPageProps) => {
   const { productId } = await params;
