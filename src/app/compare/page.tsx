@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 
+import Loading from '@/components/common/LoadingSpinner';
 import { useCompareController } from '@/hooks/useCompareController';
 import { useCompareProducts } from '@/hooks/useCompareProducts';
 import { useCompareStore } from '@/store/compareStore';
@@ -44,9 +45,10 @@ const ComparePage = () => {
   // 로딩 상태
   if (loading) {
     return (
-      <div className={CONTAINER_CLASS}>
-        <div className={TEXT_CENTER_CLASS}>
-          <p className='text-gray-9fa6b2'>영화 정보를 불러오는 중...</p>
+      <div className='flex min-h-screen items-center justify-center'>
+        <div className='flex flex-col items-center gap-8'>
+          <Loading />
+          <p className='text-gray-9fa6b2 text-mogazoa-16px-300'>비교 목록 불러오는 중...</p>
         </div>
       </div>
     );
