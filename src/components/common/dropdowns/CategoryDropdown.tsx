@@ -12,9 +12,11 @@ import { categoryArray, getCategoryName } from '@/lib/utils/categoryNameMap';
 export const CategoryDropdown = ({
   onChange,
   currentValue,
+  hasError,
 }: {
   onChange?: (id: number) => void;
   currentValue: number | undefined;
+  hasError?: string | undefined;
 }) => {
   // onChange = 프롭을 number로 받는 함수
   const [value, setValue] = useState<string | null>(null);
@@ -36,7 +38,7 @@ export const CategoryDropdown = ({
       type='button'
       tabIndex={0}
       ref={dropdownRef}
-      className='bg-black-353542 focus:bg-main-gradation hover:bg-main-gradation text-mogazoa-14px-400 relative flex h-[55px] w-full items-center justify-center rounded-[8px] p-[1.2px] md:h-[60px] xl:h-[70px]'
+      className={`bg-black-353542 ${hasError ? 'bg-red-ff0000' : 'focus:bg-main-gradation hover:bg-main-gradation'} text-mogazoa-14px-400 relative flex h-[55px] w-full items-center justify-center rounded-[8px] p-[1.2px] md:h-[60px] xl:h-[70px]`}
       onClick={toggleDropdown}
     >
       <div

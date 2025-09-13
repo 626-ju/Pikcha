@@ -22,7 +22,7 @@ const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
     register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting, isDirty, isValid },
+    formState: { errors, isLoading, isDirty, isValid },
   } = useForm<ReviewFormValue>({
     resolver: zodResolver(patchReviewSchema),
     mode: 'onChange',
@@ -54,18 +54,20 @@ const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex w-full flex-col gap-[10px]'>
+    <form onSubmit={handleSubmit(onSubmit)} className='flex w-full flex-col'>
       <Controller
         name='rating'
         control={control}
         render={({ field }) => <StarRating value={field.value} onChange={field.onChange} />}
       />
-      <Textbox
-        placeholder='리뷰를 작성해 주세요.'
-        {...register('content')}
-        maxLength={500}
-        errorMessage={errors.content?.message}
-      />
+      <div className='my-[10px]'>
+        <Textbox
+          placeholder='리뷰를 작성해 주세요.'
+          {...register('content')}
+          maxLength={500}
+          errorMessage={errors.content?.message}
+        />
+      </div>
       <div className='my-scrollbar w-[295px] overflow-x-scroll md:w-[510px] xl:w-[540px]'>
         <Controller
           name='images'
@@ -75,13 +77,16 @@ const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
           )}
         />
       </div>
+      <p className='text-mogazoa-12px-300 md:text-mogazoa-14px-300 text-red-ff0000 mt-4 flex justify-center'>
+        {errors && (errors.content?.message ?? errors.rating?.message)}
+      </p>
       <Button
         variant='primary'
         type='submit'
-        disabled={isSubmitting || !isDirty || !isValid}
-        className='mt-[15px]'
+        disabled={isLoading || !isDirty || !isValid}
+        className={`mt-5 md:mt-6 ${errors.content?.message && 'mt-1 md:mt-1'}`}
       >
-        {(errors && (errors.content?.message ?? errors.rating?.message)) || '리뷰 수정하기'}
+        리뷰 수정하기
       </Button>
     </form>
   );

@@ -6,7 +6,6 @@ import { postReview } from '@/actions/review/review';
 import FileInput from '@/components/common/FileInput';
 import Textbox from '@/components/common/Textbox';
 import Button from '@/components/ui/Buttons';
-import { cn } from '@/lib/utils';
 import { useModalStore } from '@/store/modalStore';
 import { triggerStore } from '@/store/triggerStore';
 import { ReviewFormValue } from '@/types/review/review';
@@ -42,7 +41,7 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex w-full flex-col gap-[10px]'>
+    <form onSubmit={handleSubmit(onSubmit)} className='flex w-full flex-col'>
       <Controller
         name='rating'
         control={control}
@@ -54,12 +53,14 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
           />
         )}
       />
-      <Textbox
-        placeholder='리뷰를 작성해 주세요.'
-        {...register('content')}
-        maxLength={500}
-        errorMessage={errors.content?.message}
-      />
+      <div className='my-[10px]'>
+        <Textbox
+          placeholder='리뷰를 작성해 주세요.'
+          {...register('content')}
+          maxLength={500}
+          errorMessage={errors.content?.message}
+        />
+      </div>
       {/* <p className={`text-red-ff0000 text-mogazoa-12px-300 h-3`}>
         {errors && (errors.content?.message ?? errors.rating?.message)}
       </p>  <- 최종 픽스되면 지우기 */}
@@ -72,13 +73,16 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
           )}
         />
       </div>
+      <p className='text-mogazoa-12px-300 md:text-mogazoa-14px-300 text-red-ff0000 mt-4 flex justify-center'>
+        {errors && (errors.content?.message ?? errors.rating?.message)}
+      </p>
       <Button
         variant='primary'
         type='submit'
         disabled={isLoading}
-        className={cn('mt-[15px]', errors.rating?.message ? 'bg-black-353542 !cursor-default' : '')}
+        className={`mt-5 md:mt-6 ${(errors.content?.message || errors.rating?.message) && 'mt-1 md:mt-1'}`}
       >
-        {(errors && (errors.content?.message ?? errors.rating?.message)) || '리뷰 등록하기'}
+        리뷰 수정하기
       </Button>
     </form>
   );
