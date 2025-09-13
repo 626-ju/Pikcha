@@ -15,7 +15,7 @@ const Footer = () => {
   const [hideFooter, setHideFooter] = useState(false);
 
   useEffect(() => {
-    const hideFooterPaths = ['/signin', '/signup'];
+    const hideFooterPaths = ['/signin', '/signup', '/oauth/kakao'];
     const hideByPath = hideFooterPaths.includes(pathname);
     const hideByClass = document.body.classList.contains('hide-footer');
 
