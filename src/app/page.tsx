@@ -36,10 +36,10 @@ const Home = async ({
     <div className='px-5 pb-32 md:px-[30px] xl:px-[120px]'>
       <div className='flex items-start gap-6'>
         <Sidebar selected={category} q={q} />
-        <section className='min-w-0 flex-1 overflow-hidden px-[20px]'>
+        <section className='min-w-0 flex-1 px-[20px]'>
           <ReviewerRank
             users={users}
-            className='mb-6 pt-[30px] pb-3 md:pt-[60px] xl:hidden xl:pt-[40px]'
+            className='mb-6 pt-[30px] pb-3 md:mb-0 md:pt-[60px] xl:hidden xl:pt-[40px]'
           />
           <MobileCategoryFilter className='mb-3 md:hidden' />
           {q === '' && category === null ? (
@@ -51,7 +51,9 @@ const Home = async ({
             <NoResult />
           ) : (
             <div>
-              <ResultTitle category={category} q={q} />
+              <div className='bg-black-1c1c22 sticky top-[70px] z-5 flex items-center justify-between py-6 md:top-[80px] xl:top-[100px]'>
+                <ResultTitle category={category} q={q} />
+              </div>
               <SearchResultList
                 initialProducts={items}
                 initialCursor={data.nextCursor}
