@@ -19,9 +19,32 @@ interface CompareResultProps {
 }
 
 const CompareResult = ({ products, onBackToSelection }: CompareResultProps) => {
-  const comparisonResult = compareProducts(products[0], products[1]);
+  const [latestProducts, setLatestProducts] = useState(products);
+  const comparisonResult = compareProducts(latestProducts[0], latestProducts[1]);
   const [hasStreamingProviders, setHasStreamingProviders] = useState(false);
   const [providers, setProviders] = useState<ProviderInfo[]>([]);
+
+  // 컴포넌트 마운트 시 최신 데이터 가져오기
+  useEffect(() => {
+    const fetchLatestData = async () => {
+      try {
+        const productIds = products.map((p) => p.id);
+        const qs = new URLSearchParams({ ids: productIds.join(','), force: 'true' }).toString();
+        const response = await fetch(`/api/products/batch?${qs}`, { cache: 'no-store' });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.list?.length === 2) {
+            setLatestProducts([data.list[0], data.list[1]]);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch latest data:', error);
+      }
+    };
+
+    fetchLatestData();
+  }, [products]);
 
   useEffect(() => {
     const checkStreamingProviders = async () => {
@@ -53,12 +76,12 @@ const CompareResult = ({ products, onBackToSelection }: CompareResultProps) => {
         winner={comparisonResult.winner}
         winCount={comparisonResult.winCount}
         isDraw={comparisonResult.isDraw}
-        products={products}
+        products={latestProducts}
       />
 
-      <CompareMovieCards products={products} comparisonResult={comparisonResult} />
+      <CompareMovieCards products={latestProducts} comparisonResult={comparisonResult} />
 
-      <CompareTable products={products} comparisonResult={comparisonResult} />
+      <CompareTable products={latestProducts} comparisonResult={comparisonResult} />
 
       <div className='mt-8 space-y-4 text-center'>
         {comparisonResult.winner && hasStreamingProviders && (

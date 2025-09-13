@@ -6,12 +6,14 @@ interface UseCompareProductsResult {
   products: ProductDetail[];
   loading: boolean;
   error: string | null;
+  refetch: () => void;
 }
 
 export function useCompareProducts(productIds: number[]): UseCompareProductsResult {
   const [products, setProducts] = useState<ProductDetail[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -45,7 +47,9 @@ export function useCompareProducts(productIds: number[]): UseCompareProductsResu
 
     fetchProducts();
     return () => controller.abort();
-  }, [productIds]);
+  }, [productIds, refreshKey]);
 
-  return { products, loading, error };
+  const refetch = () => setRefreshKey((prev) => prev + 1);
+
+  return { products, loading, error, refetch };
 }
