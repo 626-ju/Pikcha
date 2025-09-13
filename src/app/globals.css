@@ -294,6 +294,15 @@ input:-webkit-autofill:active {
   z-index: 50 !important;
 }
 
+@media (max-width: 600px) {
+  [data-sonner-toaster] [data-sonner-toast].trailer-toast {
+    left: auto !important;
+    right: 20px !important;
+    width: auto !important;
+    max-width: 90vw !important;
+  }
+}
+
 @layer utilities {
   @keyframes shake {
     0%,
