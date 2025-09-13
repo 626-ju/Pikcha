@@ -33,7 +33,7 @@ const ComparePage = () => {
     enterDeleteMode,
     exitDeleteMode,
     confirmDeleteSelected,
-    clearAll,
+    openClearAllModal,
   } = useCompareController({ compareList, removeProduct, clearCompareList, compareProducts });
 
   const selectedDeleteProducts = useMemo(
@@ -105,15 +105,24 @@ const ComparePage = () => {
       />
 
       {mode !== 'compare' && (
-        <CompareToolbar
-          mode={mode}
-          compareListLength={compareList.length}
-          selectedDeleteCount={selectedDeleteProducts.length}
-          onEnterDelete={enterDeleteMode}
-          onExitDelete={exitDeleteMode}
-          onConfirmDelete={confirmDeleteSelected}
-          onClearAll={clearAll}
-        />
+        <div className='flex w-auto items-center justify-between'>
+          {mode === 'delete' && (
+            <p className='text-main-blue text-mogazoa-14px-300 md:text-mogazoa-16px-400 py-3 pl-2 md:pl-16'>
+              삭제할 영화를 선택해주세요
+            </p>
+          )}
+          <div className={mode === 'delete' ? '' : 'ml-auto'}>
+            <CompareToolbar
+              mode={mode}
+              compareListLength={compareList.length}
+              selectedDeleteCount={selectedDeleteProducts.length}
+              onEnterDelete={enterDeleteMode}
+              onExitDelete={exitDeleteMode}
+              onConfirmDelete={confirmDeleteSelected}
+              onClearAll={openClearAllModal}
+            />
+          </div>
+        </div>
       )}
 
       <CompareGrid
