@@ -6,6 +6,10 @@ import { CATEGORY_NAME_MAP } from '@/lib/utils/categoryNameMap';
 const Sidebar = ({ selected, q }: { selected: number | null; q: string }) => {
   const { navigateToCategory } = useCategoryNavigation();
 
+  const handleCategoryClick = (category: number | null) => {
+    navigateToCategory(category, q);
+  };
+
   return (
     <aside className='sticky top-[45px] hidden h-fit w-[200px] pt-[63px] md:top-[80px] md:flex xl:top-[100px]'>
       <div className='flex flex-col'>
@@ -19,7 +23,7 @@ const Sidebar = ({ selected, q }: { selected: number | null; q: string }) => {
             <button
               key={id}
               className={`h-[50px] w-[220px] rounded-md py-[15px] pl-[20px] text-left ${isSelected ? 'text-white-f1f1f5 bg-black-353542' : 'text-gray-6e6e82'}`}
-              onClick={() => navigateToCategory(isSelected ? null : numId, q)}
+              onClick={() => handleCategoryClick(isSelected ? null : numId)}
             >
               {label}
             </button>
