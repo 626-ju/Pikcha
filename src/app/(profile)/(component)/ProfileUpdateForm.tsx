@@ -11,6 +11,7 @@ import FileInput from '@/components/common/FileInput';
 import Input from '@/components/common/Input';
 import Textbox from '@/components/common/Textbox';
 import Button from '@/components/ui/Buttons';
+import { cn } from '@/lib/utils';
 import { useModalStore } from '@/store/modalStore';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { profileSchema, type ProfileFormValues } from '@/types/profile/profileUpdateSchema';
@@ -72,7 +73,7 @@ const ProfileUpdateForm = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
+      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-[10px]'>
         <Controller
           name='image'
           control={control}
@@ -98,9 +99,19 @@ const ProfileUpdateForm = () => {
           {...register('description')}
         />
 
-        <Button disabled={!isDirty || isLoading || err} className='my-5'>
-          {isLoading ? '저장 중...' : err ? '닉네임이 중복되었습니다' : '저장하기'}
-        </Button>
+        <div
+          className={cn(
+            'text-red-ff0000 relative flex flex-col items-center justify-start',
+            'mt-[26px] md:mt-[30px]', //모바일 36px 태블릿 40px
+          )}
+        >
+          <p className='text-mogazoa-14px-300 absolute top-[-20px]'>
+            {err && '닉네임이 중복되었습니다'}
+          </p>
+          <Button disabled={!isDirty || isLoading || err} className={cn('mb-5')}>
+            {isLoading ? '저장 중...' : '저장하기'}
+          </Button>
+        </div>
       </form>
     </div>
   );
