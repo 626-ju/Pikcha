@@ -51,13 +51,6 @@ const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
     [sp, router, onSearchExecute],
   );
 
-  // URL 초기화 처리
-  useEffect(() => {
-    if (!query && sp.get('q')) {
-      goHomeWithQ('');
-    }
-  }, [query, sp, goHomeWithQ]);
-
   return (
     <div className='relative px-2'>
       {/* 모바일용 서치박스 래퍼 */}
