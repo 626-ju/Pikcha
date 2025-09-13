@@ -52,6 +52,18 @@ export default function SearchResultList({
     reset();
   }, [sortBy, reset]);
 
+  // 상품 등록/수정/삭제 시 목록 새로고침을 위한 이벤트 리스너
+  useEffect(() => {
+    const handleProductUpdate = () => {
+      reset();
+    };
+
+    window.addEventListener('productUpdated', handleProductUpdate);
+    return () => {
+      window.removeEventListener('productUpdated', handleProductUpdate);
+    };
+  }, [reset]);
+
   const handleSortChange = (value: string) => {
     setSortBy(value as 'recent' | 'rating' | 'reviewCount');
   };
