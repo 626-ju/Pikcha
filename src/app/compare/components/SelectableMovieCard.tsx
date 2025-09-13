@@ -15,7 +15,6 @@ interface SelectableMovieCardProps {
 const SelectableMovieCard = ({ product, isSelected, onSelect }: SelectableMovieCardProps) => {
   return (
     <div className={`w-[120px] text-center transition-all`}>
-      <h3 className='text-mogazoa-12px-300 text-white-f1f1f5 mb-2 line-clamp-1'>{product.name}</h3>
       <div
         className={`relative mb-2 aspect-[5/7] cursor-pointer rounded-sm border-3 transition-all ${
           isSelected ? 'border-main-indigo' : 'border-transparent hover:border-gray-500'
@@ -35,6 +34,7 @@ const SelectableMovieCard = ({ product, isSelected, onSelect }: SelectableMovieC
           </div>
         )}
       </div>
+      <h3 className='text-mogazoa-12px-300 text-white-f1f1f5 mb-2 line-clamp-1'>{product.name}</h3>
     </div>
   );
 };
