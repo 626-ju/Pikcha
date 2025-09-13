@@ -18,7 +18,7 @@ const ReviewPostModal = ({ review, mode }: { review?: ReviewDetail; mode: 'creat
   const category = useCurrentProductStore((state) => state.product?.category);
 
   return (
-    <Modal className='px-10 pb-7 md:pb-10'>
+    <Modal className='px-10 pb-10'>
       <DialogHeader className='flex flex-col items-start gap-[10px]'>
         <CategoryChip category={category} />
         <DialogTitle>{title}</DialogTitle>

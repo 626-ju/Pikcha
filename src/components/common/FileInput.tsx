@@ -61,8 +61,7 @@ const FileInput = ({ maxFiles = 1, value, onChange, hasError }: FileInputProps) 
             'flex shrink-0 cursor-pointer items-center justify-center',
             'border-black-353542 bg-black-252530 border',
             'aspect-square w-30 rounded-[8px]',
-            'md:w-[135px]',
-            'xl:w-40',
+            'md:w-40',
             hasError && 'border-red-ff0000',
           )}
           onClick={() => fileInputRef.current?.click()}
