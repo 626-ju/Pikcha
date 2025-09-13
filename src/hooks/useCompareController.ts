@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useCompareStore } from '@/store/compareStore';
+import { useModalStore } from '@/store/modalStore';
 import { type ProductDetail } from '@/types/product/productType';
 
 type Mode = 'browse' | 'delete' | 'compare';
@@ -19,6 +20,7 @@ export function useCompareController({
   compareProducts,
 }: ControllerDeps) {
   const { shouldAutoSelect, setShouldAutoSelect } = useCompareStore();
+  const { openModal } = useModalStore();
   const [mode, setMode] = useState<Mode>('browse');
 
   // 선택 상태(id값) 관리
@@ -194,6 +196,17 @@ export function useCompareController({
     setMode('browse');
   }, [clearCompareList]);
 
+  // 전체 삭제 확인 모달 열기
+  const openClearAllModal = useCallback(async () => {
+    const { default: ClearAllConfirmModal } = await import(
+      '@/app/compare/components/ClearAllConfirmModal'
+    );
+    openModal({
+      component: ClearAllConfirmModal,
+      props: { onConfirm: clearAll },
+    });
+  }, [openModal, clearAll]);
+
   return {
     // state
     mode,
@@ -215,6 +228,7 @@ export function useCompareController({
     exitDeleteMode,
     confirmDeleteSelected,
     clearAll,
+    openClearAllModal,
     resetSelection,
   };
 }
