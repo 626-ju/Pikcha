@@ -16,9 +16,8 @@ const OauthSignupPage = () => {
     <div
       className={cn(
         'm-auto flex flex-col',
-        'h-screen',
+        'h-screen pt-5',
         'w-[335px] md:w-[440px] xl:w-[640px]',
-        'py-[30px] md:py-[181px] xl:py-[93px]',
         'gap-[60px]',
       )}
     >

@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import BicLogo from '@/components/common/BigLogo';
 import { cn } from '@/lib/utils';
 
 import SigninForm from './(components)/SigninForm';
@@ -12,6 +13,7 @@ import SnsSignin from './(components)/SnsSignin';
 const SigninPage = () => {
   return (
     <>
+      <BicLogo />
       <SigninForm />
       <SignupCTA />
       <hr
