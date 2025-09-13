@@ -1,4 +1,4 @@
-'use server';
+export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: ProductIdPageProps): Promise<
   const product = await getProductDetail(Number(productId));
 
   return {
-    title: `${product.name} | 픽챠(Pikcha)`,
+    title: product.name,
     description: product.description,
     openGraph: {
       images: product.image,
