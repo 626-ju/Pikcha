@@ -82,7 +82,7 @@ const ReviewPostForm = ({ productId }: { productId: number }) => {
         disabled={isLoading}
         className={`mt-5 md:mt-6 ${(errors.content?.message || errors.rating?.message) && 'mt-1 md:mt-1'}`}
       >
-        리뷰 수정하기
+        리뷰 추가하기
       </Button>
     </form>
   );
