@@ -70,7 +70,7 @@ export default function SearchResultList({
 
   return (
     <div className='relative'>
-      <div className='sticky top-[100px] z-50 mb-4 flex justify-end md:top-[150px] xl:top-[170px]'>
+      <div className='top-[100px] z-50 mb-4 flex justify-end md:sticky md:top-[150px] xl:top-[170px]'>
         <SortDropdown
           variant='product'
           option={sortBy}
