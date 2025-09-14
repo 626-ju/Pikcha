@@ -38,22 +38,54 @@ const Hero = () => {
     >
       <CarouselContent>
         <CarouselItem>
-          <Image src='/images/Hero1.webp' alt='굿 윌 헌팅' width={1180} height={460} />
+          <Image
+            src='/images/Hero1.webp'
+            alt='굿 윌 헌팅'
+            width={1180}
+            height={460}
+            priority
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1180px'
+            fetchPriority='high'
+          />
         </CarouselItem>
         <CarouselItem>
           <HeroLogoCard />
         </CarouselItem>
         <CarouselItem>
-          <Image src='/images/Hero2.webp' alt='귀멸의 칼날' width={1180} height={460} />
+          <Image
+            src='/images/Hero2.webp'
+            alt='귀멸의 칼날'
+            width={1180}
+            height={460}
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1180px'
+          />
         </CarouselItem>
         <CarouselItem>
-          <Image src='/images/Hero4.webp' alt='뜨거운 것이 좋아' width={1180} height={460} />
+          <Image
+            src='/images/Hero4.webp'
+            alt='뜨거운 것이 좋아'
+            width={1180}
+            height={460}
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1180px'
+          />
         </CarouselItem>
         <CarouselItem>
-          <Image src='/images/Hero3.webp' alt='기적 1' width={1180} height={460} />
+          <Image
+            src='/images/Hero3.webp'
+            alt='기적 1'
+            width={1180}
+            height={460}
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1180px'
+          />
         </CarouselItem>
         <CarouselItem>
-          <Image src='/images/Hero3-1.webp' alt='기적 2' width={1180} height={460} />
+          <Image
+            src='/images/Hero3-1.webp'
+            alt='기적 2'
+            width={1180}
+            height={460}
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1180px'
+          />
         </CarouselItem>
       </CarouselContent>
       <CarouselPrevious />
