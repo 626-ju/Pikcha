@@ -3,6 +3,7 @@ import { getReviewerRanking } from '@/actions/review/reviewer';
 import FloatingButton from '@/components/ui/FloatingButton';
 
 import { searchProducts } from '../actions/productList';
+import Hero from './_components/Hero';
 import MobileCategoryFilter from './_components/MobileCategoryFilter';
 import NoResult from './_components/NoResult';
 import RatingRank from './_components/RatingRank';
@@ -43,7 +44,8 @@ const Home = async ({
           />
           <MobileCategoryFilter className='mb-3 md:hidden' />
           {q === '' && category === null ? (
-            <div className='flex flex-col gap-[80px]'>
+            <div className='flex flex-col gap-[80px] xl:pt-1'>
+              <Hero />
               <ReviewRank products={topReviewed} />
               <RatingRank products={topRated} />
             </div>
@@ -51,7 +53,7 @@ const Home = async ({
             <NoResult />
           ) : (
             <div>
-              <div className='bg-black-1c1c22 sticky top-[70px] z-5 flex items-center justify-between py-6 md:top-[80px] xl:top-[100px]'>
+              <div className='bg-black-1c1c22 top-[70px] z-5 flex items-center justify-between py-6 md:sticky md:top-[80px] xl:top-[100px]'>
                 <ResultTitle category={category} q={q} />
               </div>
               <SearchResultList
