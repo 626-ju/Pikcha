@@ -65,8 +65,11 @@ const SearchForm = ({ onSearchExecute }: SearchFormProps) => {
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
-            const searchQuery = selectedSuggestion || query;
-            goHomeWithQ(searchQuery);
+            // 디바운스와 관계없이 현재 입력값으로 즉시 검색
+            const searchQuery = selectedSuggestion || query.trim();
+            if (searchQuery) {
+              goHomeWithQ(searchQuery);
+            }
           }
         }}
         placeholder='영화 제목을 검색해 보세요'
