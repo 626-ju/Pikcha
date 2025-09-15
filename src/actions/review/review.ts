@@ -68,11 +68,21 @@ export const postReview = async ({
   });
 
   revalidatePath(`/products/${productId}`);
+  revalidateTag(`product-${productId}`);
+  revalidateTag('compare-products');
+  revalidateTag('products-ranking');
+  revalidateTag('reviewer-ranking');
 
   return res;
 };
 
-export const patchReview = async ({ rating, content, images, reviewId }: ReviewPatchFormValue) => {
+export const patchReview = async ({
+  rating,
+  content,
+  images,
+  reviewId,
+  productId,
+}: ReviewPatchFormValue & { productId: number }) => {
   const session = await auth();
   const accessToken = session?.accessToken;
 
@@ -93,6 +103,9 @@ export const patchReview = async ({ rating, content, images, reviewId }: ReviewP
   });
 
   revalidateTag('reviews');
+  revalidateTag(`product-${productId}`);
+  revalidateTag('compare-products');
+  revalidateTag('products-ranking');
 
   return res;
 };
@@ -111,6 +124,10 @@ export const deleteReview = async (reviewId: number, productId: number) => {
   });
 
   revalidatePath(`/products/${productId}`);
+  revalidateTag(`product-${productId}`);
+  revalidateTag('compare-products');
+  revalidateTag('products-ranking');
+  revalidateTag('reviewer-ranking');
   return res;
 };
 
@@ -119,7 +136,6 @@ export const toggleReviewLike = async (reviewId: number, isCurrentlyLike: boolea
   const accessToken = session?.accessToken;
 
   const method = isCurrentlyLike ? 'DELETE' : 'POST';
-  console.log('method:', method);
   const res = await fetcher(`${BASE_URL}/${TEAM_ID}/reviews/${reviewId}/like`, {
     method: method,
     headers: {

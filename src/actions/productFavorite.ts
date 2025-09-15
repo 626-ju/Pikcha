@@ -24,7 +24,9 @@ export const postProductFavorite = async (productId: number, isCurrentlyFavorite
   });
 
   revalidateTag(`products-${productId}`);
-  // 일단 구현 후 리팩토링 다시 생각해보자
+  revalidateTag(`product-${productId}`);
+  revalidateTag('compare-products');
+  revalidateTag('products-ranking'); // 즐겨찾기 변경시 랭킹에도 영향
 
   return res;
 };

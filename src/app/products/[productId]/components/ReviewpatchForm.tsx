@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useParams } from 'next/navigation';
 import { useErrorBoundary } from 'react-error-boundary';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -17,6 +18,8 @@ const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
   const { showBoundary } = useErrorBoundary();
   const closeModal = useModalStore((state) => state.closeModal);
   const { setTrigger } = triggerStore();
+  const params = useParams();
+  const productId = Number(params.productId);
 
   const {
     register,
@@ -45,6 +48,7 @@ const ReviewPatchForm = ({ review }: { review: ReviewDetail }) => {
         content: data.content,
         images: transformedImages,
         reviewId: review.id,
+        productId,
       });
       setTrigger();
       closeModal();

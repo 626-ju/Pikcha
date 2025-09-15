@@ -9,6 +9,7 @@ const TEAM_ID = process.env.TEST_TEAM_ID;
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const idsParam = searchParams.get('ids') ?? '';
+  const forceRefresh = searchParams.get('force') === 'true';
 
   if (!idsParam) {
     return NextResponse.json({ list: [] }, { status: 200 });
@@ -26,10 +27,17 @@ export async function GET(req: Request) {
   try {
     const promises = ids.map(async (id) => {
       try {
-        const product = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${id}`, {
-          method: 'GET',
-          next: { revalidate: 300 },
-        });
+        const fetchOptions = forceRefresh
+          ? {
+              method: 'GET',
+              cache: 'no-store' as const,
+            }
+          : {
+              method: 'GET',
+              next: { revalidate: 300, tags: [`product-${id}`, 'compare-products'] },
+            };
+
+        const product = await fetcher(`${BASE_URL}/${TEAM_ID}/products/${id}`, fetchOptions);
         return product as ProductDetail;
       } catch {
         return null;

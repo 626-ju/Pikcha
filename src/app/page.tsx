@@ -3,6 +3,7 @@ import { getReviewerRanking } from '@/actions/review/reviewer';
 import FloatingButton from '@/components/ui/FloatingButton';
 
 import { searchProducts } from '../actions/productList';
+import Hero from './_components/Hero';
 import MobileCategoryFilter from './_components/MobileCategoryFilter';
 import NoResult from './_components/NoResult';
 import RatingRank from './_components/RatingRank';
@@ -36,14 +37,15 @@ const Home = async ({
     <div className='px-5 pb-32 md:px-[30px] xl:px-[120px]'>
       <div className='flex items-start gap-6'>
         <Sidebar selected={category} q={q} />
-        <section className='min-w-0 flex-1 overflow-hidden px-[20px]'>
+        <section className='min-w-0 flex-1 px-[20px]'>
           <ReviewerRank
             users={users}
-            className='mb-6 pt-[30px] pb-3 md:pt-[60px] xl:hidden xl:pt-[40px]'
+            className='mb-6 pt-[30px] pb-3 md:mb-0 md:pt-[60px] xl:hidden xl:pt-[40px]'
           />
           <MobileCategoryFilter className='mb-3 md:hidden' />
           {q === '' && category === null ? (
-            <div className='flex flex-col gap-[80px]'>
+            <div className='flex flex-col gap-[80px] xl:pt-1'>
+              <Hero />
               <ReviewRank products={topReviewed} />
               <RatingRank products={topRated} />
             </div>
@@ -51,7 +53,9 @@ const Home = async ({
             <NoResult />
           ) : (
             <div>
-              <ResultTitle category={category} q={q} />
+              <div className='bg-black-1c1c22 top-[70px] z-5 flex items-center justify-between py-6 md:sticky md:top-[80px] xl:top-[100px]'>
+                <ResultTitle category={category} q={q} />
+              </div>
               <SearchResultList
                 initialProducts={items}
                 initialCursor={data.nextCursor}

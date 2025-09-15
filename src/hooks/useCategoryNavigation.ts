@@ -8,10 +8,7 @@ export const useCategoryNavigation = () => {
   const pathname = usePathname();
 
   const navigateToCategory = (category: number | null, query?: string) => {
-    // Clone current query params safely
     const next = new URLSearchParams(searchParams.toString());
-
-    // Determine if a categoryId already existed in the URL BEFORE this change
     const hadCategory = searchParams.has('categoryId');
 
     if (category !== null) {
@@ -39,10 +36,13 @@ export const useCategoryNavigation = () => {
 
     // 히스토리 정책: 처음 카테고리 적용만 push, 이후 변경/해제는 replace
     if (!hadCategory && category !== null) {
-      router.push(url, { scroll: false });
+      router.push(url);
     } else {
-      router.replace(url, { scroll: false });
+      router.replace(url);
     }
+
+    // 카테고리 변경 시 페이지 최상단으로 스크롤
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return { navigateToCategory };

@@ -52,13 +52,25 @@ export default function SearchResultList({
     reset();
   }, [sortBy, reset]);
 
+  // 상품 등록/수정/삭제 시 목록 새로고침을 위한 이벤트 리스너
+  useEffect(() => {
+    const handleProductUpdate = () => {
+      reset();
+    };
+
+    window.addEventListener('productUpdated', handleProductUpdate);
+    return () => {
+      window.removeEventListener('productUpdated', handleProductUpdate);
+    };
+  }, [reset]);
+
   const handleSortChange = (value: string) => {
     setSortBy(value as 'recent' | 'rating' | 'reviewCount');
   };
 
   return (
     <div className='relative'>
-      <div className='absolute top-[-30px] right-0 z-10'>
+      <div className='top-[100px] z-50 mb-4 flex justify-end md:sticky md:top-[150px] xl:top-[170px]'>
         <SortDropdown
           variant='product'
           option={sortBy}
@@ -74,11 +86,7 @@ export default function SearchResultList({
 
       {hasMore && (
         <div ref={triggerRef} className='flex justify-center py-4'>
-          {isPending ? (
-            <div className='text-gray-6e6e82'>로딩 중...</div> // 로딩 부분 구현 필요
-          ) : (
-            <div className='h-4' />
-          )}
+          {isPending ? <div className='text-gray-6e6e82'>로딩 중...</div> : <div className='h-4' />}
         </div>
       )}
     </div>

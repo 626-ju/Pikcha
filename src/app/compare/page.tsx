@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 
+import Loading from '@/components/common/LoadingSpinner';
 import { useCompareController } from '@/hooks/useCompareController';
 import { useCompareProducts } from '@/hooks/useCompareProducts';
 import { useCompareStore } from '@/store/compareStore';
@@ -33,7 +34,7 @@ const ComparePage = () => {
     enterDeleteMode,
     exitDeleteMode,
     confirmDeleteSelected,
-    clearAll,
+    openClearAllModal,
   } = useCompareController({ compareList, removeProduct, clearCompareList, compareProducts });
 
   const selectedDeleteProducts = useMemo(
@@ -44,9 +45,10 @@ const ComparePage = () => {
   // 로딩 상태
   if (loading) {
     return (
-      <div className={CONTAINER_CLASS}>
-        <div className={TEXT_CENTER_CLASS}>
-          <p className='text-gray-9fa6b2'>영화 정보를 불러오는 중...</p>
+      <div className='flex min-h-screen items-center justify-center'>
+        <div className='flex flex-col items-center gap-8'>
+          <Loading />
+          <p className='text-gray-9fa6b2 text-mogazoa-16px-300'>비교 목록 불러오는 중...</p>
         </div>
       </div>
     );
@@ -105,15 +107,24 @@ const ComparePage = () => {
       />
 
       {mode !== 'compare' && (
-        <CompareToolbar
-          mode={mode}
-          compareListLength={compareList.length}
-          selectedDeleteCount={selectedDeleteProducts.length}
-          onEnterDelete={enterDeleteMode}
-          onExitDelete={exitDeleteMode}
-          onConfirmDelete={confirmDeleteSelected}
-          onClearAll={clearAll}
-        />
+        <div className='flex w-auto items-center justify-between'>
+          {mode === 'delete' && (
+            <p className='text-main-blue text-mogazoa-14px-300 md:text-mogazoa-16px-400 py-3 pl-2 md:pl-16'>
+              삭제할 영화를 선택해주세요
+            </p>
+          )}
+          <div className={mode === 'delete' ? '' : 'ml-auto'}>
+            <CompareToolbar
+              mode={mode}
+              compareListLength={compareList.length}
+              selectedDeleteCount={selectedDeleteProducts.length}
+              onEnterDelete={enterDeleteMode}
+              onExitDelete={exitDeleteMode}
+              onConfirmDelete={confirmDeleteSelected}
+              onClearAll={openClearAllModal}
+            />
+          </div>
+        </div>
       )}
 
       <CompareGrid

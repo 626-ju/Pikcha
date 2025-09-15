@@ -6,12 +6,12 @@ import { ProductListRes, ProductSearch } from '@/types/products/productList';
 // 상품 검색을 위한 api 호출
 // .env 내 teamId 환경 변수로 포함되어 있음.
 const API_BASE_URL = process.env.API_BASE_URL ?? '';
-const TEAM_ID = process.env.TEAM_ID ?? '';
+const TEAM_ID = process.env.TEST_TEAM_ID ?? '';
 
-async function product<T>(path: string, init?: RequestInit): Promise<T> {
+async function product<T>(path: string, init?: RequestInit, customTags?: string[]): Promise<T> {
   return await fetcher(`${API_BASE_URL}/${TEAM_ID}${path}`, {
     ...init,
-    next: { revalidate: 300 },
+    next: { revalidate: 300, tags: customTags || ['products', 'products-list'] },
     headers: { 'Content-Type': 'application/json', ...(init?.headers || {}) },
   });
 }
@@ -26,7 +26,16 @@ export async function searchProducts(params: ProductSearch) {
   if (params.order != null) sp.set('order', String(params.order));
 
   const url = `/products?${sp.toString()}`;
-  return product<ProductListRes>(url);
+
+  // 카테고리별로 다른 태그 사용
+  const tags = ['products', 'products-list'];
+  if (params.category != null) {
+    tags.push(`category-${params.category}`);
+  }
+
+  const result = await product<ProductListRes>(url, undefined, tags);
+
+  return result;
 }
 
 // 검색창 검색 시 검색창 하단에 추천 리스트를 보여주는 서버 액션
@@ -38,7 +47,10 @@ type SuggestionProductListRes = { list: SuggestionProduct[] };
 const fetchByKeyword = async (keyword: string): Promise<SuggestionProduct[]> => {
   const qs = new URLSearchParams({ keyword }).toString();
   try {
-    const res = await product<SuggestionProductListRes>(`/products?${qs}`);
+    const res = await product<SuggestionProductListRes>(`/products?${qs}`, undefined, [
+      'products',
+      'products-list',
+    ]);
     return res.list ?? [];
   } catch {
     return [];

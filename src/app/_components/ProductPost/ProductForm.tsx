@@ -54,6 +54,9 @@ const ProductForm = ({ product, mode }: { product: ProductDetail; mode: 'create'
         await patchProduct({ productId: product.id, data });
       }
       closeModal();
+
+      // 상품 목록 새로고침을 위한 이벤트 발생
+      window.dispatchEvent(new CustomEvent('productUpdated'));
     } catch {
       setIsError(true);
     }

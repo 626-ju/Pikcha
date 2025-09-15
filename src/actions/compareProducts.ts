@@ -12,7 +12,7 @@ export const getBatchProductDetails = async (productIds: number[]): Promise<Prod
       return await fetcher(`${BASE_URL}/${TEAM_ID}/products/${id}`, {
         method: 'GET',
         cache: 'force-cache',
-        next: { revalidate: 30 },
+        next: { revalidate: 30, tags: [`product-${id}`, 'compare-products'] },
       });
     } catch {
       return null;
