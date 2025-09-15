@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/carousel';
 
 import HeroLogoCard from './HeroLogoCard';
-import TestHeroLogoCard from './TestHeroLogoCard';
 
 const Hero = () => {
   const autoplay = useRef(
@@ -65,17 +64,6 @@ const Hero = () => {
         </CarouselItem>
         <CarouselItem>
           <Link
-            href='https://github.com/TEAM3-Mogazoa/Mogazoa'
-            className='block h-full'
-            aria-label='개발진 깃허브 이동'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <TestHeroLogoCard />
-          </Link>
-        </CarouselItem>
-        <CarouselItem>
-          <Link
             href='/products/1824'
             className='block h-full'
             aria-label='귀멸의 칼날 무한열차편 상세로 이동'
@@ -108,18 +96,7 @@ const Hero = () => {
           <Link href='/products/1826' className='block h-full' aria-label='기적 상세로 이동'>
             <Image
               src='/images/Hero3.webp'
-              alt='기적 1'
-              width={1180}
-              height={460}
-              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1180px'
-            />
-          </Link>
-        </CarouselItem>
-        <CarouselItem>
-          <Link href='/products/1826' className='block h-full' aria-label='기적 상세로 이동'>
-            <Image
-              src='/images/Hero3-1.webp'
-              alt='기적 2'
+              alt='기적'
               width={1180}
               height={460}
               sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1180px'
