@@ -63,7 +63,7 @@ const CompareResult = ({ products, onBackToSelection }: CompareResultProps) => {
   }, [comparisonResult.winner]);
 
   const handleShowStreaming = async () => {
-    toast(<StreamingIcon providers={providers} />, {
+    toast(<StreamingIcon providers={providers} moviePosterUrl={comparisonResult.winner?.image} />, {
       duration: 30 * 1000,
       position: 'bottom-right',
       style: { minWidth: 0, width: 'auto' },
