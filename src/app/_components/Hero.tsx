@@ -39,6 +39,17 @@ const Hero = () => {
     >
       <CarouselContent>
         <CarouselItem>
+          <Link
+            href='https://github.com/TEAM3-Mogazoa/Mogazoa'
+            className='block h-full'
+            aria-label='개발진 깃허브 이동'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <HeroLogoCard />
+          </Link>
+        </CarouselItem>
+        <CarouselItem>
           <Link href='/products/1825' className='block h-full' aria-label='굿 윌 헌팅 상세로 이동'>
             <Image
               src='/images/Hero1.webp'
@@ -49,17 +60,6 @@ const Hero = () => {
               sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1180px'
               fetchPriority='high'
             />
-          </Link>
-        </CarouselItem>
-        <CarouselItem>
-          <Link
-            href='https://github.com/TEAM3-Mogazoa/Mogazoa'
-            className='block h-full'
-            aria-label='개발진 깃허브 이동'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <HeroLogoCard />
           </Link>
         </CarouselItem>
         <CarouselItem>
