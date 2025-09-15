@@ -1,6 +1,9 @@
 'use client';
 
-import { Toaster } from 'sonner';
+import { useEffect } from 'react';
+
+import { usePathname } from 'next/navigation';
+import { toast, Toaster } from 'sonner';
 
 // 사용 예시
 /*
@@ -11,6 +14,12 @@ import { Toaster } from 'sonner';
 */
 
 const SonnerToast = () => {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    toast.dismiss();
+  }, [pathname]);
+
   return (
     <Toaster
       position='bottom-center'

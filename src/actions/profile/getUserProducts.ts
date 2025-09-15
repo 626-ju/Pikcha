@@ -1,5 +1,3 @@
-'use server';
-
 import fetcher from '@/lib/utils/fetcher';
 
 export const getUserProducts = async (

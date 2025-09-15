@@ -14,10 +14,11 @@ export const useStreamingProvider = (title: string) => {
 
       if (providers.length === 0) return; //프로바이더 없으면 토스트 호출 x
 
-      toast(<StreamingIcon providers={providers} />, {
+      toast(<StreamingIcon providers={providers} moviePosterUrl={'/images/testTrailer.jpeg'} />, {
+        className: 'trailer-toast',
         duration: 30 * 1000,
         position: 'bottom-right',
-        style: { minWidth: 0, width: 'auto' },
+        style: { width: 'auto', margin: '0' },
       });
     };
 

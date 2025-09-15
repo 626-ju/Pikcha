@@ -11,7 +11,7 @@ import TrailerModal from './TrailerModal';
 const Page = () => {
   const openModal = useModalStore().openModal;
 
-  useStreamingProvider('조제');
+  useStreamingProvider('해치지않아');
 
   return (
     <div>

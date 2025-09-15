@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import { getUserProducts } from '@/actions/profile/getUserProducts';
 import { Product } from '@/types/product/productType';
 
 export const useFetchUserProductList = (userid: number, option: string, initialData: Product[]) => {
@@ -17,7 +16,9 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
     try {
       setIsFetching(true);
 
-      const data = await getUserProducts(userid, option, cursor);
+      const data = await fetch(
+        `/api/profile/product-info?userid=${userid}&option=${option}&cursor=${cursor}`,
+      ).then((res) => res.json());
       setProductList((prev) => [...(prev ?? []), ...data.list]);
 
       //cursor 업데이트
@@ -36,7 +37,9 @@ export const useFetchUserProductList = (userid: number, option: string, initialD
     const fetchOptionChange = async () => {
       setIsFetching(true);
       try {
-        const data = await getUserProducts(userid, option, 0);
+        const data = await fetch(
+          `/api/profile/product-info?userid=${userid}&option=${option}&cursor=${0}`,
+        ).then((res) => res.json());
         setProductList(data.list);
         setCursor(data.nextCursor);
       } catch (err) {

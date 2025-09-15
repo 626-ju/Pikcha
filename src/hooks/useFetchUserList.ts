@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import { useErrorBoundary } from 'react-error-boundary';
 
-import getFollowInfo from '@/actions/profile/getFollowInfo';
 import { FollowType, FollowList, FollowUserInfo } from '@/types/profile/follow';
 
 const useFetchUserList = (type: FollowType, userid: number) => {
@@ -20,7 +19,9 @@ const useFetchUserList = (type: FollowType, userid: number) => {
     try {
       setIsFetching(true);
 
-      const data = await getFollowInfo(type, cursor, userid);
+      const data = await fetch(
+        `/api/profile/follow-info?type=${type}&cursor=${cursor}&userid=${userid}`,
+      ).then((res) => res.json());
 
       //간단한 배열로 관리하기 위해 flatMap+타입가드 함수
       const newUsers = data.list.flatMap((item: FollowList) => {
