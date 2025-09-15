@@ -136,8 +136,8 @@ const config: NextAuthConfig = {
           const email = pickString(user, 'email');
           if (email) setTokenString(token, 'email', email);
 
-          const id = pickString(user, 'id');
-          if (id) setTokenString(token, 'id', id);
+          const kakaoId = pickString(user, 'id'); // 카카오 내부 ID
+          if (kakaoId) setTokenString(token, 'providerId', kakaoId);
 
           const image = pickString(user, 'image');
           if (image) setTokenString(token, 'image', image);
