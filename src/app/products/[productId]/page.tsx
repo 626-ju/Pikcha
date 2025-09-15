@@ -63,7 +63,7 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
           <div className='flex items-center justify-between'>
             <CategoryChip category={product.category} className='md:text-mogazoa-14px-400' />
             <div className='flex items-center justify-center gap-[10px]'>
-              <ShareButton variant='kakao' />
+              <ShareButton variant='kakao' productId={productId} productImage={posterImage} />
               <ShareButton variant='primary' />
             </div>
           </div>
