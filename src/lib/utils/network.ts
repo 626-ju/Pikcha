@@ -7,8 +7,13 @@ export const postJson = async <T>(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    redirect: 'manual', // 302 응답을 그대로 받기 위함 (기본 follow면 자동 이동)
   });
+
   const rawText = await response.text();
+
+  // 200~299 + 302까지는 정상으로 간주
+  const ok = response.ok || response.status === 302;
 
   let data: T | null = null;
   try {
@@ -16,5 +21,6 @@ export const postJson = async <T>(
   } catch {
     data = null;
   }
-  return { ok: response.ok, data, rawText };
+
+  return { ok, data, rawText };
 };

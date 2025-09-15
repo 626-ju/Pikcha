@@ -37,6 +37,7 @@ export const getHtmlJustWatch = async (moviename: string) => {
       const $el = $(el);
       const url = $el.attr('href') || '';
       const logo = $el.find('img').attr('src');
+      const title = $el.find('img').attr('title');
 
       const lowerUrl = url.toLowerCase();
       if (
@@ -48,7 +49,7 @@ export const getHtmlJustWatch = async (moviename: string) => {
         const alreadyAdded = providers.some((p) => p.url.toLowerCase().includes(providerName!));
 
         if (!alreadyAdded) {
-          providers.push({ url, logo });
+          providers.push({ url, logo, title });
         }
       }
     });

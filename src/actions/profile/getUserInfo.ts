@@ -1,5 +1,3 @@
-'use server';
-
 import { auth } from '@/auth';
 import { MY_INFO } from '@/constants/cacheTags';
 import fetcher from '@/lib/utils/fetcher';
