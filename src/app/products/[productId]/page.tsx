@@ -12,6 +12,7 @@ import MetricCard from './components/MetricCard';
 import ProductTriggers from './components/ProductTriggers';
 import ReviewSection from './components/ReviewSection';
 import ShareButton from './components/ShareButton';
+import UsePreloadPoster from './components/UssPreloadPoster';
 
 type ProductIdPageProps = {
   params: Promise<{ productId: string }>;
@@ -44,20 +45,22 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
 
   return (
     <div className='mx-auto max-w-250 px-5 py-10'>
+      <UsePreloadPoster src={posterImage} />
       <header className='flex w-full flex-col md:max-h-[350px] md:flex-row'>
         <div className='relative mx-auto aspect-[5/7] w-full shrink-0 transition-normal duration-300 md:max-w-[250px]'>
           <Image
             src={posterImage}
             alt='영화 포스터'
-            width={500}
-            height={700}
+            width={372}
+            height={520}
+            sizes='(max-width: 768px) 350px, 100vw'
             priority
             fetchPriority='high'
             className='h-full w-full object-cover'
           />
         </div>
         <div className='mt-5 flex w-full flex-col gap-[10px] md:mt-0 md:pl-5'>
-          <div className='flex justify-between'>
+          <div className='flex items-center justify-between'>
             <CategoryChip category={product.category} className='md:text-mogazoa-14px-400' />
             <div className='flex items-center justify-center gap-[10px]'>
               <ShareButton variant='kakao' />
@@ -68,7 +71,9 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
             <h2 className='text-mogazoa-20px-600 xl:text-mogazoa-24px-600'>{product.name}</h2>
             <FavoriteButton productId={currentProductId} initialState={product.isFavorite} />
           </div>
-          <div className='text-mogazoa-14px-400 flex-1'>{product.description}</div>
+          <div className='text-mogazoa-14px-400 xl:text-mogazoa-16px-400 flex-1'>
+            {product.description}
+          </div>
           <ProductTriggers product={product} />
         </div>
       </header>
