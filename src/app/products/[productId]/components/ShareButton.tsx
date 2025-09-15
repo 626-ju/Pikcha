@@ -5,23 +5,28 @@ import { toast } from 'sonner';
 import KakaoIcon from '@/assets/icon/Icon-kakao.svg';
 import ShareIcon from '@/assets/icon/Icon-share.svg';
 import { cn } from '@/lib/utils';
-import { ProductDetail } from '@/types/product/productType';
 
 const ShareButton = ({
   variant,
-  product,
+  productId,
+  productImage,
   className,
 }: {
   variant: 'primary' | 'kakao';
-  product?: ProductDetail;
+  productId?: string;
+  productImage?: string;
   className?: string;
 }) => {
   //kakaoTalk 공유 로직
   const handleClickShareKakao = () => {
     if (!window.Kakao) return toast.error('카카오톡 공유하기를 실패하였습니다.');
+    console.log(productId);
     window.Kakao.Share.sendCustom({
       templateId: 124296,
-      templateArgs: { THU: product?.image as string },
+      templateArgs: {
+        productId: productId as string,
+        THU: productImage as string,
+      },
     });
   };
   //URL share 로직
