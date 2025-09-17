@@ -12,7 +12,6 @@ import MetricCard from './components/MetricCard';
 import ProductTriggers from './components/ProductTriggers';
 import ReviewSection from './components/ReviewSection';
 import ShareButton from './components/ShareButton';
-import UsePreloadPoster from './components/UssPreloadPoster';
 
 type ProductIdPageProps = {
   params: Promise<{ productId: string }>;
@@ -45,7 +44,6 @@ const ProductIdPage = async ({ params }: ProductIdPageProps) => {
 
   return (
     <div className='mx-auto max-w-250 px-5 py-10'>
-      <UsePreloadPoster src={posterImage} />
       <header className='flex w-full flex-col md:max-h-[350px] md:flex-row'>
         <div className='relative mx-auto aspect-[5/7] w-full shrink-0 transition-normal duration-300 md:max-w-[250px]'>
           <Image
