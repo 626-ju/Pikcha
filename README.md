@@ -25,7 +25,7 @@
 
 ## 🚀 배포 사이트
 
-- [🧷 배포 서비스](https://https://pikcha-movie.vercel.app/)
+- [🧷 배포 서비스](https://pikcha-movie.vercel.app/)
 
 ---
 
